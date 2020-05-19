@@ -1,4 +1,5 @@
 module.exports = {
+    outputDir: 'assemble',
     publicPath: './',
     devServer: {
         port: '8088', // 代理端口
