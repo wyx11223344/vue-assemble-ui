@@ -424,5 +424,8 @@ module.exports = {
                 mocha: true
             }
         }
-    ]
+    ],
+    globals: {
+        'module': true
+    }
 };
