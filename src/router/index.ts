@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-    history: createWebHashHistory(window.location.pathname),
+    history: createWebHashHistory(),
     routes
 });
 
