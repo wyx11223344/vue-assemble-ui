@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosRequestConfig, CancelTokenStatic } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, CancelTokenStatic } from 'axios';
 import qs from 'qs';
 
 class Request {
@@ -122,8 +122,7 @@ class Request {
 
     public async get(url: string, parmas: any = {}, config: object = {}) {
         try {
-            const result = await this.service.get(url, parmas, config);
-            return result.data;
+            return await this.service.get(url, parmas, config);
         } catch (error) {
             console.error(error);
         }
