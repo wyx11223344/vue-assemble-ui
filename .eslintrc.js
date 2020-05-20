@@ -15,6 +15,7 @@ module.exports = {
         ecmaVersion: 2020
     },
     rules: {
+        '@typescript-eslint/no-explicit-any': 0,
         'vue/max-attributes-per-line': [
             2,
             {
@@ -426,6 +427,7 @@ module.exports = {
         }
     ],
     globals: {
-        'module': true
+        'module': true,
+        'process': true
     }
 };
