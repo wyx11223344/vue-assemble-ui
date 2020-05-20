@@ -70,6 +70,7 @@ class Request {
     protected interceptorsResponse(): void {
         this.service.interceptors.response.use(
             (response: any) => {
+                console.log(response);
                 this.responseLog(response);
                 this.removePending(response.config);
                 if (this.successCode.indexOf(response.status) === -1) {
