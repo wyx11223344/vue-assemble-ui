@@ -122,7 +122,8 @@ class Request {
 
     public async get(url: string, parmas: any = {}, config: object = {}) {
         try {
-            await this.service.get(url, parmas, config);
+            const result = await this.service.get(url, parmas, config);
+            return result.data;
         } catch (error) {
             console.error(error);
         }
