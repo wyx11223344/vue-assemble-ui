@@ -8,10 +8,7 @@ export enum MyType {
 export class AxiosDec {
     static newRequest(type: MyType, url: string) {
         return (target: any, propertyKey: string): void => {
-            target[propertyKey] = function(params: any) {
-                console.log(Request[type]);
-                Request[type](url, params);
-            };
+            target[propertyKey] = (params: any) => Request[type](url, params);
         };
     }
 }

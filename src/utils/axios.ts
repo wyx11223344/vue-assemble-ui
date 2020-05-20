@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosRequestConfig, CancelTokenStatic } from 'axi
 import qs from 'qs';
 
 class Request {
-    protected baseURL: any
+    // protected baseURL: any
     protected service: any = axios
     protected pending: Array<{
         url: string;
@@ -28,7 +28,7 @@ class Request {
 
     protected requestConfig(): void {
         this.axiosRequestConfig = {
-            baseURL: this.baseURL,
+            // baseURL: this.baseURL,
             headers: {
                 timestamp: new Date().getTime(),
                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
