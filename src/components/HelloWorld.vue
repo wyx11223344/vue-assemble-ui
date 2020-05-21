@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { AxiosDec, MyType } from '@/decorators/axiosDec';
+import { AxiosDec } from '@/decorators/axiosDec';
 
 // Component definition
   @Options({
@@ -59,7 +59,7 @@ export default class Counter extends Vue {
     // The behavior in class is the same as the current
     count = 0
 
-    @AxiosDec.newRequest(MyType.get, '/index.html')
+    @AxiosDec.Get('/index.html')
     getHtml: any
 
     async increment() {

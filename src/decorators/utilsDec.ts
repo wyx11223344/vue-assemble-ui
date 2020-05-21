@@ -4,7 +4,6 @@
  * @Description: 工具装饰器类
 */
 export class UtilsDec {
-
     /**
      * 返回实例化当前对象
      * @param {*} Target 传递的参数类
