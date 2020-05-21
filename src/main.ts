@@ -11,6 +11,8 @@ class MyApp {
     app: any
 
     constructor() {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
         this.app = createApp(App);
 
         this.app.use(router);
