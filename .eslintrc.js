@@ -221,7 +221,7 @@ module.exports = {
                 }
             }
         ],
-        'padded-blocks': [2, 'never'],
+        'padded-blocks': [0, 'never'],
         quotes: [
             2,
             'single',

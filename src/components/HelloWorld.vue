@@ -25,7 +25,7 @@
             <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
         </ul>
         <h3>Ecosystem</h3>
-        <ul>
+        <ul v-listChange="ceshi">{{ ceshi }}
             <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
             <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
             <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
@@ -61,10 +61,12 @@ export default class Counter extends Vue {
 
     @AxiosDec.Get('/index.html')
     getHtml: any
+    ceshi = ''
 
     async increment() {
         const a = await this.getHtml();
-        console.log(a);
+        this.ceshi = 'runLeft';
+        console.log(this.ceshi, a);
     }
 }
 </script>

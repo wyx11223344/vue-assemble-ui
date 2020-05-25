@@ -15,11 +15,11 @@ class MyApp {
         // @ts-ignore
         this.app = createApp(App);
 
+        this.useDirectives();
+
         this.app.use(router);
 
         this.app.use(store);
-
-        this.useDirectives();
 
         this.app.mount('#app');
     }

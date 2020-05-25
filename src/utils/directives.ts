@@ -1,16 +1,16 @@
 /*
- * @Description: 全局指令(类型判断全是any，vue类型不完整)(看app对象上已经注册成功了但是没有效果)
+ * @Description: 全局指令(类型判断全是any，vue类型不完整)
  * @Date: 2020-03-19 15:25:06
  */
 export default class Directives {
-    // 防止报错
+
     /**
      * 点击元素以外，用于关闭菜单
      * @param {type}
      * @return:
      */
     static clickoutside = {
-        bind: (el: any, binding: any) => {
+        beforeMount: (el: any, binding: any) => {
             function documentHandler(e: any) {
                 if (el.contains(e.target)) {
                     return false;
@@ -37,7 +37,7 @@ export default class Directives {
      * }， 550（固定动画时间） + 100 * data.length(数据长度))
      */
     static listChange: object = {
-        update: function(el: any, binding: any) {
+        updated: function(el: any, binding: any) {
             if (binding.value === binding.oldValue) return;
             setTimeout(() => {
                 if (binding.value === 'runLeft' || binding.value === 'runRight') {
