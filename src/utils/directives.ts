@@ -1,7 +1,8 @@
-/*
+/**
+ * @author WYX
+ * @date 2020/5/26
  * @Description: 全局指令(类型判断全是any，vue类型不完整)
- * @Date: 2020-03-19 15:25:06
- */
+*/
 export default class Directives {
 
     /**

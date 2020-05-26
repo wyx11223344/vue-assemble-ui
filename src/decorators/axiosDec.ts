@@ -1,3 +1,8 @@
+/**
+ * @author WYX
+ * @date 2020/5/26
+ * @Description: axios请求装饰器
+*/
 import Request from '@/utils/axios';
 
 export class AxiosDec {

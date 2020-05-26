@@ -61,7 +61,7 @@ export default class Counter extends Vue {
 
     @AxiosDec.Get('/index.html')
     getHtml: any
-    ceshi = ''
+    ceshi: string | undefined
 
     async increment() {
         const a = await this.getHtml();

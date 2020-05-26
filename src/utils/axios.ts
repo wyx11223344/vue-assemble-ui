@@ -1,3 +1,8 @@
+/**
+ * @author WYX
+ * @date 2020/5/26
+ * @Description: 封装axios请求
+*/
 import axios, { AxiosRequestConfig, AxiosResponse, CancelTokenStatic } from 'axios';
 import qs from 'qs';
 
@@ -41,7 +46,7 @@ class Request {
                 return qs.stringify(params, { arrayFormat: 'brackets' });
             },
             timeout: 30000,
-            withCredentials: false,
+            // withCredentials: true,
             responseType: 'json',
             xsrfCookieName: 'XSRF-TOKEN',
             xsrfHeaderName: 'X-XSRF-TOKEN',
@@ -97,7 +102,7 @@ class Request {
 
     public async post(url: string, data: any = {}, config: object = {}) {
         try {
-            const result = await this.service.post(url, qs.stringify(data), config);
+            const result = await this.service.post(url, data, config);
             return result.data;
         } catch (error) {
             console.error(error);
@@ -120,9 +125,9 @@ class Request {
         }
     }
 
-    public async get(url: string, parmas: any = {}, config: object = {}) {
+    public async get(url: string, params: any = {}, config: object = {}) {
         try {
-            return await this.service.get(url, parmas, config);
+            return await this.service.get(url, { params }, config);
         } catch (error) {
             console.error(error);
         }
