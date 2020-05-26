@@ -1,10 +1,8 @@
 <template>
-    <div>
-        <label>
-            <textarea v-model="sendHtml" style="width: 300px; height: 300px"></textarea>
-        </label>
-        <button @click="buttonClick">提交</button>
-        <iframe :src="`http://localhost:9988/index.html?findId=${id}`"></iframe>
+    <div class="editor-page">
+        <editor class="editor" @changehtml="e => sendHtml = e"></editor>
+        <button style="position: absolute;right: 0;top: 0" @click="buttonClick">提交</button>
+        <iframe style="width: 100%; height: 100%" :src="`http://localhost:9988/index.html?findId=${id}`"></iframe>
     </div>
 </template>
 
@@ -12,8 +10,12 @@
 import { ref } from 'vue';
 import RandomWord from '../../../utils/randomWord';
 import Code from '../../../api/code';
+import Editor from '@/components/Editor.vue';
 
 export default {
+    components: {
+        editor: Editor
+    },
     setup() {
         const sendHtml = ref('');
         const id = ref('');
@@ -22,7 +24,7 @@ export default {
             const sendId = RandomWord.getSign();
             await Code.setHtml({
                 findId: sendId,
-                sendHtml: this.sendHtml
+                sendHtml: sendHtml.value
             });
             id.value = sendId;
         }
@@ -36,6 +38,17 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.editor-page{
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    .editor{
+        width: 100%;
+        height: 100%;
+    }
+}
 </style>

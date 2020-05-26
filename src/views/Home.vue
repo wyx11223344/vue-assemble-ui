@@ -7,12 +7,10 @@
 
 <script>
 import HelloWorld from '@/components/HelloWorld.vue';
-import { Options, Vue } from 'vue-class-component';
 
-@Options({
-    components: { HelloWorld }
-})
-export default class Home extends Vue {
-
-}
+export default {
+    components: {
+        HelloWorld: HelloWorld
+    }
+};
 </script>
