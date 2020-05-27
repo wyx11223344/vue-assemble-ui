@@ -2,7 +2,7 @@
     <div class="editor-page">
         <editor class="editor" @changehtml="e => sendHtml = e"></editor>
         <button style="position: absolute;right: 0;top: 0" @click="buttonClick">提交</button>
-        <iframe style="width: 100%; height: 100%" :src="`http://localhost:9988/index.html?findId=${id}`"></iframe>
+        <iframe style="width: 100%; height: 100%" :src="`/index.html?findId=${id}`"></iframe>
     </div>
 </template>
 
