@@ -17,6 +17,7 @@ export default {
         editor: Editor
     },
     setup() {
+
         const sendHtml = ref('');
         const id = ref('');
 
@@ -28,6 +29,10 @@ export default {
             });
             id.value = sendId;
         }
+
+        setTimeout(() => {
+            buttonClick();
+        });
 
         return {
             sendHtml,
