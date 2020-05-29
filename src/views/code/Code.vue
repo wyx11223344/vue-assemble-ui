@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="f-all100 code-page">
         <router-view/>
     </div>
 </template>
@@ -10,6 +10,10 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.code-page{
+    position: absolute;
+    left: 0;
+    top: 0;
+}
 </style>

@@ -1,0 +1,16 @@
+{
+  "id": "1850758",
+  "name": "vue-assemble-ui",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8955983",
+      "name": "移动2",
+      "font_class": "move2",
+      "unicode": "e6fe",
+      "unicode_decimal": 59134
+    }
+  ]
+}

@@ -1,53 +1,54 @@
 <template>
-    <div class="editor" id="editor"></div>
+    <div class="editor" ref="Editor"></div>
 </template>
 
 <script>
-import { onMounted } from 'vue';
+import { onMounted, watchEffect, ref } from 'vue';
 
 export default {
+    props: {
+        value: {
+            type: String,
+            default: ''
+        },
+        theme: {
+            type: String,
+            default: 'tomorrow'
+        }
+    },
     setup(props, { emit }) {
+        const Editor = ref(null);
         let editor;
-        const baseHtml = '<template>\n' +
-            '    <div class="ceshi" @click="ceshi()">\n' +
-            '        123\n' +
-            '    </div>\n' +
-            '</template>\n' +
-            '<script>\n' +
-            '    export default {\n' +
-            '        methods: {\n' +
-            '            ceshi() {\n' +
-            '                console.log(123);\n' +
-            '            }\n' +
-            '        }\n' +
-            '    }\n' +
-            '</scrip' +
-            't>\n' +
-            '<style>\n' +
-            '    body{\n' +
-            '        background-color: rgb(254, 67, 101);\n' +
-            '        .ceshi{\n' +
-            '            color: rgb(182, 194, 154);\n' +
-            '        }\n' +
-            '    }\n' +
-            '</style>';
 
         onMounted(() => {
-            editor = ace.edit('editor');
+            editor = ace.edit(Editor.value);
             editor.session.setMode('ace/mode/html'); // 设置语言
-            editor.setTheme('ace/theme/tomorrow');// 设置主题
             editor.setOptions({
                 enableBasicAutocompletion: true,
                 enableSnippets: true,
                 enableLiveAutocompletion: true// 设置自动提示
             });
-            editor.setValue(baseHtml);
-            emit('changehtml', baseHtml);
+
+            // 主题设置
+            watchEffect(() => {
+                editor.setTheme(`ace/theme/${props.theme}`);
+            });
+
+            // 传递输入框字符
+            watchEffect(() => {
+                editor.setValue(props.value);
+                emit('changehtml', props.value);
+            });
+
             editor.on('change', () => {
                 const content = editor.getValue();
                 emit('changehtml', content);
             });
         });
+
+        return {
+            Editor
+        };
     }
 };
 </script>

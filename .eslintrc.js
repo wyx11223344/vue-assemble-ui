@@ -329,6 +329,7 @@ module.exports = {
         'vars-on-top': 0,
         // 不允许在变量定义之前使用它们
         'no-use-before-define': 0,
+        '@typescript-eslint/no-use-before-define': 0,
         // "SwitchCase" (默认：0) 强制 switch 语句中的 case 子句的缩进水平
         // 以方括号取对象属性时，[ 后面和 ] 前面是否需要空格, 可选参数 never, always
         'computed-property-spacing': [2, 'never'],
