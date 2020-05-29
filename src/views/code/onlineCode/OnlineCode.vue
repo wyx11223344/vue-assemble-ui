@@ -2,27 +2,34 @@
     <div class="f-all100 editor-main">
         <Header></Header>
         <div class="editor-page">
-            <section v-for="(item, index) in 2" :key="index" :style="{'width': `${codeWidth[index]}%`}">
-                <editor class="f-all100 each-editor" :value="baseHtml" @changehtml="e => editorObj.sendHtml = e"></editor>
-                <section class="move-box" ref="moveLine" @mousedown="e => moveBegin(e, index)" @mouseup="moveOver">
-                    <div class="f-all100 move-line">
-                        <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#iconmove2" />
-                        </svg>
-                    </div>
-                </section>
+            <section class="code-section" v-for="(item, index) in boxControl.codeList" :key="index" :style="{'width': `${boxControl.codeWidth[index]}%`}">
+                <header>
+                    {{ item.name }}
+                    <span v-if="index !== 0" class="rt f-csp" style="margin-right: 30px" @click="removeEditor(index)">x</span>
+                </header>
+                <div class="f-all100">
+                    <editor class="f-all100 each-editor" :value="baseHtml" @changehtml="e => editorObj.sendHtml = e"></editor>
+                    <section class="move-box" @mousedown="e => moveBegin(e, index)" @mouseup="moveOver">
+                        <div class="f-all100 move-line">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#iconmove2" />
+                            </svg>
+                        </div>
+                    </section>
+                </div>
             </section>
-            <section :style="{'width': `${codeWidth[2]}%`}">
+            <section :style="{'width': `${boxControl.codeWidth[boxControl.codeList.length]}%`}">
                 <iframe class="f-all100 rewrite-iframe" :src="`http://localhost:9988/index.html?findId=${editorObj.id}`"></iframe>
-                <div v-show="moveCheck" class="f-all100 hide-window"></div>
+                <div v-show="boxControl.moveCheck" class="f-all100 hide-window"></div>
             </section>
             <button style="position: absolute;right: 0;top: 0; z-index: 100" @click="buttonClick">提交</button>
+            <button style="position: absolute;right: 40px;top: 0; z-index: 100" @click="addEditor">添加</button>
         </div>
     </div>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, watchEffect, onBeforeUnmount } from 'vue';
 import RandomWord from '../../../utils/randomWord';
 import Code from '../../../api/code';
 import Editor from '@/components/Editor.vue';
@@ -40,6 +47,16 @@ export default {
         /** *************************************************************************************************/
         onMounted(() => {
             buttonClick();
+
+            // 布局控制监听添加
+            window.addEventListener('mousemove', lineMove);
+            window.addEventListener('mouseup', moveOver);
+        });
+
+        onBeforeUnmount(() => {
+            // 布局控制监听移除
+            window.removeEventListener('mousemove', lineMove);
+            window.removeEventListener('mouseup', moveOver);
         });
 
         /** *************************************************************************************************/
@@ -89,34 +106,58 @@ export default {
         /** *************************************************************************************************/
         /** ***************************************布局控制***************************************************/
         /** *************************************************************************************************/
-        const codeWidth = reactive([33.3, 33.3, 33.3]);
-        const moveLine = ref(null);
-        const moveCheck = ref(false);
+        // 布局控制参数
+        const boxControl = reactive({
+            codeWidth: [],
+            moveCheck: false,
+            codeList: [{
+                name: 'index',
+                disclose: true
+            }]
+        });
         let movePoint = 0;
         let checkWidth;
         let moveLineNum = 0;
 
+        // 计算codeWidth
+        watchEffect(() => {
+            boxControl.codeWidth = [];
+            Array.from({ length: boxControl.codeList.length + 1 }).forEach((item, index) => {
+                boxControl.codeWidth[index] = 100 / (boxControl.codeList.length + 1);
+            });
+        });
+
+        function addEditor() {
+            boxControl.codeList.push({
+                name: 'index2'
+            });
+        }
+
+        function removeEditor(index) {
+            boxControl.codeList.splice(index);
+        }
+
+        // 开始移动
         function moveBegin(e, index) {
-            moveCheck.value = true;
+            boxControl.moveCheck = true;
             movePoint = e.clientX;
-            checkWidth = JSON.parse(JSON.stringify(codeWidth));
+            checkWidth = JSON.parse(JSON.stringify(boxControl.codeWidth));
             moveLineNum = index;
         }
 
+        // 结束移动
         function moveOver() {
-            moveCheck.value = false;
+            boxControl.moveCheck = false;
         }
 
-        window.addEventListener('mousemove', lineMove);
-        window.addEventListener('mouseup', () => { moveCheck.value = false; });
-
+        // 移动操作
         function lineMove(e) {
-            if (moveCheck.value) {
+            if (boxControl.moveCheck) {
                 if (checkWidth[moveLineNum] - (movePoint - e.clientX) * 100 / document.body.clientWidth < 10 || checkWidth[moveLineNum + 1] + (movePoint - e.clientX) * 100 / document.body.clientWidth < 10) {
                     return;
                 }
-                codeWidth[moveLineNum] = checkWidth[moveLineNum] - (movePoint - e.clientX) * 100 / document.body.clientWidth;
-                codeWidth[moveLineNum + 1] = checkWidth[moveLineNum + 1] + (movePoint - e.clientX) * 100 / document.body.clientWidth;
+                boxControl.codeWidth[moveLineNum] = checkWidth[moveLineNum] - (movePoint - e.clientX) * 100 / document.body.clientWidth;
+                boxControl.codeWidth[moveLineNum + 1] = checkWidth[moveLineNum + 1] + (movePoint - e.clientX) * 100 / document.body.clientWidth;
             }
         }
 
@@ -126,12 +167,12 @@ export default {
         return {
             baseHtml,
             editorObj,
-            codeWidth,
+            boxControl,
             buttonClick,
-            moveLine,
             moveBegin,
             moveOver,
-            moveCheck
+            addEditor,
+            removeEditor
         };
     }
 };
@@ -144,6 +185,10 @@ export default {
     .editor-page{
         flex: 1;
         display: flex;
+        .code-section{
+            display: flex;
+            flex-direction: column;
+        }
         .move-line{
             width: 6px;
             height: 100%;
