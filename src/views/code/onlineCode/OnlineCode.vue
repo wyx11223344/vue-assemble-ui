@@ -1,14 +1,14 @@
 <template>
     <div class="f-all100 editor-main">
-        <Header></Header>
+        <Header @triggerfn="triggerFn"></Header>
         <div class="editor-page">
             <section class="code-section" v-for="(item, index) in boxControl.codeList" :key="index" :style="{'width': `${boxControl.codeWidth[index]}%`}">
-                <header>
+                <header :style="{'height': boxControl.codeList.length > 1 ? '24px' : '0'}">
                     {{ item.name }}
                     <span v-if="index !== 0" class="rt f-csp" style="margin-right: 30px" @click="removeEditor(index)">x</span>
                 </header>
                 <div class="f-all100">
-                    <editor class="f-all100 each-editor" :value="baseHtml" @changehtml="e => editorObj.sendHtml = e"></editor>
+                    <editor class="f-all100 each-editor" :value="baseHtml" @changehtml="e => item.html = e"></editor>
                     <section class="move-box" @mousedown="e => moveBegin(e, index)" @mouseup="moveOver">
                         <div class="f-all100 move-line">
                             <svg class="icon" aria-hidden="true">
@@ -22,8 +22,6 @@
                 <iframe class="f-all100 rewrite-iframe" :src="`http://localhost:9988/index.html?findId=${editorObj.id}`"></iframe>
                 <div v-show="boxControl.moveCheck" class="f-all100 hide-window"></div>
             </section>
-            <button style="position: absolute;right: 0;top: 0; z-index: 100" @click="buttonClick">提交</button>
-            <button style="position: absolute;right: 40px;top: 0; z-index: 100" @click="addEditor">添加</button>
         </div>
     </div>
 </template>
@@ -87,7 +85,7 @@ export default {
             '</style>');
 
         /** *************************************************************************************************/
-        /** ***************************************代码提交***************************************************/
+        /** ***************************************代码控制***************************************************/
         /** *************************************************************************************************/
         const editorObj = reactive({
             sendHtml: '',
@@ -98,7 +96,7 @@ export default {
             const sendId = RandomWord.getSign();
             await Code.setHtml({
                 findId: sendId,
-                sendHtml: editorObj.sendHtml
+                sendHtml: JSON.stringify(boxControl.codeList)
             });
             editorObj.id = sendId;
         }
@@ -112,7 +110,8 @@ export default {
             moveCheck: false,
             codeList: [{
                 name: 'index',
-                disclose: true
+                disclose: true,
+                html: ''
             }]
         });
         let movePoint = 0;
@@ -126,12 +125,6 @@ export default {
                 boxControl.codeWidth[index] = 100 / (boxControl.codeList.length + 1);
             });
         });
-
-        function addEditor() {
-            boxControl.codeList.push({
-                name: 'index2'
-            });
-        }
 
         function removeEditor(index) {
             boxControl.codeList.splice(index);
@@ -162,17 +155,33 @@ export default {
         }
 
         /** *************************************************************************************************/
+        /** ***************************************头部触发***************************************************/
+        /** *************************************************************************************************/
+
+        function triggerFn(name) {
+            HeadFn[name]();
+        }
+
+        const HeadFn = {
+            addEditor() {
+                boxControl.codeList.push({
+                    name: 'index2'
+                });
+            },
+            buttonClick
+        };
+
+        /** *************************************************************************************************/
         /** ***************************************返回对象***************************************************/
         /** *************************************************************************************************/
         return {
             baseHtml,
             editorObj,
             boxControl,
-            buttonClick,
             moveBegin,
             moveOver,
-            addEditor,
-            removeEditor
+            removeEditor,
+            triggerFn
         };
     }
 };
@@ -188,6 +197,15 @@ export default {
         .code-section{
             display: flex;
             flex-direction: column;
+            header{
+                font-size: 14px;
+                font-weight: bold;
+                color: #7f7f7f;
+                line-height: 22px;
+                border: 1px solid #efefef;
+                box-shadow: #f3f1f1 0px 10px 10px 5px inset;
+                transition: 0.3s;
+            }
         }
         .move-line{
             width: 6px;

@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4435413",
+      "name": "加入",
+      "font_class": "jiaru",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "7677915",
+      "name": "下拉",
+      "font_class": "xiala",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "13031934",
+      "name": "运行",
+      "font_class": "yunhang",
+      "unicode": "e704",
+      "unicode_decimal": 59140
+    },
+    {
+      "icon_id": "8757952",
+      "name": "登录",
+      "font_class": "denglu",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "11479052",
+      "name": "组件",
+      "font_class": "zujian",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
       "icon_id": "8955983",
       "name": "移动2",
       "font_class": "move2",
