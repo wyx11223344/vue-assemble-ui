@@ -27,7 +27,7 @@
         </div>
         <dia-back-value title="新增组件" v-model:Fn="HeadData.backFn" width="500px">
             <template v-slot="scope">
-                <mate-input v-model:inputObj="scope.form.name" label="组件名称"></mate-input>
+                <mate-input v-model:inputObj="scope.form.name" v-model="HeadData.Addform.name" label="组件名称"></mate-input>
                 <div class="foot-buttons f-mt20">
                     <submit-button type="info" @click="scope.api.close">关闭</submit-button>
                     <submit-button @click="scope.api.submit">确定</submit-button>
@@ -176,7 +176,8 @@ export default {
         /** *************************************************************************************************/
 
         const HeadData = reactive({
-            backFn: null
+            backFn: null,
+            Addform: { }
         });
 
         function triggerFn(name) {
@@ -186,20 +187,18 @@ export default {
         const HeadFn = {
             async addEditor() {
                 try {
-                    const newCode = await HeadData.backFn();
+                    await HeadData.backFn();
+
                     let check = false;
-                    console.log(newCode);
                     boxControl.codeList.forEach((item) => {
-                        if (item.name === newCode.name.value) {
+                        if (item.name === HeadData.Addform.name) {
                             check = true;
                         }
                     });
-                    if (check) {
-                        console.log(123);
-                        return;
-                    }
+                    if (check) return;
+
                     boxControl.codeList.push({
-                        name: newCode.name.value
+                        name: HeadData.Addform.name
                     });
                 } catch (e) {
                     console.log('%c刚刚关闭新增', `color: pink`);

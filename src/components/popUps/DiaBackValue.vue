@@ -1,7 +1,11 @@
 <template>
     <div>
         <dia-log v-model="DiaShow" :title="title" :width="width" :enter="api.submit">
-            <slot :form="form" :api="api"></slot>
+            <new-type-form v-model:api="baseObj.formApi">
+                <template v-slot="scope">
+                    <slot :form="scope.form" :api="api"></slot>
+                </template>
+            </new-type-form>
         </dia-log>
     </div>
 </template>
@@ -9,12 +13,14 @@
 <script>
 import { ref, reactive, onMounted, watchEffect } from 'vue';
 import DiaLog from './DiaLog';
+import NewTypeForm from '../form/newTypeForm';
 
 export default {
     emits: {
-        'update:Fn': true
+        'update:Fn': true,
+        'update:diaBackApi': true
     },
-    components: { DiaLog },
+    components: { NewTypeForm, DiaLog },
     props: {
         title: {
             type: String,
@@ -28,20 +34,28 @@ export default {
             type: Function,
             default: null
         },
+        diaBackApi: {
+            type: Object,
+            default: null
+        },
         modelValue: {
             type: Object,
             default: null
         }
     },
     setup(props, { emit }) {
+        const baseObj = reactive({
+            formApi: null
+        });
+
+        /** *************************************************************************************************/
+        /** ***************************************显示控制***************************************************/
+        /** *************************************************************************************************/
         const DiaShow = ref(false);
-        const form = reactive({});
 
         watchEffect(() => {
-            if (!DiaShow.value) {
-                Object.keys(form).forEach((key) => {
-                    delete form[key];
-                });
+            if (!DiaShow.value && baseObj.formApi) {
+                baseObj.formApi.resetForm();
             }
         });
 
@@ -73,15 +87,19 @@ export default {
                 DiaShow.value = false;
             },
             submit() {
-                stepPromise.resolve && stepPromise.resolve(form);
+                const backList = baseObj.formApi.validate();
+                if (backList.length > 0) return;
+                stepPromise.resolve && stepPromise.resolve();
                 DiaShow.value = false;
             }
         });
 
+        emit('update:diaBackApi', api);
+
         return {
             DiaShow,
-            form,
-            api
+            api,
+            baseObj
         };
     }
 };

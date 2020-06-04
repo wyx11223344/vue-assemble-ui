@@ -1,5 +1,5 @@
 const path = require('path');
-console.log(path.resolve(__dirname, './src/assets/styles/public.less'));
+
 module.exports = {
     outputDir: 'assemble',
     publicPath: './',

@@ -8,7 +8,8 @@ interface InputPorops {
 interface BindingObj {
 	value: string;
 	rules: string[];
-	validation(value: string, rules: string[]): void;
+    check: boolean;
+	validation(): void;
 }
 
 export default class InputTools {
@@ -23,6 +24,7 @@ export default class InputTools {
         const inputObject: BindingObj = reactive({
             value: '',
             rules: [],
+            check: true,
             validation() {
                 console.log(123);
             }
