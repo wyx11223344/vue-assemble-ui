@@ -2,10 +2,11 @@
     <div class="f-all100 editor-main">
         <Header @triggerfn="triggerFn"></Header>
         <div class="editor-page">
+            <!--编辑器部分-->
             <section class="code-section" v-for="(item, index) in boxControl.codeList" :key="index" :style="{'width': `${boxControl.codeWidth[index]}%`}">
                 <header :style="{'height': boxControl.codeList.length > 1 ? '24px' : '0'}">
                     {{ item.name }}
-                    <span v-if="index !== 0" class="rt f-csp" style="margin-right: 30px" @click="removeEditor(index)">x</span>
+                    <i v-if="index !== 0" class="f-csp rt f-mr20 close-i" @click="removeEditor(index)"></i>
                 </header>
                 <div class="f-all100">
                     <editor class="f-all100 each-editor" :value="baseHtml" @changehtml="e => item.html = e"></editor>
@@ -18,11 +19,21 @@
                     </section>
                 </div>
             </section>
+            <!--iframe页面部分-->
             <section :style="{'width': `${boxControl.codeWidth[boxControl.codeList.length]}%`}">
                 <iframe class="f-all100 rewrite-iframe" :src="`http://localhost:9988/index.html?findId=${editorObj.id}`"></iframe>
                 <div v-show="boxControl.moveCheck" class="f-all100 hide-window"></div>
             </section>
         </div>
+        <dia-back-value title="新增组件" v-model:Fn="HeadData.backFn" width="500px">
+            <template v-slot="scope">
+                <mate-input v-model:inputObj="scope.form.name" label="组件名称"></mate-input>
+                <div class="foot-buttons f-mt20">
+                    <submit-button type="info" @click="scope.api.close">关闭</submit-button>
+                    <submit-button @click="scope.api.submit">确定</submit-button>
+                </div>
+            </template>
+        </dia-back-value>
     </div>
 </template>
 
@@ -32,9 +43,15 @@ import RandomWord from '../../../utils/randomWord';
 import Code from '../../../api/code';
 import Editor from '@/components/Editor.vue';
 import Header from './components/Header';
+import MateInput from '../../../components/input/MateInput';
+import DiaBackValue from '../../../components/popUps/DiaBackValue';
+import SubmitButton from '../../../components/button/submitButton';
 
 export default {
     components: {
+        SubmitButton,
+        DiaBackValue,
+        MateInput,
         Header,
         Editor
     },
@@ -158,15 +175,35 @@ export default {
         /** ***************************************头部触发***************************************************/
         /** *************************************************************************************************/
 
+        const HeadData = reactive({
+            backFn: null
+        });
+
         function triggerFn(name) {
             HeadFn[name]();
         }
 
         const HeadFn = {
-            addEditor() {
-                boxControl.codeList.push({
-                    name: 'index2'
-                });
+            async addEditor() {
+                try {
+                    const newCode = await HeadData.backFn();
+                    let check = false;
+                    console.log(newCode);
+                    boxControl.codeList.forEach((item) => {
+                        if (item.name === newCode.name.value) {
+                            check = true;
+                        }
+                    });
+                    if (check) {
+                        console.log(123);
+                        return;
+                    }
+                    boxControl.codeList.push({
+                        name: newCode.name.value
+                    });
+                } catch (e) {
+                    console.log('%c刚刚关闭新增', `color: pink`);
+                }
             },
             buttonClick
         };
@@ -181,6 +218,7 @@ export default {
             moveBegin,
             moveOver,
             removeEditor,
+            HeadData,
             triggerFn
         };
     }
@@ -200,19 +238,28 @@ export default {
             header{
                 font-size: 14px;
                 font-weight: bold;
-                color: #7f7f7f;
+                transition: height 0.3s;
                 line-height: 22px;
-                border: 1px solid #efefef;
-                box-shadow: #f3f1f1 0px 10px 10px 5px inset;
-                transition: 0.3s;
+                border: 1px solid;
+                .mixin-font-color('onlinecode-head-color');
+                .mixin-border-color('base-border-color');
+                .mixin-boxshadow-color('onlinecode-head-boxshac', 0px 10px 10px 5px inset);
+                i{
+                    border-radius: 8px;
+                    width: 16px;
+                    height: 16px;
+                    line-height: 16px;
+                    margin-top: 3px;
+                }
             }
         }
         .move-line{
             width: 6px;
             height: 100%;
-            border-right: 1px solid #d0d0d0;
-            border-left: 1px solid #d0d0d0;
-            background-color: #eaecef;
+            border-right: 1px solid ;
+            border-left: 1px solid ;
+            .mixin-border-color('onlinecode-moveline-borc');
+            .mixin-background-color('onlinecode-moveline-bgc');
             cursor: col-resize;
             .icon{
                 height: 100%;

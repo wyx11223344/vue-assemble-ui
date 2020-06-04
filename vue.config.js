@@ -1,3 +1,5 @@
+const path = require('path');
+console.log(path.resolve(__dirname, './src/assets/styles/public.less'));
 module.exports = {
     outputDir: 'assemble',
     publicPath: './',
@@ -9,6 +11,13 @@ module.exports = {
                 target: 'http://localhost:9988',
                 changOrigin: true
             }
+        }
+    },
+    // 为了避免每次使用时都需要单独引入一遍变量样式的问题，若项目不需要可删除
+    pluginOptions: {
+        'style-resources-loader': {
+            preProcessor: 'less',
+            patterns: [path.resolve(__dirname, './src/assets/styles/public.less')]
         }
     }
 };

@@ -11,6 +11,9 @@ import HelloWorld from '@/components/HelloWorld.vue';
 export default {
     components: {
         HelloWorld: HelloWorld
+    },
+    mounted() {
+        console.log(this);
     }
 };
 </script>

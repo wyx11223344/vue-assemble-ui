@@ -311,6 +311,9 @@ table {
 .f-mcen {
     margin: 0 auto;
 }
+.f-mr20{
+    margin-right: 20px;
+}
 .f-mt10 {
     margin-top: 10px;
 }

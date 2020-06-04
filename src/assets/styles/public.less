@@ -1,0 +1,77 @@
+@import 'themes.less';
+@import 'mixin.less';
+/** *************************************************************************************************/
+/** ***************************************dialog动画***************************************************/
+/** *************************************************************************************************/
+.slide-center-leave-active,
+.slide-center-enter-active,
+.slide-scale-leave-active,
+.slide-scale-enter-active {
+  transition: all 0.28s;
+}
+.slide-center-enter-active{
+  opacity: 0;
+}
+.slide-center-enter-to {
+  opacity: 1;
+}
+.slide-center-leave-to {
+  opacity: 0;
+}
+.slide-scale-leave-to {
+  transform: scale(0.8);
+}
+.slide-scale-enter-active {
+  transform: scale(0.8);
+}
+.slide-scale-enter-to {
+  transform: scale(1);
+}
+/** *************************************************************************************************/
+/** ***************************************遮罩模糊化***************************************************/
+/** *************************************************************************************************/
+.show-blur{
+  filter: blur(5px);
+}
+
+/** *************************************************************************************************/
+/** ***************************************关闭按钮***************************************************/
+/** *************************************************************************************************/
+.close-i{
+  position: relative;
+  text-align: center;
+  color: white;
+  border: 1px solid;
+  .mixin-border-color('base-out-buttonborder-color');
+  .mixin-bgibutton-color('base-out-button', 'base-backgroud-color');
+  &:after, &:before {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotate(45deg);
+    transition: 0.3s;
+    opacity: 0;
+    .mixin-background-color('base-out-button-color');
+  }
+  &:before {
+    width: 50%;
+    height: 2px;
+  }
+  &::after{
+    width: 2px;
+    height: 50%;
+  }
+  &:hover{
+    &::before, &::after{
+      opacity: 1;
+    }
+  }
+}
+/** *************************************************************************************************/
+/** ***************************************底部按钮***************************************************/
+/** *************************************************************************************************/
+.foot-buttons{
+  display: flex;
+  justify-content: flex-end;
+}

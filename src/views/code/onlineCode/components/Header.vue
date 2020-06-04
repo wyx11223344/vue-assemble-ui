@@ -79,16 +79,18 @@ export default {
 
 <style scoped lang="less">
 .header-main{
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid #eaecef;
+    border-bottom: 1px solid;
     transition: 0.3s;
     z-index: 1;
+    .mixin-border-color('onlinecode-moveline-bgc');
+    .mixin-boxshadow-color('onlinecode-header-boxshac', 0 0 10px);
     .top-show{
         display: flex;
         justify-content: space-between;
         height: 50px;
-        border-bottom: 1px solid #f2f2f2;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid;
+        .mixin-border-color('base-border-color');
+        .mixin-boxshadow-color('onlinecode-header-boxshac', 0 0 5px);
     }
     .left-logo{
         width: 280px;
@@ -106,8 +108,9 @@ export default {
             padding: 8px 0;
             transition: 0.3s;
             .button-box{
-                border-left: 1px solid #f2f2f2;
+                border-left: 1px solid;
                 padding: 0 10px;
+                .mixin-border-color('base-border-color');
             }
             .button-content{
                 display: inline-block;
@@ -115,7 +118,7 @@ export default {
                 line-height: 34px;
             }
             &:hover{
-                background-color: #f1f1f1;
+                .mixin-background-color('base-compared-bgc');
             }
             .iconfont{
                 display: inline-block;

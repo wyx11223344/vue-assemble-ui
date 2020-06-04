@@ -1,19 +1,21 @@
 <template>
-    <div class="f-all100 code-page">
+    <div class="f-all100">
         <router-view/>
+        <right-configuration></right-configuration>
     </div>
 </template>
 
 <script>
-export default {
+import RightConfiguration from '../../components/popUps/RightConfiguration';
 
+export default {
+    components: { RightConfiguration },
+    setup() {
+        document.documentElement.setAttribute('data-theme', 'tomorrow');
+    }
 };
 </script>
 
 <style scoped lang="less">
-.code-page{
-    position: absolute;
-    left: 0;
-    top: 0;
-}
+
 </style>

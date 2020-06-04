@@ -1,0 +1,54 @@
+// 颜色函数
+.mixin-font-color (@name) {
+  each(@themeList, {
+    @fc: ~'@{name}-@{value}';
+    [data-theme='@{value}'] & {
+      color: @@fc;
+    }
+  });
+}
+// 图片函数
+.mixin-background(@imgName) {
+  each(@themeList, {
+    [data-theme='@{value}'] & {
+      background-image: url('~@/assets/images/@{value}/@{imgName}');
+    }
+  });
+}
+// 背景颜色函数
+.mixin-background-color (@name) {
+  each(@themeList, {
+    @bc: ~'@{name}-@{value}';
+    [data-theme='@{value}'] & {
+      background-color: @@bc;
+    }
+  });
+}
+// border颜色函数
+.mixin-border-color (@name) {
+  each(@themeList, {
+    @bc: ~'@{name}-@{value}';
+    [data-theme='@{value}'] & {
+      border-color: @@bc;
+    }
+  });
+}
+// 内阴影
+.mixin-boxshadow-color (@name, @other) {
+  each(@themeList, {
+    @bc: ~'@{name}-@{value}';
+    [data-theme='@{value}'] & {
+      box-shadow: @@bc @other;
+    }
+  });
+}
+// 按钮背景渐变
+.mixin-bgibutton-color (@name, @other) {
+  each(@themeList, {
+    @bc: ~'@{name}-@{value}';
+    @bc1: ~'@{other}-@{value}';
+    [data-theme='@{value}'] & {
+      background-image: radial-gradient(@@bc 45%, @@bc1);
+    }
+  });
+}

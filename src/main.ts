@@ -9,6 +9,7 @@ import router from './router';
 import store from './store';
 import Directives from '@/utils/directives';
 import { UtilsDec } from '@/decorators/utilsDec';
+import '@/assets/styles/public.less';
 
 class MyApp {
     @UtilsDec.newSelf
