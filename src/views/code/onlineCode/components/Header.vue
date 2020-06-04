@@ -78,55 +78,57 @@ export default {
 </script>
 
 <style scoped lang="less">
-.header-main{
-    border-bottom: 1px solid;
-    transition: 0.3s;
-    z-index: 1;
-    .mixin-border-color('onlinecode-moveline-bgc');
-    .mixin-boxshadow-color('onlinecode-header-boxshac', 0 0 10px);
-    .top-show{
-        display: flex;
-        justify-content: space-between;
-        height: 50px;
+.editor-main{
+    .header-main{
         border-bottom: 1px solid;
-        .mixin-border-color('base-border-color');
-        .mixin-boxshadow-color('onlinecode-header-boxshac', 0 0 5px);
-    }
-    .left-logo{
-        width: 280px;
-        padding: 8px 20px;
-        text-align: left;
-        img{
-            height: 34px;
-        }
-    }
-    .right-button{
-        display: flex;
-        height: 50px;
-        .each-button{
+        transition: 0.3s;
+        z-index: 1;
+        .mixin-border-color('onlinecode-moveline-bgc');
+        .mixin-boxshadow-color('onlinecode-header-boxshac', 0 0 10px);
+        .top-show{
+            display: flex;
+            justify-content: space-between;
             height: 50px;
-            padding: 8px 0;
-            transition: 0.3s;
-            .button-box{
-                border-left: 1px solid;
-                padding: 0 10px;
-                .mixin-border-color('base-border-color');
-            }
-            .button-content{
-                display: inline-block;
+            border-bottom: 1px solid;
+            .mixin-border-color('base-border-color');
+            .mixin-boxshadow-color('onlinecode-header-boxshac', 0 0 5px);
+        }
+        .left-logo{
+            width: 280px;
+            padding: 8px 20px;
+            text-align: left;
+            img{
                 height: 34px;
-                line-height: 34px;
             }
-            &:hover{
-                .mixin-background-color('base-compared-bgc');
-            }
-            .iconfont{
-                display: inline-block;
-                padding: 0 2px;
+        }
+        .right-button{
+            display: flex;
+            height: 50px;
+            .each-button{
+                height: 50px;
+                padding: 8px 0;
                 transition: 0.3s;
-            }
-            .change-tans{
-                transform: rotate(180deg);
+                .button-box{
+                    border-left: 1px solid;
+                    padding: 0 10px;
+                    .mixin-border-color('base-border-color');
+                }
+                .button-content{
+                    display: inline-block;
+                    height: 34px;
+                    line-height: 34px;
+                }
+                &:hover{
+                    .mixin-background-color('base-compared-bgc');
+                }
+                .iconfont{
+                    display: inline-block;
+                    padding: 0 2px;
+                    transition: 0.3s;
+                }
+                .change-tans{
+                    transform: rotate(180deg);
+                }
             }
         }
     }
