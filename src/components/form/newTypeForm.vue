@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive, nextTick } from 'vue';
 
 export default {
     emits: {
@@ -26,8 +26,12 @@ export default {
         const Myapi = reactive({
             // 重置表单
             resetForm() {
-                Object.keys(form).forEach((key) => {
-                    delete form[key];
+                nextTick(() => {
+                    Object.keys(form).forEach((key) => {
+                        form[key].value = '';
+                        form[key].check = true;
+                        // delete form[key];
+                    });
                 });
             },
             // 提交表单前的校验

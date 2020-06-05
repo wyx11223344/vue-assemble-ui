@@ -24,7 +24,7 @@ export default {
         /** ***************************************显示控制***************************************************/
         /** *************************************************************************************************/
         const popUpsShow = ref(false);
-        const close = PopUpstools.showControl(popUpsShow, emit, true);
+        const { close } = new PopUpstools(popUpsShow, emit, true);
 
         return {
             popUpsShow,

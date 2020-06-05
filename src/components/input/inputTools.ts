@@ -1,59 +1,58 @@
-import { watchEffect, reactive } from 'vue';
+import { reactive, ref } from 'vue';
+import { ValidaRule } from '@/types/validation';
+import ValidateDec from '@/decorators/validateDec';
 
 interface InputPorops {
 	modelValue: string;
-	inputObj: BindingObj;
+	inputObj: InputTools;
+    rules?: ValidaRule;
 }
 
 interface BindingObj {
-	value: string;
-	rules: string[];
+	value: any;
+	rules?: ValidaRule;
     check: boolean;
-	validation(): void;
+    errorMsg: string;
+	validation?: Function;
 }
 
 export default class InputTools {
+    value: any
+    inputObject: BindingObj
+
+    @ValidateDec.validationFn
+    static validation: Function
 
     /**
-	 * 对象绑定
-	 * @param {InputPorops} props 传递props
-	 * @param {Function} emit 回调方法
-	 * @returns {BindingObj} 返回绑定对象
-	 */
-    static ObjBinding(props: InputPorops, emit: Function): BindingObj {
-        const inputObject: BindingObj = reactive({
-            value: '',
-            rules: [],
+     * 构造函数
+     * @param {InputPorops} props 传入传递对象
+     * @param {Function} emit 回调函数
+     */
+    constructor(props: InputPorops, emit: Function) {
+        this.value = ref(props.modelValue);
+
+        this.inputObject = reactive({
+            value: this.value,
+            rules: props.rules,
             check: true,
-            validation() {
-                console.log(123);
-            }
+            errorMsg: ''
         });
 
-        // v-model：obj值改变
-        watchEffect(() => {
-            inputObject.value = props.inputObj.value;
-        });
+        this.inputObject.validation = InputTools.validation(this.inputObject);
 
-        // v-model值改变
-        watchEffect(() => {
-            inputObject.value = props.modelValue;
-        });
+        this.ObjBinding.bind(this.inputObject)(emit, this.value);
+    }
 
-        // 改变v-model值
-        watchEffect(() => {
-            if (inputObject.value !== props.modelValue) {
-                emit('update:modelValue', inputObject.value);
-            }
-        });
-
-        watchEffect(() => {
-            if (inputObject.value !== props.inputObj.value) {
-                emit('update:inputObj', inputObject);
-            }
-        });
-
-        return inputObject;
+    /**
+     * 对象绑定
+     * @param {Function} emit 回调方法
+     * @param {*} refValue refvalue值
+     * @returns {void}
+     */
+    ObjBinding(emit: Function, refValue: any): void {
+        // 初始化的时候给返回绑定对象
+        emit('update:modelValue', refValue);
+        emit('update:inputObj', this);
     }
 
 }

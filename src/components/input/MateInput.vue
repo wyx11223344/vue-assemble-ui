@@ -1,8 +1,9 @@
 <template>
     <div class="f-oh">
-        <div class="mate-box">
+        <div class="mate-box" :class="{'mate-box-error': !inputObject.check}">
             <input ref="input" class="mate-input" :type="type" placeholder=" " v-model="inputObject.value"/>
             <label @click="input.focus()">{{ label }}</label>
+            <span class="error-message f-otw" :title="inputObject.errorMsg" v-show="!inputObject.check">{{ inputObject.errorMsg }}</span>
         </div>
     </div>
 </template>
@@ -23,9 +24,11 @@ export default {
         },
         inputObj: {
             type: Object,
-            default: () => ({
-                value: ''
-            })
+            default: null
+        },
+        rules: {
+            type: Object,
+            default: null
         },
         modelValue: {
             type: String,
@@ -38,7 +41,7 @@ export default {
         /** *************************************************************************************************/
         /** ***************************************对象绑定***************************************************/
         /** *************************************************************************************************/
-        const inputObject = InputTools.ObjBinding(props, emit);
+        const { inputObject } = new InputTools(props, emit);
 
         return {
             inputObject,
@@ -69,6 +72,18 @@ export default {
     &:focus-within:before{
         transform: scaleX(1);
     }
+    &:after{
+        position: absolute;
+        content: "";
+        left: 0;
+        bottom: -1px;
+        width: 100%;
+        height: 2px;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: .3s;
+        .mixin-background-color('base-out-button');
+    }
     .mate-input{
         width: 100%;
         padding: 8px 0;
@@ -87,6 +102,22 @@ export default {
         left: 0;
         transition: .3s;
         transform-origin: left;
+    }
+    .error-message{
+        position: absolute;
+        left: 0;
+        bottom: -1rem;
+        width: 100%;
+        font-size: 12px;
+        .mixin-font-color('base-out-button');
+    }
+}
+.mate-box-error{
+    &:after{
+        transform: scaleX(1);
+    }
+    &:focus-within:after{
+        transform: scaleX(0);
     }
 }
 </style>
