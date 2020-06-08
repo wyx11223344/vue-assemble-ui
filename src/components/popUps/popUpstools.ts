@@ -3,6 +3,7 @@ import { watchEffect } from 'vue';
 interface ShowControlProps {
     value?: boolean;
     modelValue?: boolean;
+    enter?: Function;
 }
 
 export default class PopUpstools {
@@ -27,6 +28,22 @@ export default class PopUpstools {
         this.type = type;
 
         this.addBody();
+
+        this.addListen();
+    }
+
+    /**
+     * 添加监听
+     * @returns {void}
+     */
+    addListen() {
+        watchEffect(() => {
+            if (this.props.modelValue) {
+                document.addEventListener('keyup', this.keyup);
+            } else {
+                document.removeEventListener('keyup', this.keyup);
+            }
+        });
     }
 
     /**
@@ -54,5 +71,18 @@ export default class PopUpstools {
             return;
         }
         this.emit('update:modelValue', false);
+    }
+
+    /**
+     * 注册监听事件
+     * @param {KeyboardEvent} e 键盘事件
+     * @returns {void}
+     */
+    private keyup(e: KeyboardEvent): void {
+        if (e.keyCode === 27) {
+            close();
+        } else if (e.keyCode === 13) {
+            this.props.enter && this.props.enter();
+        }
     }
 }
