@@ -27,7 +27,7 @@
         </div>
         <dia-back-value title="新增组件" v-model:Fn="HeadData.backFn" width="500px">
             <template v-slot="scope">
-                <mate-input :rules="{validate: [{validateName: 'aa' , message: '怎么肥四哦怎么肥四哦怎么肥四哦怎么肥四哦怎么肥四哦'},{validateName: 'aa' , message: '怎么肥四哦'},{validateName: 'aa' , message: '怎么肥四哦'}]}" v-model:inputObj="scope.form.name" v-model="HeadData.Addform.name" label="组件名称"></mate-input>
+                <mate-input :rules="{validate: [{validateName: 'aa' , message: '怎么肥四哦怎么肥四哦怎么肥四哦怎么肥四哦怎么肥四哦', trigger: ['input']},{validateName: 'aa' , message: '怎么肥四哦'},{validateName: 'aa' , message: '怎么肥四哦'}], trigger: ['blur']}" v-model:inputObj="scope.form.name" v-model="HeadData.Addform.name" label="组件名称"></mate-input>
                 <div class="foot-buttons f-mt20">
                     <submit-button type="info" @click="scope.api.close">关闭</submit-button>
                     <submit-button @click="scope.api.submit">确定</submit-button>

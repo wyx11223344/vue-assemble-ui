@@ -5,13 +5,16 @@ export interface ValidaRule {
     trigger?: string[];
 }
 
+// 输入
 export interface ValidateS {
-    validateName: string[];
+    validateName: string;
     message?: string;
     trigger?: string[];
 }
 
 export interface Validated {
+    validateName: string;
     check: boolean;
     message?: string;
+    trigger: string[];
 }

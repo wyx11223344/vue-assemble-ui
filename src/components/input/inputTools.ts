@@ -1,4 +1,4 @@
-import { reactive, ref } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import { ValidaRule } from '@/types/validation';
 import ValidateDec from '@/decorators/validateDec';
 
@@ -8,12 +8,16 @@ interface InputPorops {
     rules?: ValidaRule;
 }
 
-interface BindingObj {
+export interface BindingObj {
 	value: any;
 	rules?: ValidaRule;
     check: boolean;
     errorMsg: string;
-	validation?: Function;
+	validation?: any;
+}
+
+interface RefDom {
+    value: Element;
 }
 
 export default class InputTools {
@@ -23,12 +27,16 @@ export default class InputTools {
     @ValidateDec.validationFn
     static validation: Function
 
+    @ValidateDec.registerTrigger
+    static registerTrigger: Function
+
     /**
      * 构造函数
      * @param {InputPorops} props 传入传递对象
      * @param {Function} emit 回调函数
+     * @param {Element} dom 传入监听dom
      */
-    constructor(props: InputPorops, emit: Function) {
+    constructor(props: InputPorops, emit: Function, dom: RefDom) {
         this.value = ref(props.modelValue);
 
         this.inputObject = reactive({
@@ -41,6 +49,10 @@ export default class InputTools {
         this.inputObject.validation = InputTools.validation(this.inputObject);
 
         this.ObjBinding.bind(this.inputObject)(emit, this.value);
+
+        onMounted(() => {
+            InputTools.registerTrigger(dom.value, this);
+        });
     }
 
     /**
