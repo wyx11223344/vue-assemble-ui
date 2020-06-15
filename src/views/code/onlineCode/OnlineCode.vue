@@ -63,16 +63,45 @@ export default {
         onMounted(() => {
             buttonClick();
 
+            // 添加键盘事件监听
+            window.addEventListener('keydown', keyEvent);
+
             // 布局控制监听添加
             window.addEventListener('mousemove', lineMove);
             window.addEventListener('mouseup', moveOver);
         });
 
         onBeforeUnmount(() => {
+            // 键盘事件监听删除
+            window.removeEventListener('keydown', keyEvent);
+
             // 布局控制监听移除
             window.removeEventListener('mousemove', lineMove);
             window.removeEventListener('mouseup', moveOver);
         });
+
+        /** *************************************************************************************************/
+        /** ***************************************键盘事件***************************************************/
+        window._outObj_ = reactive({
+            buttonClick
+        });
+
+        Object.defineProperty(window._outObj_, 'buttonClick', {
+            get() {
+                return this;
+            },
+
+            set() {
+                return console.warn('只读属性不能修改');
+            }
+        });
+
+        function keyEvent(e) {
+            if (e.keyCode === 83 && e.ctrlKey) {
+                buttonClick();
+                e.preventDefault();
+            }
+        }
 
         /** *************************************************************************************************/
         /** ***************************************初始模板***************************************************/
@@ -104,11 +133,13 @@ export default {
         /** *************************************************************************************************/
         /** ***************************************代码控制***************************************************/
         /** *************************************************************************************************/
+        // 编辑器操作对象
         const editorObj = reactive({
             sendHtml: '',
             id: ''
         });
 
+        // 提交代码运行
         async function buttonClick() {
             const sendId = RandomWord.getSign();
             await Code.setHtml({
