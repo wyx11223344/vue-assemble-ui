@@ -1,5 +1,11 @@
 import { Validated, ValidateS } from '@/types/validation';
 import InputTools, { BindingObj } from '@/components/input/inputTools';
+import { DefaultMsg, ValidateRule } from '@/utils/validateRule';
+
+enum Error {
+    ValidateRule = '请确认校验规则是否存在！',
+    DefaultMsg = '请确认校验返回信息是否存在！'
+}
 
 export default class ValidateDec {
 
@@ -20,9 +26,9 @@ export default class ValidateDec {
                 for (let i = 0; i < checkList.length; i++) {
                     const item: Validated = checkList[i];
                     if (item.trigger.indexOf(name) === -1 && item.check) continue;
-                    const localCheck = await ValidateDec.runValidFn(item, that);
-                    if (!localCheck) check = false;
-                    if (!localCheck && item.message) otherMessage = otherMessage ? `${otherMessage}、${item.message}` : item.message;
+                    item.check = await ValidateDec.runValidFn(item, that);
+                    if (!item.check) check = false;
+                    if (!item.check && item.backMessage) otherMessage = otherMessage ? `${otherMessage}、${item.message}` : item.backMessage;
                 }
 
                 that.errorMsg = `${that.rules.message ? that.rules.message : '输入有误'}${otherMessage ? '：' + otherMessage : ''}`;
@@ -62,16 +68,18 @@ export default class ValidateDec {
      * @returns {{check: boolean}} 返回处理对象
      */
     private static async runValidFn(validated: Validated, that: BindingObj): Promise<boolean> {
-        let check = true;
-        if (!that.value) {
-            check = await new Promise((resolve) => {
-                setTimeout(() => {
-                    validated.check = false;
-                    resolve(false);
-                });
-            });
-        } else {
-            validated.check = true;
+        let check;
+
+        try {
+            check = await (ValidateRule as any)[validated.validateName](that.value);
+        } catch (e) {
+            throw Error.ValidateRule;
+        }
+
+        try {
+            validated.backMessage = validated.message ? validated.message : (DefaultMsg as any)[validated.validateName][check];
+        } catch (e) {
+            throw Error.DefaultMsg;
         }
 
         return check;

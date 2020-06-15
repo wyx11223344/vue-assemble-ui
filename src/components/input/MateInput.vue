@@ -3,7 +3,7 @@
         <div class="mate-box" :class="{'mate-box-error': !inputObject.check}">
             <input ref="input" class="mate-input" :type="type" placeholder=" " v-model="inputObject.value"/>
             <label @click="input.focus()">{{ label }}</label>
-            <span class="error-message f-otw" :title="inputObject.errorMsg" v-show="!inputObject.check">{{ inputObject.errorMsg }}</span>
+            <span class="error-message f-otw" v-title="inputObject.errorMsg" v-show="!inputObject.check">{{ inputObject.errorMsg }}</span>
         </div>
     </div>
 </template>

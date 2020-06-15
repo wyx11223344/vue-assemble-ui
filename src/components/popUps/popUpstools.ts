@@ -39,9 +39,9 @@ export default class PopUpstools {
     addListen() {
         watchEffect(() => {
             if (this.props.modelValue) {
-                document.addEventListener('keyup', this.keyup);
+                document.addEventListener('keyup', this.keyup.bind(this));
             } else {
-                document.removeEventListener('keyup', this.keyup);
+                document.removeEventListener('keyup', this.keyup.bind(this));
             }
         });
     }

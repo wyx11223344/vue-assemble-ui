@@ -3,6 +3,13 @@
  * @date 2020/5/26
  * @Description: 全局指令(类型判断全是any，vue类型不完整)
 */
+interface MyEl extends HTMLElement{
+    _vueClickOutside_?: Function;
+    _vueTitleIn_?: Function;
+    _vueTitleOut_?: Function;
+    _vueTitleMove_?: Function;
+}
+
 export default class Directives {
 
     /**
@@ -10,8 +17,8 @@ export default class Directives {
      * @param {type}
      * @return:
      */
-    static clickoutside = {
-        beforeMount: (el: any, binding: any) => {
+    static clickoutside: object = {
+        beforeMount: (el: MyEl, binding: any) => {
             function documentHandler(e: any) {
                 if (el.contains(e.target)) {
                     return false;
@@ -38,7 +45,7 @@ export default class Directives {
      * }， 550（固定动画时间） + 100 * data.length(数据长度))
      */
     static listChange: object = {
-        updated: function(el: any, binding: any) {
+        updated: function(el: HTMLElement, binding: any) {
             if (binding.value === binding.oldValue) return;
             setTimeout(() => {
                 if (binding.value === 'runLeft' || binding.value === 'runRight') {
@@ -61,7 +68,7 @@ export default class Directives {
                     el.childNodes.forEach((item: any, index: any) => {
                         if (item.style) {
                             item.style.transition = '';
-                            item.style.transform = el.childNodes[0].style.transform;
+                            item.style.transform = (el.childNodes[0] as HTMLElement).style.transform;
                             setTimeout(() => {
                                 item.style.transition = 'all .5s';
                                 item.style.transform = `translateX(${0}%)`;
@@ -70,6 +77,49 @@ export default class Directives {
                     });
                 }
             });
+        }
+    }
+
+    static title = {
+        value: '',
+        beforeMount: (el: MyEl) => {
+            let timeOut: number;
+
+            function mouseIn() {
+                if (timeOut) return;
+                timeOut = window.setTimeout(() => {
+                    timeOut = 0;
+                    el.addEventListener('mousemove', mouseMove);
+                }, 2000);
+            }
+
+            function mouseOut() {
+                if (timeOut) clearTimeout(timeOut);
+                timeOut = 0;
+                el.removeEventListener('mousemove', mouseMove);
+            }
+
+            function mouseMove(e: MouseEvent) {
+                console.log(e.clientX, e.clientY);
+                console.log(Directives.title.value);
+            }
+
+            el._vueTitleIn_ = mouseIn;
+            el._vueTitleOut_ = mouseOut;
+            el._vueTitleMove_ = mouseMove;
+            el.addEventListener('mouseleave', mouseOut);
+            el.addEventListener('mouseenter', mouseIn);
+        },
+        updated: function(el: MyEl, binding: any) {
+            Directives.title.value = binding.value;
+        },
+        unbind: function(el: any) {
+            el.removeEventListener('mouseenter', el._vueTitleIn_);
+            el.removeEventListener('mousemove', el._vueTitleMove_);
+            el.removeEventListener('mousemove', el._vueTitleOut_);
+            delete el._vueTitleMove_;
+            delete el._vueTitleIn_;
+            delete el._vueTitleOut_;
         }
     }
 }

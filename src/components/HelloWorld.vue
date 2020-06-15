@@ -32,7 +32,6 @@
             <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
             <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
         </ul>
-        <iframe src="http://36.111.183.168:9988/index.html"></iframe>
     </div>
 </template>
 

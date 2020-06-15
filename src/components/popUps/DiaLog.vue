@@ -22,7 +22,6 @@
 
 <script>
 import PopUpstools from './popUpstools';
-import { watchEffect } from 'vue';
 
 export default {
     emits: {

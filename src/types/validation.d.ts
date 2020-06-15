@@ -1,4 +1,5 @@
 // 校验规则对象
+
 export interface ValidaRule {
     validate?: (string | ValidateS)[];
     message?: string;
@@ -17,4 +18,5 @@ export interface Validated {
     check: boolean;
     message?: string;
     trigger: string[];
+    backMessage?: string;
 }
