@@ -82,19 +82,7 @@ export default {
 
         /** *************************************************************************************************/
         /** ***************************************键盘事件***************************************************/
-        window._outObj_ = {
-            buttonClick
-        };
-
-        Object.defineProperty(window._outObj_, 'buttonClick', {
-            get() {
-                return this;
-            },
-
-            set() {
-                return console.warn('只读属性不能修改');
-            }
-        });
+        window._outObj_.buttonClick = buttonClick;
 
         function keyEvent(e) {
             if (e.keyCode === 83 && e.ctrlKey) {

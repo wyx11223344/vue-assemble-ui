@@ -1,7 +1,9 @@
 <template>
     <router-view/>
 </template>
-
+<script>
+window._outObj_ = {};
+</script>
 <style lang="less">
 #app {
     position: absolute;
