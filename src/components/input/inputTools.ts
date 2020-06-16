@@ -8,6 +8,7 @@ interface InputPorops {
     rules?: ValidaRule;
 }
 
+// 需要移出到types里面
 export interface BindingObj {
 	value: any;
 	rules?: ValidaRule;

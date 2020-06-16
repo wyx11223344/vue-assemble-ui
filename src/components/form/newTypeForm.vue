@@ -30,17 +30,18 @@ export default {
                     Object.keys(form).forEach((key) => {
                         form[key].value = '';
                         form[key].check = true;
-                        // delete form[key];
                     });
                 });
             },
             // 提交表单前的校验
-            validate() {
+            async validate() {
                 const backList = [];
-                Object.keys(form).forEach((key) => {
-                    form[key].validation();
+                const keys = Object.keys(form);
+                for (let i = 0; i < keys.length; i++) {
+                    const key = keys[i];
+                    await form[key].validation('', true);
                     if (!form[key].check) backList.push(form[key]);
-                });
+                }
                 return backList;
             }
         });

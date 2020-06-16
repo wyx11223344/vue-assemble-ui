@@ -86,8 +86,8 @@ export default {
                 stepPromise.reject && stepPromise.reject();
                 DiaShow.value = false;
             },
-            submit() {
-                const backList = baseObj.formApi.validate();
+            async submit() {
+                const backList = await baseObj.formApi.validate();
                 if (backList.length > 0) return;
                 stepPromise.resolve && stepPromise.resolve();
                 DiaShow.value = false;

@@ -19,16 +19,16 @@ export default class ValidateDec {
         target[propertyKey] = (that: any): Function => {
             const checkList = ValidateDec.dealValidates(that.rules.validate, that.rules.trigger);
 
-            const backFn = async function(name: string) {
+            const backFn = async function(name: string, isCheckAll: boolean) {
                 let check = true;
                 let otherMessage = '';
 
                 for (let i = 0; i < checkList.length; i++) {
                     const item: Validated = checkList[i];
-                    if (item.trigger.indexOf(name) === -1 && item.check) continue;
+                    if (item.trigger.indexOf(name) === -1 && item.check && !isCheckAll) continue;
                     item.check = await ValidateDec.runValidFn(item, that);
                     if (!item.check) check = false;
-                    if (!item.check && item.backMessage) otherMessage = otherMessage ? `${otherMessage}、${item.message}` : item.backMessage;
+                    if (!item.check && item.backMessage) otherMessage = otherMessage ? `${otherMessage}、${item.backMessage}` : item.backMessage;
                 }
 
                 that.errorMsg = `${that.rules.message ? that.rules.message : '输入有误'}${otherMessage ? '：' + otherMessage : ''}`;

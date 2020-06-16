@@ -25,9 +25,10 @@
                 <div v-show="boxControl.moveCheck" class="f-all100 hide-window"></div>
             </section>
         </div>
+        <!--头部新增组件弹窗-->
         <dia-back-value title="新增组件" v-model:Fn="HeadData.backFn" width="500px">
             <template v-slot="scope">
-                <mate-input :rules="{validate: [{validateName: 'required' , trigger: ['input']},{validateName: 'required' , message: '怎么肥四哦'},{validateName: 'required' , message: '怎么肥四哦'}], trigger: ['blur']}" v-model:inputObj="scope.form.name" v-model="HeadData.Addform.name" label="组件名称"></mate-input>
+                <mate-input :rules="HeadData.AddRules.name" v-model:inputObj="scope.form.name" v-model="HeadData.Addform.name" label="组件名称"></mate-input>
                 <div class="foot-buttons f-mt20">
                     <submit-button type="info" @click="scope.api.close">关闭</submit-button>
                     <submit-button @click="scope.api.submit">确定</submit-button>
@@ -84,6 +85,7 @@ export default {
         /** ***************************************键盘事件***************************************************/
         window._outObj_.buttonClick = buttonClick;
 
+        // 重置保存事件
         function keyEvent(e) {
             if (e.keyCode === 83 && e.ctrlKey) {
                 buttonClick();
@@ -196,7 +198,8 @@ export default {
 
         const HeadData = reactive({
             backFn: null,
-            Addform: { name: '' }
+            Addform: { name: '' },
+            AddRules: { name: { validate: [{ validateName: 'required', trigger: ['input'] }, 'HtmlTag'], trigger: ['blur'] }}
         });
 
         function triggerFn(name) {
@@ -208,6 +211,7 @@ export default {
                 try {
                     await HeadData.backFn();
 
+                    // 判断重复
                     let check = false;
                     boxControl.codeList.forEach((item) => {
                         if (item.name === HeadData.Addform.name) {

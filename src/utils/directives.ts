@@ -80,28 +80,37 @@ export default class Directives {
         }
     }
 
+    private static boxDom: HTMLElement
+
     static title = {
-        value: '',
         beforeMount: (el: MyEl) => {
             let timeOut: number;
+            const boxDom: HTMLElement = document.createElement('section');
+            Directives.boxDom = boxDom;
+            boxDom.setAttribute('class', 'v-title-content');
 
+            // 鼠标进入事件
             function mouseIn() {
                 if (timeOut) return;
+                el.addEventListener('mousemove', mouseMove);
                 timeOut = window.setTimeout(() => {
                     timeOut = 0;
-                    el.addEventListener('mousemove', mouseMove);
-                }, 2000);
+                    document.body.append(boxDom);
+                }, 500);
             }
 
+            // 鼠标移出事件
             function mouseOut() {
                 if (timeOut) clearTimeout(timeOut);
                 timeOut = 0;
+                boxDom.remove();
                 el.removeEventListener('mousemove', mouseMove);
             }
 
+            // 鼠标移动事件
             function mouseMove(e: MouseEvent) {
-                console.log(e.clientX, e.clientY);
-                console.log(Directives.title.value);
+                boxDom.style.left = `${e.clientX + 10}px`;
+                boxDom.style.top = `${e.clientY + 10}px`;
             }
 
             el._vueTitleIn_ = mouseIn;
@@ -111,7 +120,7 @@ export default class Directives {
             el.addEventListener('mouseenter', mouseIn);
         },
         updated: function(el: MyEl, binding: any) {
-            Directives.title.value = binding.value;
+            Directives.boxDom.innerHTML = binding.value;
         },
         unbind: function(el: any) {
             el.removeEventListener('mouseenter', el._vueTitleIn_);
