@@ -28,8 +28,7 @@ export default {
             resetForm() {
                 nextTick(() => {
                     Object.keys(form).forEach((key) => {
-                        form[key].value = '';
-                        form[key].check = true;
+                        form[key].resetStatus();
                     });
                 });
             },

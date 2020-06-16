@@ -54,7 +54,7 @@ export default {
         const DiaShow = ref(false);
 
         watchEffect(() => {
-            if (!DiaShow.value && baseObj.formApi) {
+            if (DiaShow.value && baseObj.formApi) {
                 baseObj.formApi.resetForm();
             }
         });

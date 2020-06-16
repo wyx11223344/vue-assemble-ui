@@ -1,6 +1,6 @@
-import { Validated, ValidateS } from '@/types/validation';
-import InputTools, { BindingObj } from '@/components/input/inputTools';
+import { BindingObj, Validated, ValidateS } from '@/types/validation';
 import { DefaultMsg, ValidateRule } from '@/utils/validateRule';
+import { isRef } from 'vue';
 
 enum Error {
     ValidateRule = '请确认校验规则是否存在！',
@@ -92,10 +92,10 @@ export default class ValidateDec {
      * @returns {void}
      */
     static registerTrigger(target: any, propertyKey: string | symbol): void {
-        target[propertyKey] = (dom: Element, that: InputTools) => {
+        target[propertyKey] = (dom: Element, that: BindingObj): void => {
             const getAllTrigger: string[] = [];
 
-            that.inputObject.validation.checkList.forEach((item: Validated) => {
+            that.validation.checkList.forEach((item: Validated) => {
                 if (item.trigger && item.trigger.length > 0) {
                     item.trigger.forEach((name: string) => {
                         if (getAllTrigger.indexOf(name) === -1) getAllTrigger.push(name);
@@ -103,15 +103,35 @@ export default class ValidateDec {
                 }
             });
 
-            that.inputObject.rules?.trigger?.forEach((name: string) => {
+            that.rules?.trigger?.forEach((name: string) => {
                 if (getAllTrigger.indexOf(name) === -1) getAllTrigger.push(name);
             });
 
             getAllTrigger.forEach((name: string) => {
                 dom.addEventListener(name, () => {
-                    that.inputObject.validation(name);
+                    that.validation(name);
                 });
             });
+        };
+    }
+
+    static resetStatus(target: any, propertyKey: string | symbol): void {
+        target[propertyKey] = (that: BindingObj): Function => {
+            const setStatus = JSON.parse(JSON.stringify(that));
+
+            function resetThat() {
+                Object.keys(that).forEach((item: string) => {
+                    if (typeof (that as any)[item] !== 'function') {
+                        if (isRef((that as any)[item])) {
+                            (that as any)[item].value = setStatus[item];
+                        } else {
+                            (that as any)[item] = setStatus[item];
+                        }
+                    }
+                });
+            }
+
+            return resetThat;
         };
     }
 }
