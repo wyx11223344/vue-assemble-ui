@@ -22,10 +22,6 @@ export default {
             type: String,
             default: ''
         },
-        inputObj: {
-            type: Object,
-            default: null
-        },
         rules: {
             type: Object,
             default: null
@@ -116,8 +112,9 @@ export default {
     &:after{
         transform: scaleX(1);
     }
-    &:focus-within:after{
-        transform: scaleX(0);
-    }
+    // 校验错误后focus是否变为0
+    /*&:focus-within:after{*/
+    /*    transform: scaleX(0);*/
+    /*}*/
 }
 </style>

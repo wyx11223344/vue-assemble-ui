@@ -26,14 +26,12 @@
             </section>
         </div>
         <!--头部新增组件弹窗-->
-        <dia-back-value title="新增组件" v-model:Fn="HeadData.backFn" width="500px">
-            <template v-slot="scope">
-                <mate-input :rules="HeadData.AddRules.name" v-model:inputObj="scope.form.name" v-model="HeadData.Addform.name" label="组件名称"></mate-input>
-                <div class="foot-buttons f-mt20">
-                    <submit-button type="info" @click="scope.api.close">关闭</submit-button>
-                    <submit-button @click="scope.api.submit">确定</submit-button>
-                </div>
-            </template>
+        <dia-back-value title="新增组件" ref="diaBack" width="500px">
+            <mate-input :rules="HeadData.AddRules.name" v-model="HeadData.Addform.name" label="组件名称"></mate-input>
+            <div class="foot-buttons f-mt20">
+                <submit-button type="info" @click="diaBack.api.close">关闭</submit-button>
+                <submit-button @click="diaBack.api.submit">确定</submit-button>
+            </div>
         </dia-back-value>
     </div>
 </template>
@@ -59,31 +57,19 @@ export default {
     setup() {
 
         /** *************************************************************************************************/
-        /** ***************************************生命周期***************************************************/
+        /** ***************************************键盘事件***************************************************/
         /** *************************************************************************************************/
-        onMounted(() => {
-            buttonClick();
+        window._outObj_.buttonClick = buttonClick;
 
+        onMounted(() => {
             // 添加键盘事件监听
             window.addEventListener('keydown', keyEvent);
-
-            // 布局控制监听添加
-            window.addEventListener('mousemove', lineMove);
-            window.addEventListener('mouseup', moveOver);
         });
 
         onBeforeUnmount(() => {
             // 键盘事件监听删除
             window.removeEventListener('keydown', keyEvent);
-
-            // 布局控制监听移除
-            window.removeEventListener('mousemove', lineMove);
-            window.removeEventListener('mouseup', moveOver);
         });
-
-        /** *************************************************************************************************/
-        /** ***************************************键盘事件***************************************************/
-        window._outObj_.buttonClick = buttonClick;
 
         // 重置保存事件
         function keyEvent(e) {
@@ -123,6 +109,10 @@ export default {
         /** *************************************************************************************************/
         /** ***************************************代码控制***************************************************/
         /** *************************************************************************************************/
+        onMounted(() => {
+            buttonClick();
+        });
+
         // 编辑器操作对象
         const editorObj = reactive({
             sendHtml: '',
@@ -142,6 +132,18 @@ export default {
         /** *************************************************************************************************/
         /** ***************************************布局控制***************************************************/
         /** *************************************************************************************************/
+        onMounted(() => {
+            // 布局控制监听添加
+            window.addEventListener('mousemove', lineMove);
+            window.addEventListener('mouseup', moveOver);
+        });
+
+        onBeforeUnmount(() => {
+            // 布局控制监听移除
+            window.removeEventListener('mousemove', lineMove);
+            window.removeEventListener('mouseup', moveOver);
+        });
+
         // 布局控制参数
         const boxControl = reactive({
             codeWidth: [],
@@ -164,6 +166,7 @@ export default {
             });
         });
 
+        // 移出当前编辑器
         function removeEditor(index) {
             boxControl.codeList.splice(index);
         }
@@ -197,11 +200,12 @@ export default {
         /** *************************************************************************************************/
 
         const HeadData = reactive({
-            backFn: null,
             Addform: { name: '' },
             AddRules: { name: { validate: [{ validateName: 'required', trigger: ['input'] }, 'HtmlTag'], trigger: ['blur'] }}
         });
+        const diaBack = ref(null);
 
+        // 触发方法
         function triggerFn(name) {
             HeadFn[name]();
         }
@@ -209,7 +213,7 @@ export default {
         const HeadFn = {
             async addEditor() {
                 try {
-                    await HeadData.backFn();
+                    await diaBack.value.diaPromise();
 
                     // 判断重复
                     let check = false;
@@ -241,6 +245,7 @@ export default {
             moveOver,
             removeEditor,
             HeadData,
+            diaBack,
             triggerFn
         };
     }

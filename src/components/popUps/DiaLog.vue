@@ -25,7 +25,8 @@ import PopUpstools from './popUpstools';
 
 export default {
     emits: {
-        'update:modelValue': true
+        'update:modelValue': true,
+        'close': true
     },
     props: {
         modelValue: {

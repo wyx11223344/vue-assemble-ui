@@ -1,6 +1,5 @@
 import { BindingObj, Validated, ValidateS } from '@/types/validation';
 import { DefaultMsg, ValidateRule } from '@/utils/validateRule';
-import { isRef } from 'vue';
 
 enum Error {
     ValidateRule = '请确认校验规则是否存在！',
@@ -117,17 +116,13 @@ export default class ValidateDec {
 
     static resetStatus(target: any, propertyKey: string | symbol): void {
         target[propertyKey] = (that: BindingObj): Function => {
-            const setStatus = JSON.parse(JSON.stringify(that));
+            const setValue = that.value;
 
             function resetThat() {
-                Object.keys(that).forEach((item: string) => {
-                    if (typeof (that as any)[item] !== 'function') {
-                        if (isRef((that as any)[item])) {
-                            (that as any)[item].value = setStatus[item];
-                        } else {
-                            (that as any)[item] = setStatus[item];
-                        }
-                    }
+                that.value = setValue;
+                that.check = true;
+                that.validation.checkList.forEach((item: Validated) => {
+                    item.check = true;
                 });
             }
 

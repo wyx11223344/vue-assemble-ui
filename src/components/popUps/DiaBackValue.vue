@@ -1,25 +1,19 @@
 <template>
     <div>
-        <dia-log v-model="DiaShow" :title="title" :width="width" :enter="api.submit">
-            <new-type-form v-model:api="baseObj.formApi">
-                <template v-slot="scope">
-                    <slot :form="scope.form" :api="api"></slot>
-                </template>
+        <dia-log v-model="DiaShow" :title="title" :width="width" :enter="DiaBackApi.submit" @close="DiaBackApi.close">
+            <new-type-form ref="typeForm">
+                <slot :DiaBackApi="DiaBackApi"></slot>
             </new-type-form>
         </dia-log>
     </div>
 </template>
 
 <script>
-import { ref, reactive, onMounted, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import DiaLog from './DiaLog';
 import NewTypeForm from '../form/newTypeForm';
 
 export default {
-    emits: {
-        'update:Fn': true,
-        'update:diaBackApi': true
-    },
     components: { NewTypeForm, DiaLog },
     props: {
         title: {
@@ -30,23 +24,13 @@ export default {
             type: String,
             default: '50%'
         },
-        Fn: {
-            type: Function,
-            default: null
-        },
-        diaBackApi: {
-            type: Object,
-            default: null
-        },
         modelValue: {
             type: Object,
             default: null
         }
     },
-    setup(props, { emit }) {
-        const baseObj = reactive({
-            formApi: null
-        });
+    setup() {
+        const typeForm = ref(null);
 
         /** *************************************************************************************************/
         /** ***************************************显示控制***************************************************/
@@ -54,13 +38,13 @@ export default {
         const DiaShow = ref(false);
 
         watchEffect(() => {
-            if (DiaShow.value && baseObj.formApi) {
-                baseObj.formApi.resetForm();
+            if (DiaShow.value && typeForm.value.TypeFormApi) {
+                typeForm.value.TypeFormApi.resetForm();
             }
         });
 
         /** *************************************************************************************************/
-        /** ***************************************生命周期***************************************************/
+        /** ***************************************主要调用***************************************************/
         /** *************************************************************************************************/
         // 注册promise对象保证回调
         const stepPromise = {
@@ -68,38 +52,35 @@ export default {
             reject: null
         };
 
-        onMounted(() => {
-            emit('update:Fn', () => {
-                DiaShow.value = true;
-                return new Promise((resolve, reject) => {
-                    stepPromise.resolve = resolve;
-                    stepPromise.reject = reject;
-                });
+        function diaPromise() {
+            DiaShow.value = true;
+            return new Promise((resolve, reject) => {
+                stepPromise.resolve = resolve;
+                stepPromise.reject = reject;
             });
-        });
+        }
 
         /** *************************************************************************************************/
         /** ***************************************开放api***************************************************/
         /** *************************************************************************************************/
-        const api = reactive({
+        const DiaBackApi = {
             close() {
                 stepPromise.reject && stepPromise.reject();
                 DiaShow.value = false;
             },
             async submit() {
-                const backList = await baseObj.formApi.validate();
+                const backList = await typeForm.value.TypeFormApi.validate();
                 if (backList.length > 0) return;
                 stepPromise.resolve && stepPromise.resolve();
                 DiaShow.value = false;
             }
-        });
-
-        emit('update:diaBackApi', api);
+        };
 
         return {
+            diaPromise,
             DiaShow,
-            api,
-            baseObj
+            typeForm,
+            DiaBackApi
         };
     }
 };

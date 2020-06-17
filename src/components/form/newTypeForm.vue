@@ -1,55 +1,48 @@
 <template>
     <div>
-        <slot :form="form" :api="Myapi"></slot>
+        <slot :api="TypeFormApi"></slot>
     </div>
 </template>
 
 <script>
-import { reactive, nextTick } from 'vue';
+import { reactive, nextTick, provide } from 'vue';
 
 export default {
-    emits: {
-        'update:api': true
-    },
-    props: {
-        api: {
-            type: Object,
-            default: null
-        }
-    },
-    setup(props, { emit }) {
-        const form = reactive({});
+    setup() {
+
+        /** *************************************************************************************************/
+        /** ***************************************注册provide***************************************************/
+        /** *************************************************************************************************/
+        const form = reactive([]);
+
+        provide('form', form);
 
         /** *************************************************************************************************/
         /** ***************************************回调方法***************************************************/
         /** *************************************************************************************************/
-        const Myapi = reactive({
+        const TypeFormApi = reactive({
             // 重置表单
             resetForm() {
                 nextTick(() => {
-                    Object.keys(form).forEach((key) => {
-                        form[key].resetStatus();
+                    form.forEach((item) => {
+                        item.resetStatus();
                     });
                 });
             },
             // 提交表单前的校验
             async validate() {
                 const backList = [];
-                const keys = Object.keys(form);
-                for (let i = 0; i < keys.length; i++) {
-                    const key = keys[i];
-                    await form[key].validation('', true);
-                    if (!form[key].check) backList.push(form[key]);
+                for (let i = 0; i < form.length; i++) {
+                    await form[i].validation('', true);
+                    if (!form[i].check) backList.push(form[i]);
                 }
                 return backList;
             }
         });
 
-        emit('update:api', Myapi);
-
         return {
             form,
-            Myapi
+            TypeFormApi
         };
     }
 };

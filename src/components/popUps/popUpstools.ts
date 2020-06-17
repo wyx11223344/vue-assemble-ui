@@ -70,6 +70,7 @@ export default class PopUpstools {
             this.props.value = false;
             return;
         }
+        this.emit('close');
         this.emit('update:modelValue', false);
     }
 
