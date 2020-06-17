@@ -41,7 +41,7 @@ export default {
     height: 100%;
     width: 250px;
     .mixin-background-color('base-backgroud-color');
-    transition: 0.3s;
+    transition: 0.3s cubic-bezier(.7,.3,.1,1);
     z-index: 1000;
     .click-button{
         position: absolute;
