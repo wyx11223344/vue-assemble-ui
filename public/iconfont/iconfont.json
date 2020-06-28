@@ -6,11 +6,11 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "6204091",
-      "name": "关  闭",
-      "font_class": "guanbi",
-      "unicode": "e608",
-      "unicode_decimal": 58888
+      "icon_id": "1704624",
+      "name": "box-list",
+      "font_class": "box-list",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
     },
     {
       "icon_id": "4435413",

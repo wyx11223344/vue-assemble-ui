@@ -9,7 +9,7 @@
                     <i v-if="index !== 0" class="f-csp rt f-mr20 close-i" @click="removeEditor(index)"></i>
                 </header>
                 <div class="f-all100">
-                    <editor class="f-all100 each-editor" :value="baseHtml" @changehtml="e => item.html = e"></editor>
+                    <editor class="f-all100 each-editor" :value="baseHtml" @changehtml="html => hotGet(item, html)" :theme="CHOOSE_EDITOR_THEME"></editor>
                     <section class="move-box" @mousedown="e => moveBegin(e, index)" @mouseup="moveOver">
                         <div class="f-all100 move-line">
                             <svg class="icon" aria-hidden="true">
@@ -21,7 +21,7 @@
             </section>
             <!--iframe页面部分-->
             <section :style="{'width': `${boxControl.codeWidth[boxControl.codeList.length]}%`}">
-                <iframe class="f-all100 rewrite-iframe" :src="`http://localhost:9988/index.html?findId=${editorObj.id}`"></iframe>
+                <iframe class="f-all100 rewrite-iframe" :class="`ace-${CHOOSE_EDITOR_THEME}`" :src="`http://localhost:9988/index.html?findId=${editorObj.id}`"></iframe>
                 <div v-show="boxControl.moveCheck" class="f-all100 hide-window"></div>
             </section>
         </div>
@@ -29,15 +29,16 @@
         <dia-back-value title="新增组件" ref="diaBack" width="500px">
             <mate-input :rules="HeadData.AddRules.name" v-model="HeadData.Addform.name" label="组件名称"></mate-input>
             <div class="foot-buttons f-mt20">
-                <submit-button type="info" @click="diaBack.api.close">关闭</submit-button>
-                <submit-button @click="diaBack.api.submit">确定</submit-button>
+                <submit-button type="info" @click="diaBack.DiaBackApi.close">关闭</submit-button>
+                <submit-button @click="diaBack.DiaBackApi.submit">确定</submit-button>
             </div>
         </dia-back-value>
     </div>
 </template>
 
 <script>
-import { ref, reactive, onMounted, watchEffect, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
+import { ref, reactive, onMounted, watchEffect, onBeforeUnmount, computed } from 'vue';
 import RandomWord from '../../../utils/randomWord';
 import Code from '../../../api/code';
 import Editor from '@/components/Editor.vue';
@@ -55,6 +56,7 @@ export default {
         Editor
     },
     setup() {
+        const store = useStore();
 
         /** *************************************************************************************************/
         /** ***************************************键盘事件***************************************************/
@@ -107,8 +109,28 @@ export default {
             '</style>');
 
         /** *************************************************************************************************/
+        /** ***************************************热更新***************************************************/
+        /** *************************************************************************************************/
+        let timeOut;
+        const HOT_HTML = computed(() => store.state.themes.HOT_HTML);
+
+        function hotGet(item, html) {
+            item.html = html;
+            if (!HOT_HTML.value) return;
+            if (timeOut) {
+                clearTimeout(timeOut);
+            }
+            timeOut = setTimeout(() => {
+                buttonClick();
+                timeOut = null;
+            }, 2000);
+        }
+
+        /** *************************************************************************************************/
         /** ***************************************代码控制***************************************************/
         /** *************************************************************************************************/
+        const CHOOSE_EDITOR_THEME = computed(() => store.state.themes.CHOOSE_EDITOR_THEME);
+
         onMounted(() => {
             buttonClick();
         });
@@ -239,6 +261,8 @@ export default {
         /** *************************************************************************************************/
         return {
             baseHtml,
+            CHOOSE_EDITOR_THEME,
+            hotGet,
             editorObj,
             boxControl,
             moveBegin,

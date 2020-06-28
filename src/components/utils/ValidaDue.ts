@@ -33,6 +33,8 @@ export default class ValidaDue {
     constructor(props: ValidaPorops, emit: Function, dom: RefDom) {
         this.value = ref(props.modelValue);
 
+        emit('update:modelValue', this.value);
+
         this.ValidaObject = reactive({
             value: this.value,
             rules: props.rules,
@@ -42,17 +44,15 @@ export default class ValidaDue {
 
         this.ValidaObject.validation = ValidaDue.validation(this.ValidaObject);
 
-        this.ValidaObject.resetStatus = ValidaDue.resetStatus(this.ValidaObject);
-
-        emit('update:modelValue', this.value);
+        if (this.ValidaObject.validation) this.ValidaObject.resetStatus = ValidaDue.resetStatus(this.ValidaObject);
 
         onMounted(() => {
-            ValidaDue.registerTrigger(dom.value, this.ValidaObject);
+            if (this.ValidaObject.validation) ValidaDue.registerTrigger(dom.value, this.ValidaObject);
         });
 
-        const obj: any = inject('form');
+        const obj: any = inject('form', null);
 
-        obj.push(this.ValidaObject);
+        obj?.push(this.ValidaObject);
     }
 
 }

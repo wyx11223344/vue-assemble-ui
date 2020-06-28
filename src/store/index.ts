@@ -5,13 +5,15 @@
 */
 import { createStore } from 'vuex';
 
-export default createStore({
-    state: {
-    },
-    mutations: {
-    },
-    actions: {
-    },
-    modules: {
+const files = require.context('', false, /\.ts$/);
+const modules: any = {};
+
+files.keys().forEach((key) => {
+    if (key !== './index.ts') {
+        modules[key.replace(/(\.\/|\.ts)/g, '')] = files(key).default;
     }
+});
+
+export default createStore({
+    modules
 });

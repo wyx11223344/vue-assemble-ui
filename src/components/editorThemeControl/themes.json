@@ -1,0 +1,155 @@
+[
+  {
+    "value": "ambiance",
+    "name": "ambiance",
+    "url": ""
+  },
+  {
+    "value": "chaos",
+    "name": "chaos"
+  },
+  {
+    "value": "chrome",
+    "name": "chrome"
+  },
+  {
+    "value": "clouds",
+    "name": "clouds"
+  },
+  {
+    "value": "clouds_midnight",
+    "name": "clouds_midnight"
+  },
+  {
+    "value": "cobalt",
+    "name": "cobalt"
+  },
+  {
+    "value": "crimson_editor",
+    "name": "crimson_editor"
+  },
+  {
+    "value": "dawn",
+    "name": "dawn"
+  },
+  {
+    "value": "dracula",
+    "name": "dracula"
+  },
+  {
+    "value": "dreamweaver",
+    "name": "dreamweaver"
+  },
+  {
+    "value": "eclipse",
+    "name": "eclipse"
+  },
+  {
+    "value": "github",
+    "name": "github"
+  },
+  {
+    "value": "gob",
+    "name": "gob"
+  },
+  {
+    "value": "gruvbox",
+    "name": "gruvbox"
+  },
+  {
+    "value": "idle_fingers",
+    "name": "idle_fingers"
+  },
+  {
+    "value": "iplastic",
+    "name": "iplastic"
+  },
+  {
+    "value": "katzenmilch",
+    "name": "katzenmilch"
+  },
+  {
+    "value": "kr_theme",
+    "name": "kr_theme"
+  },
+  {
+    "value": "kuroir",
+    "name": "kuroir"
+  },
+  {
+    "value": "merbivore",
+    "name": "merbivore"
+  },
+  {
+    "value": "merbivore_soft",
+    "name": "merbivore_soft"
+  },
+  {
+    "value": "monokai",
+    "name": "monokai"
+  },
+  {
+    "value": "mono_industrial",
+    "name": "mono_industrial"
+  },
+  {
+    "value": "nord_dark",
+    "name": "nord_dark"
+  },
+  {
+    "value": "pastel_on_dark",
+    "name": "pastel_on_dark"
+  },
+  {
+    "value": "solarized_dark",
+    "name": "solarized_dark"
+  },
+  {
+    "value": "solarized_light",
+    "name": "solarized_light"
+  },
+  {
+    "value": "sqlserver",
+    "name": "sqlserver"
+  },
+  {
+    "value": "terminal",
+    "name": "terminal"
+  },
+  {
+    "value": "textmate",
+    "name": "textmate"
+  },
+  {
+    "value": "tomorrow",
+    "name": "tomorrow"
+  },
+  {
+    "value": "tomorrow_night",
+    "name": "tomorrow_night"
+  },
+  {
+    "value": "tomorrow_night_blue",
+    "name": "tomorrow_night_blue"
+  },
+  {
+    "value": "tomorrow_night_bright",
+    "name": "tomorrow_night_bright"
+  },
+  {
+    "value": "tomorrow_night_eighties",
+    "name": "tomorrow_night_eighties"
+  },
+  {
+    "value": "twilight",
+    "name": "twilight"
+  },
+  {
+    "value": "vibrant_ink",
+    "name": "vibrant_ink"
+  },
+  {
+    "value": "xcode",
+    "name": "xcode"
+  }
+]

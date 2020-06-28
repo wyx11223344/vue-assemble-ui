@@ -4,6 +4,7 @@
             <div class="dia-main" v-show="popUpsShow" @click.stop="close()"></div>
         </transition>
         <div class="base-content" :style="{'right': popUpsShow ? '0' : '-250px'}">
+            <slot></slot>
             <div class="f-csp click-button" :class="{'choose-click-button': popUpsShow}" @click="popUpsShow = !popUpsShow">
                 <div class="line"></div>
                 <div class="line"></div>

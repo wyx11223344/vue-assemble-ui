@@ -24,6 +24,15 @@
     }
   });
 }
+// 背景函数
+.mixin-background-base (@name) {
+  each(@themeList, {
+    @bc: ~'@{name}-@{value}';
+    [data-theme='@{value}'] & {
+      background: @@bc;
+    }
+  });
+}
 // border颜色函数
 .mixin-border-color (@name) {
   each(@themeList, {

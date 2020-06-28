@@ -6,6 +6,10 @@ interface ShowControlProps {
     enter?: Function;
 }
 
+interface PopOptions {
+    noBlur?: boolean;
+}
+
 export default class PopUpstools {
     close: Function
     props: ShowControlProps
@@ -17,8 +21,9 @@ export default class PopUpstools {
      * @param {Proxy} props 传入传递参数
      * @param {Function} emit 触发方法
      * @param {Boolean} type 判断类型(传递true代表组件自己处理显示)
+     * @param {PopOptions} option 传入其他配置类型
      */
-    constructor(props: ShowControlProps, emit: Function, type?: boolean) {
+    constructor(props: ShowControlProps, emit: Function, type?: boolean, option?: PopOptions) {
         this.close = this.closeFn.bind(this);
 
         this.props = props;
@@ -27,7 +32,9 @@ export default class PopUpstools {
 
         this.type = type;
 
-        this.addBody();
+        if (!option || !option.noBlur) {
+            this.addBody();
+        }
 
         this.addListen();
     }
@@ -38,7 +45,7 @@ export default class PopUpstools {
      */
     addListen() {
         watchEffect(() => {
-            if (this.props.modelValue) {
+            if (this.props.modelValue || this.props.value) {
                 document.addEventListener('keyup', this.keyup.bind(this));
             } else {
                 document.removeEventListener('keyup', this.keyup.bind(this));
@@ -81,7 +88,7 @@ export default class PopUpstools {
      */
     private keyup(e: KeyboardEvent): void {
         if (e.keyCode === 27) {
-            close();
+            this.close();
         } else if (e.keyCode === 13) {
             this.props.enter && this.props.enter();
         }

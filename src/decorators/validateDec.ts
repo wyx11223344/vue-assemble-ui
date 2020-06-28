@@ -15,7 +15,9 @@ export default class ValidateDec {
      * @returns {void}
      */
     static validationFn(target: any, propertyKey: string | symbol): void {
-        target[propertyKey] = (that: any): Function => {
+        target[propertyKey] = (that: any): Function | undefined => {
+            if (!that.rules) return;
+
             const checkList = ValidateDec.dealValidates(that.rules.validate, that.rules.trigger);
 
             const backFn = async function(name: string, isCheckAll: boolean) {
@@ -114,6 +116,12 @@ export default class ValidateDec {
         };
     }
 
+    /**
+     * 重置参数为默认状态
+     * @param {*} target des改变源
+     * @param {String} propertyKey key值
+     * @returns {void}
+     */
     static resetStatus(target: any, propertyKey: string | symbol): void {
         target[propertyKey] = (that: BindingObj): Function => {
             const setValue = that.value;

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { onMounted, watchEffect, ref } from 'vue';
+import { onMounted, watchEffect, watch, ref, computed } from 'vue';
 
 export default {
     props: {
@@ -34,11 +34,13 @@ export default {
                 editor.setTheme(`ace/theme/${props.theme}`);
             });
 
+            const getValue = computed(() => props.value);
+
             // 传递输入框字符
-            watchEffect(() => {
+            watch(getValue, () => {
                 editor.setValue(props.value);
                 emit('changehtml', props.value);
-            });
+            }, { immediate: true });
 
             editor.on('change', () => {
                 const content = editor.getValue();

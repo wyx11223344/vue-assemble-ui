@@ -6,7 +6,7 @@
 .slide-center-leave-active,
 .slide-center-enter-active,
 .slide-scale-leave-active,
-.slide-scale-enter-active {
+.slide-scale-enter-active{
   transition: all 0.28s;
 }
 .slide-center-enter-active{
@@ -27,6 +27,45 @@
 .slide-scale-enter-to {
   transform: scale(1);
 }
+.swing-top-leave-active{
+  transition: all .5s cubic-bezier(0.600, -0.280, 0.735, 0.045);
+  transform: rotateX(0deg);
+  opacity: 1;
+}
+.swing-top-leave-to {
+  transform: rotateX(-100deg);
+  opacity: 0;
+}
+.swing-top-enter-active {
+  transition: all .5s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  transform: rotateX(-100deg);
+  opacity: 0;
+}
+.swing-top-enter-to {
+  transform: rotateX(0deg);
+  opacity: 1;
+}
+
+/** *************************************************************************************************/
+/** ***************************************滚动条***************************************************/
+/** *************************************************************************************************/
+.custom-scroll {
+  overflow: auto;
+}
+.custom-scroll::-webkit-scrollbar {
+  width: 0.1rem;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  width: 0.1rem;
+  border-radius: 0.05rem;
+  .mixin-background-base('base-compared-bgc');
+}
+.custom-scroll::-webkit-scrollbar-track {
+  width: 0.1rem;
+  .mixin-background-base('onlinecode-header-boxshac');
+  border-radius: 0.05rem;
+}
+
 /** *************************************************************************************************/
 /** ***************************************遮罩模糊化***************************************************/
 /** *************************************************************************************************/
