@@ -19,6 +19,10 @@ export default {
         /** *************************************************************************************************/
         const THEME = computed(() => store.state.themes.CHOOSE_EDITOR_THEME);
 
+        Themes.forEach((item) => {
+            item.url = item.url ? require(`../../assets/images/editors/${item.url}`) : '';
+        });
+
         const ThemeObj = reactive({
             themeValue: THEME.value,
             themeList: Themes

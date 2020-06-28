@@ -18,7 +18,7 @@
                         <div class="choose-main custom-scroll">
                             <div class="each-choose f-csp move-animate" v-for="item in showArray" :key="item.value">
                                 <section v-show="!item.isHide" @click="selectObject.value = item.value">
-                                    <img src="http://img.newyx.net/game/201703/17/74eda6e210.jpg" alt=""/>
+                                    <img :src="item.url" alt=""/>
                                     <p>{{ item.name }}</p>
                                 </section>
                             </div>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { ref, computed, onBeforeUnmount } from 'vue';
+import { ref, onBeforeUnmount, computed } from 'vue';
 import PopUpstools from '../popUps/popUpstools';
 import SelectTools from './selectTools';
 
