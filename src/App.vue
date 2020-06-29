@@ -47,4 +47,10 @@ body {
 a{
     .mixin-font-color('base-font-color');
 }
+input{
+    .mixin-font-color('base-font-color');
+}
+select{
+    .mixin-font-color('base-font-color');
+}
 </style>

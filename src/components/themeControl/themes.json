@@ -2,6 +2,11 @@
   {
     "value": "normal",
     "name": "默认",
-    "url": ""
+    "url": "normal.jpg"
+  },
+  {
+    "value": "lightShade",
+    "name": "淡暗色系",
+    "url": "lightShade.png"
   }
 ]

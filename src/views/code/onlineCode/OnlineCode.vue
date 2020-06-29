@@ -101,7 +101,6 @@ export default {
             't>\n' +
             '<style>\n' +
             '    body{\n' +
-            '        background-color: white;\n' +
             '        .ceshi{\n' +
             '            color: rgb(182, 194, 154);\n' +
             '        }\n' +
@@ -295,6 +294,7 @@ export default {
                 border: 1px solid;
                 .mixin-font-color('onlinecode-head-color');
                 .mixin-border-color('base-border-color');
+                .mixin-background-color('base-backgroud-color');
                 .mixin-boxshadow-color('onlinecode-head-boxshac', 0px 10px 10px 5px inset);
                 i{
                     border-radius: 8px;

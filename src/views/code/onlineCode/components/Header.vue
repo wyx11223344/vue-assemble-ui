@@ -85,6 +85,7 @@ export default {
         z-index: 1;
         .mixin-border-color('onlinecode-moveline-bgc');
         .mixin-boxshadow-color('onlinecode-header-boxshac', 0 0 10px);
+        .mixin-background-color('base-backgroud-color');
         .top-show{
             display: flex;
             justify-content: space-between;
@@ -99,6 +100,8 @@ export default {
             text-align: left;
             img{
                 height: 34px;
+                transform: translateX(-300px);
+                .mixin-drop-shadow(300px 0 0 , 'base-font-color');
             }
         }
         .right-button{

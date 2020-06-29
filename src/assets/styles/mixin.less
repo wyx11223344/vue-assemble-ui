@@ -61,3 +61,12 @@
     }
   });
 }
+// 图片颜色设置
+.mixin-drop-shadow (@other, @name) {
+  each(@themeList, {
+    @bc: ~'@{name}-@{value}';
+    [data-theme='@{value}'] & {
+      filter: drop-shadow(@other @@bc);
+    }
+  });
+}

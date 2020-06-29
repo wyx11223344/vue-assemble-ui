@@ -19,6 +19,10 @@ export default {
         /** *************************************************************************************************/
         const THEME = computed(() => store.state.themes.CHOOSE_THEME);
 
+        Themes.forEach((item) => {
+            item.url = item.url ? require(`../../assets/images/code/${item.url}`) : '';
+        });
+
         const ThemeObj = reactive({
             themeValue: THEME.value,
             themeList: Themes
