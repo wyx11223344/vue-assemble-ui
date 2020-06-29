@@ -1,5 +1,5 @@
 <template>
-    <div class="editor" ref="Editor"></div>
+    <div class="editor" ref="Editor" :style="{fontSize: `${fontSize}px`}"></div>
 </template>
 
 <script>
@@ -14,6 +14,10 @@ export default {
         theme: {
             type: String,
             default: 'tomorrow'
+        },
+        fontSize: {
+            type: Number,
+            default: 12
         }
     },
     setup(props, { emit }) {
@@ -46,10 +50,18 @@ export default {
                 const content = editor.getValue();
                 emit('changehtml', content);
             });
+
+            const observer = new ResizeObserver(resize);
+            observer.observe(Editor.value); // 观测DOM元素
         });
 
+        function resize() {
+            editor && editor.resize();
+        }
+
         return {
-            Editor
+            Editor,
+            resize
         };
     }
 };

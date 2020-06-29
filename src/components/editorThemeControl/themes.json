@@ -2,154 +2,191 @@
   {
     "value": "ambiance",
     "name": "ambiance",
-    "url": "ceshi1.png"
+    "url": "ambiance.jpg"
   },
   {
     "value": "chaos",
-    "name": "chaos"
+    "name": "chaos",
+    "url": "chaos.jpg"
   },
   {
     "value": "chrome",
-    "name": "chrome"
+    "name": "chrome",
+    "url": "chrome.jpg"
   },
   {
     "value": "clouds",
-    "name": "clouds"
+    "name": "clouds",
+    "url": "clouds.jpg"
   },
   {
     "value": "clouds_midnight",
-    "name": "clouds_midnight"
+    "name": "clouds_midnight",
+    "url": "clouds_midnight.jpg"
   },
   {
     "value": "cobalt",
-    "name": "cobalt"
+    "name": "cobalt",
+    "url": "cobalt.jpg"
   },
   {
     "value": "crimson_editor",
-    "name": "crimson_editor"
+    "name": "crimson_editor",
+    "url": "crimson_editor.jpg"
   },
   {
     "value": "dawn",
-    "name": "dawn"
+    "name": "dawn",
+    "url": "dawn.jpg"
   },
   {
     "value": "dracula",
-    "name": "dracula"
+    "name": "dracula",
+    "url": "dracula.jpg"
   },
   {
     "value": "dreamweaver",
-    "name": "dreamweaver"
+    "name": "dreamweaver",
+    "url": "dreamweaver.jpg"
   },
   {
     "value": "eclipse",
-    "name": "eclipse"
+    "name": "eclipse",
+    "url": "eclipse.jpg"
   },
   {
     "value": "github",
-    "name": "github"
+    "name": "github",
+    "url": "github.jpg"
   },
   {
     "value": "gob",
-    "name": "gob"
+    "name": "gob",
+    "url": "god.png"
   },
   {
     "value": "gruvbox",
-    "name": "gruvbox"
+    "name": "gruvbox",
+    "url": "gruvbox.jpg"
   },
   {
     "value": "idle_fingers",
-    "name": "idle_fingers"
+    "name": "idle_fingers",
+    "url": "idle_fingers.jpg"
   },
   {
     "value": "iplastic",
-    "name": "iplastic"
+    "name": "iplastic",
+    "url": "iplastic.jpg"
   },
   {
     "value": "katzenmilch",
-    "name": "katzenmilch"
+    "name": "katzenmilch",
+    "url": "katzenmilch.jpg"
   },
   {
     "value": "kr_theme",
-    "name": "kr_theme"
+    "name": "kr_theme",
+    "url": "kr_theme.jpg"
   },
   {
     "value": "kuroir",
-    "name": "kuroir"
+    "name": "kuroir",
+    "url": "kuroir.jpg"
   },
   {
     "value": "merbivore",
-    "name": "merbivore"
+    "name": "merbivore",
+    "url": "merbivore.jpg"
   },
   {
     "value": "merbivore_soft",
-    "name": "merbivore_soft"
+    "name": "merbivore_soft",
+    "url": "merbivore_soft.jpg"
   },
   {
     "value": "monokai",
-    "name": "monokai"
+    "name": "monokai",
+    "url": "monokai.jpg"
   },
   {
     "value": "mono_industrial",
-    "name": "mono_industrial"
+    "name": "mono_industrial",
+    "url": "mono_industrial.jpg"
   },
   {
     "value": "nord_dark",
-    "name": "nord_dark"
+    "name": "nord_dark",
+    "url": "nord_dark.jpg"
   },
   {
     "value": "pastel_on_dark",
-    "name": "pastel_on_dark"
+    "name": "pastel_on_dark",
+    "url": "pastel_on_dark.jpg"
   },
   {
     "value": "solarized_dark",
-    "name": "solarized_dark"
+    "name": "solarized_dark",
+    "url": "solarized_dark.jpg"
   },
   {
     "value": "solarized_light",
-    "name": "solarized_light"
+    "name": "solarized_light",
+    "url": "solarized_light.jpg"
   },
   {
     "value": "sqlserver",
-    "name": "sqlserver"
+    "name": "sqlserver",
+    "url": "sqlserver.jpg"
   },
   {
     "value": "terminal",
-    "name": "terminal"
+    "name": "terminal",
+    "url": "terminal.jpg"
   },
   {
     "value": "textmate",
-    "name": "textmate"
+    "name": "textmate",
+    "url": "textmate.jpg"
   },
   {
     "value": "tomorrow",
-    "name": "tomorrow"
+    "name": "tomorrow",
+    "url": "tomorrow.jpg"
   },
   {
     "value": "tomorrow_night",
-    "name": "tomorrow_night"
+    "name": "tomorrow_night",
+    "url": "tomorrow_night.jpg"
   },
   {
     "value": "tomorrow_night_blue",
-    "name": "tomorrow_night_blue"
+    "name": "tomorrow_night_blue",
+    "url": "tomorrow_night_blue.jpg"
   },
   {
     "value": "tomorrow_night_bright",
-    "name": "tomorrow_night_bright"
+    "name": "tomorrow_night_bright",
+    "url": "tomorrow_night_bright.jpg"
   },
   {
     "value": "tomorrow_night_eighties",
-    "name": "tomorrow_night_eighties"
+    "name": "tomorrow_night_eighties",
+    "url": "tomorrow_night_eighties.jpg"
   },
   {
     "value": "twilight",
-    "name": "twilight"
+    "name": "twilight",
+    "url": "twilight.jpg"
   },
   {
     "value": "vibrant_ink",
-    "name": "vibrant_ink"
+    "name": "vibrant_ink",
+    "url": "vibrant_ink.jpg"
   },
   {
     "value": "xcode",
-    "name": "xcode"
+    "name": "xcode",
+    "url": "xcode.jpg"
   }
 ]

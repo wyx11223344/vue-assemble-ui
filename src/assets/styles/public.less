@@ -28,12 +28,10 @@
   transform: scale(1);
 }
 .swing-top-leave-active{
-  transition: all .5s cubic-bezier(0.600, -0.280, 0.735, 0.045);
-  transform: rotateX(0deg);
+  transition: all .5s;
   opacity: 1;
 }
 .swing-top-leave-to {
-  transform: rotateX(-100deg);
   opacity: 0;
 }
 .swing-top-enter-active {
@@ -128,4 +126,20 @@
   color: #6a6a6a;
   box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2);
   background-color: #fff;
+}
+
+/** *************************************************************************************************/
+/** ***************************************滚动条样式***************************************************/
+/** *************************************************************************************************/
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  .mixin-background-color('base-out-buttonborder-color');
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
 }

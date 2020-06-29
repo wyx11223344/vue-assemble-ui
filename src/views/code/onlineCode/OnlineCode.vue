@@ -9,7 +9,7 @@
                     <i v-if="index !== 0" class="f-csp rt f-mr20 close-i" @click="removeEditor(index)"></i>
                 </header>
                 <div class="f-all100">
-                    <editor class="f-all100 each-editor" :value="baseHtml" @changehtml="html => hotGet(item, html)" :theme="CHOOSE_EDITOR_THEME"></editor>
+                    <editor class="f-all100 each-editor" :font-size="FONT_SIZE" :value="baseHtml" @changehtml="html => hotGet(item, html)" :theme="CHOOSE_EDITOR_THEME"></editor>
                     <section class="move-box" @mousedown="e => moveBegin(e, index)" @mouseup="moveOver">
                         <div class="f-all100 move-line">
                             <svg class="icon" aria-hidden="true">
@@ -127,9 +127,10 @@ export default {
         }
 
         /** *************************************************************************************************/
-        /** ***************************************代码控制***************************************************/
+        /** ***************************************代码控制(样式)***************************************************/
         /** *************************************************************************************************/
         const CHOOSE_EDITOR_THEME = computed(() => store.state.themes.CHOOSE_EDITOR_THEME);
+        const FONT_SIZE = computed(() => store.state.themes.FONT_SIZE);
 
         onMounted(() => {
             buttonClick();
@@ -154,16 +155,15 @@ export default {
         /** *************************************************************************************************/
         /** ***************************************布局控制***************************************************/
         /** *************************************************************************************************/
+
         onMounted(() => {
             // 布局控制监听添加
             window.addEventListener('mousemove', lineMove);
-            window.addEventListener('mouseup', moveOver);
         });
 
         onBeforeUnmount(() => {
             // 布局控制监听移除
             window.removeEventListener('mousemove', lineMove);
-            window.removeEventListener('mouseup', moveOver);
         });
 
         // 布局控制参数
@@ -262,6 +262,7 @@ export default {
         return {
             baseHtml,
             CHOOSE_EDITOR_THEME,
+            FONT_SIZE,
             hotGet,
             editorObj,
             boxControl,

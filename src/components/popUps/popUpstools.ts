@@ -8,6 +8,7 @@ interface ShowControlProps {
 
 interface PopOptions {
     noBlur?: boolean;
+    CloseFn?: Function;
 }
 
 export default class PopUpstools {
@@ -15,6 +16,7 @@ export default class PopUpstools {
     props: ShowControlProps
     emit: Function
     type?: boolean
+    option?: PopOptions
 
     /**
      * 构造对象
@@ -31,6 +33,8 @@ export default class PopUpstools {
         this.emit = emit;
 
         this.type = type;
+
+        this.option = option;
 
         if (!option || !option.noBlur) {
             this.addBody();
@@ -73,6 +77,7 @@ export default class PopUpstools {
      * @returns {void}
      */
     private closeFn(): void {
+        this.option && this.option.CloseFn && this.option.CloseFn();
         if (this.type) {
             this.props.value = false;
             return;

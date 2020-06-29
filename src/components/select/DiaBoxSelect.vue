@@ -1,7 +1,7 @@
 <template>
     <div>
         <section class="hide-select">
-            <select ref="select" v-model="selectObject.value">
+            <select ref="selectDom" v-model="selectObject.value">
                 <option v-for="item in showArray" :key="item.value + 'select'" :value="item.value"></option>
             </select>
         </section>
@@ -14,10 +14,13 @@
             </div>
             <teleport to="#popUps">
                 <transition name="swing-top">
-                    <div class="dia-main-box" v-show="popUpsShow" @click="popUpsShow = false">
-                        <div class="choose-main custom-scroll">
+                    <div class="dia-main-box" v-show="popUpsShow">
+                        <div ref="diaBox" class="choose-main custom-scroll" @click="close">
                             <div class="each-choose f-csp move-animate" v-for="item in showArray" :key="item.value">
-                                <section v-show="!item.isHide" @click="selectObject.value = item.value">
+                                <section v-show="!item.isHide" @click.stop="selectObject.value = item.value, chooseAfter()">
+                                    <svg class="tick" :class="{'clicked': selectObject.value === item.value}" width="100px" height="80px" stroke="white" fill="none">
+                                        <polyline points="4,45 40,79 96,5"></polyline>
+                                    </svg>
                                     <img :src="item.url" alt=""/>
                                     <p>{{ item.name }}</p>
                                 </section>
@@ -74,7 +77,7 @@ export default {
         });
 
         const showArray = computed(() => {
-            const eachNum = Math.floor(domWidth.value / 340);
+            const eachNum = Math.floor(domWidth.value / 440);
             if (props.options.length % eachNum === 0) {
                 return props.options;
             } else {
@@ -90,14 +93,27 @@ export default {
         /** ***************************************显示控制***************************************************/
         /** *************************************************************************************************/
         const popUpsShow = ref(false);
-        const { close } = new PopUpstools(popUpsShow, emit, true, { noBlur: true });
+        const diaBox = ref(null);
+        const { close } = new PopUpstools(popUpsShow, emit, true, { noBlur: true, CloseFn: () => {
+            setTimeout(() => {
+                diaBox.value.scrollTop = 0;
+            }, 500);
+        } });
+
+        function chooseAfter() {
+            setTimeout(() => {
+                close();
+            }, 500);
+        }
 
         return {
+            diaBox,
             selectDom,
             popUpsShow,
             selectObject,
             showArray,
-            close
+            close,
+            chooseAfter
         };
     }
 };
@@ -141,29 +157,54 @@ export default {
         }
     }
     .each-choose{
-        width: 300px;
-        height: 210px;
+        width: 400px;
+        height: 270px;
         margin: 20px;
         section{
             border: 1px solid;
+            transition: .3s;
             border-radius: 10px;
-            transition: .5s;
-            .mixin-border-color('base-border-color');
+            .mixin-background-color('base-backgroud-color');
+            .mixin-border-color('onlinecode-moveline-borc');
             &:hover{
                 .mixin-boxshadow-color('onlinecode-header-boxshac', 5px 5px 10px);
+                transform: translateY(-5px) scale(1.05);
             }
         }
         img{
-            width: 300px;
-            height: 168.8px;
+            width: 398px;
+            height: 225px;
             border-radius: 10px 10px 0 0;
         }
         p{
-            height: 41.2px;
-            line-height: 41.2px;
+            height: 45px;
+            line-height: 45px;
             font-size: 18px;
             font-weight: bold;
             padding: 0 20px;
+        }
+        .tick{
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 45px;
+            top: 0;
+            margin: auto;
+            opacity: 0;
+            stroke: rgb(131, 175, 155);
+            stroke-width: 5px;
+            stroke-dasharray: 150px;
+            stroke-dashoffset: 150px;
+            transition: opacity 0.3s;
+        }
+        .clicked{
+            opacity: 1;
+            animation: show-tick 0.5s forwards;
+        }
+        @keyframes show-tick {
+            to {
+                stroke-dashoffset: 0;
+            }
         }
     }
     .loopChoose(40);
