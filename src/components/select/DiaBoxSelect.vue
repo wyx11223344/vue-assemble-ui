@@ -22,7 +22,7 @@
                                         <polyline points="4,45 40,79 96,5"></polyline>
                                     </svg>
                                     <img :src="item.url" alt=""/>
-                                    <p>{{ item.name }}</p>
+                                    <p>{{ item.name }}{{ item.info ? `(${item.info})` : '' }}</p>
                                 </section>
                             </div>
                         </div>
@@ -131,6 +131,8 @@ export default {
     height: 100%;
     z-index: 1001;
     transform-origin: top;
+    transition-duration:  0.5s;
+    transition-property: opacity,background-color;
     .mixin-background-color('theme-change-dia-bgc');
 }
 .choose-main{
@@ -139,7 +141,7 @@ export default {
     align-items: flex-start;
     flex-wrap: wrap;
     width: 100%;
-    max-height: 100%;
+    height: 100%;
     .move-animate{
         animation: slide-in-elliptic-top-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 

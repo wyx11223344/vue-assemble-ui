@@ -2,11 +2,37 @@
   {
     "value": "normal",
     "name": "默认",
+    "info": "百搭亮色主题",
     "url": "normal.jpg"
   },
   {
     "value": "lightShade",
     "name": "淡暗色系",
+    "info": "舒服,搭配ambiance主题使用",
     "url": "lightShade.png"
+  },
+  {
+    "value": "dark",
+    "name": "黑色",
+    "info": "酷炫黑色,和twilight更配哦",
+    "url": "dark.jpg"
+  },
+  {
+    "value": "dracula",
+    "name": "dracula",
+    "info": "编辑器同名主题",
+    "url": "dracula.jpg"
+  },
+  {
+    "value": "chrome",
+    "name": "chrome",
+    "info": "chrome标准配色",
+    "url": "chrome.jpg"
+  },
+  {
+    "value": "eye-care",
+    "name": "护眼模式",
+    "info": "标准护眼暖色调",
+    "url": "eye-care.jpg"
   }
 ]

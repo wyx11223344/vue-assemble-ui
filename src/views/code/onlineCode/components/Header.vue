@@ -81,7 +81,7 @@ export default {
 .editor-main{
     .header-main{
         border-bottom: 1px solid;
-        transition: 0.3s;
+        transition: height 0.3s;
         z-index: 1;
         .mixin-border-color('onlinecode-moveline-bgc');
         .mixin-boxshadow-color('onlinecode-header-boxshac', 0 0 10px);
