@@ -43,7 +43,6 @@ export default {
             // 传递输入框字符
             watch(getValue, () => {
                 editor.setValue(props.value);
-                emit('changehtml', props.value);
             }, { immediate: true });
 
             editor.on('change', () => {

@@ -84,28 +84,14 @@ export default {
         /** *************************************************************************************************/
         /** ***************************************初始模板***************************************************/
         /** *************************************************************************************************/
-        const baseHtml = ref('<template>\n' +
-            '    <div class="ceshi" @click="ceshi()">\n' +
-            '        123\n' +
-            '    </div>\n' +
-            '</template>\n' +
-            '<script>\n' +
-            '    export default {\n' +
-            '        methods: {\n' +
-            '            ceshi() {\n' +
-            '                console.log(123);\n' +
-            '            }\n' +
-            '        }\n' +
-            '    }\n' +
-            '</scrip' +
-            't>\n' +
-            '<style>\n' +
-            '    body{\n' +
-            '        .ceshi{\n' +
-            '            color: rgb(182, 194, 154);\n' +
-            '        }\n' +
-            '    }\n' +
-            '</style>');
+        const baseHtml = ref('');
+
+        onMounted(async() => {
+            baseHtml.value = (await Code.getTemplate())[0].html;
+            setTimeout(() => {
+                buttonClick();
+            });
+        });
 
         /** *************************************************************************************************/
         /** ***************************************热更新***************************************************/
@@ -130,10 +116,6 @@ export default {
         /** *************************************************************************************************/
         const CHOOSE_EDITOR_THEME = computed(() => store.state.themes.CHOOSE_EDITOR_THEME);
         const FONT_SIZE = computed(() => store.state.themes.FONT_SIZE);
-
-        onMounted(() => {
-            buttonClick();
-        });
 
         // 编辑器操作对象
         const editorObj = reactive({
