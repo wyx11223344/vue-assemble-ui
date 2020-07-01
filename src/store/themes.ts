@@ -20,7 +20,7 @@ export default {
             state.HOT_HTML = !state.HOT_HTML;
         },
         CHANGE_FONT_SIZE(state: any, num: number) {
-            state.CHOOSE_EDITOR_THEME = num;
+            state.FONT_SIZE = num;
         }
     }
 };

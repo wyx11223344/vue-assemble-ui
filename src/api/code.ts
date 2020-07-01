@@ -6,6 +6,6 @@
 import { AxiosDec } from '@/decorators/axiosDec';
 
 export default class Code {
-	@AxiosDec.Post('/setHtml')
+	@AxiosDec.Post('/code/codeOnline/setHtml')
 	static setHtml: any
 }
