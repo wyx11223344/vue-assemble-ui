@@ -152,6 +152,7 @@ export default {
             codeWidth: [],
             moveCheck: false,
             codeList: [{
+                id: null,
                 name: 'index',
                 disclose: true,
                 html: ''
@@ -229,6 +230,18 @@ export default {
 
                     boxControl.codeList.push({
                         name: HeadData.Addform.name
+                    });
+                } catch (e) {
+                    console.log('%c刚刚关闭新增', `color: pink`);
+                }
+            },
+            async setHtml() {
+                try {
+                    await diaBack.value.diaPromise();
+
+                    Code.saveTemplate({
+                        name: HeadData.Addform.name,
+                        sendHtml: JSON.stringify(boxControl.codeList)
                     });
                 } catch (e) {
                     console.log('%c刚刚关闭新增', `color: pink`);

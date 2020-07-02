@@ -31,6 +31,11 @@ export default {
             method: 'triggerFn',
             methodP: 'buttonClick',
             icon: 'iconyunhang'
+        // }, {
+        //     name: '保存组件',
+        //     method: 'triggerFn',
+        //     methodP: 'setHtml',
+        //     icon: 'iconbaocun'
         }, {
             name: '新增组件',
             method: 'triggerFn',
