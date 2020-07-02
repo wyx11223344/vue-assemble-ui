@@ -50,6 +50,8 @@ export default {
                 emit('changehtml', content);
             });
 
+            emit('changehtml', props.value);
+
             const observer = new ResizeObserver(resize);
             observer.observe(Editor.value); // 观测DOM元素
         });
