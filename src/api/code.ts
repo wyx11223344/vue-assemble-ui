@@ -9,12 +9,12 @@ export default class Code {
 	@AxiosDec.Post('/code/codeOnline/setHtml')
 	static setHtml: any
 
-	@AxiosDec.Post('/code/codeOnline/getTemplate')
+	@AxiosDec.Post('/code/CodeControl/getTemplate')
 	static getTemplate: any
 
-	@AxiosDec.Post('/code/codeOnline/saveTemplate')
+	@AxiosDec.Post('/code/CodeControl/saveTemplate')
 	static saveTemplate: any
 
-	@AxiosDec.Post('/code/codeOnline/saveCodeTemplate')
+	@AxiosDec.Post('/code/CodeControl/saveCodeTemplate')
 	static saveCodeTemplate: any
 }
