@@ -5,9 +5,9 @@
         </p>
         <transition name="slide-center">
             <div class="code-list f-all100" v-show="isShow">
-                <header>组件列表 <i class="iconfont icontishi" v-title="'下列文件为当前组件的各个vue文件，index.vue为展示入口（不是组件入口），组件入口为后面有小星星的<br>右键组件即可设置组件入口，如不进行设置默认为第一个添加的组件'"></i></header>
+                <header>组件列表 <i class="iconfont icontishi" v-title="'下列文件为当前组件的各个vue文件，index.vue为展示入口（不是组件入口），组件入口为后面有小星星的<br>右键组件即可设置组件入口，如不进行设置默认为第一个添加的组件<br><b>!!!请右键点击文件</b>'"></i></header>
                 <ul class="show-list">
-                    <li v-for="(item, index) in modelValue" :key="item.name" @contextmenu.prevent="e => openChoose(index, e)" @click="changeShow(index)">{{ item.name }}.vue <i v-if="item.type === 1" class="iconfont iconxingxing"></i></li>
+                    <li class="f-csp" v-for="(item, index) in modelValue" :key="item.name" @contextmenu.prevent="e => openChoose(index, e)" @click="changeShow(index)">{{ item.name }}.vue <i v-if="item.type === 1" class="iconfont iconxingxing"></i></li>
                 </ul>
             </div>
         </transition>
