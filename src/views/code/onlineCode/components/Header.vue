@@ -48,14 +48,18 @@ export default {
             method: 'changeShowMore',
             icon: 'iconxiala',
             icon1: 'iconxiala change-tans'
+        // }, {
+        //     name: '登录',
+        //     method: '',
+        //     icon: 'icondenglu'
+        // }, {
+        //     name: '注册',
+        //     method: '',
+        //     icon: 'iconjiaru'
         }, {
-            name: '登录',
+            name: 'Npm仓库',
             method: '',
-            icon: 'icondenglu'
-        }, {
-            name: '注册',
-            method: '',
-            icon: 'iconjiaru'
+            icon: 'iconRectangleCopy'
         }];
 
         // 按钮需要相应数据

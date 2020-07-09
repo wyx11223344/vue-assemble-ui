@@ -9,13 +9,7 @@ import onlineCode from './code';
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        name: 'Home',
-        component: () => import('../views/Home.vue')
-    },
-    {
-        path: '/about',
-        name: 'About',
-        component: () => import('../views/About.vue')
+        redirect: '/Code/index'
     },
     onlineCode
 ];

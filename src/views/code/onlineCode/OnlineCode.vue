@@ -2,11 +2,13 @@
     <div class="f-all100 editor-main">
         <Header @triggerfn="triggerFn"></Header>
         <div class="editor-page">
+            <!--组件文件管理部分-->
+            <codes-control ref="codeControl" v-model="boxControl.codeList"></codes-control>
             <!--编辑器部分-->
-            <section class="code-section" v-for="(item, index) in boxControl.codeList" :key="index" :style="{'width': `${boxControl.codeWidth[index]}%`}">
-                <header :style="{'height': boxControl.codeList.length > 1 ? '24px' : '0'}">
+            <section class="code-section" v-for="(item, index) in boxControl.codeList.filter(code => code.disclose)" :key="index" :style="{'width': `${boxControl.codeWidth[index]}%`}">
+                <header :style="{'height': boxControl.codeList.filter(code => code.disclose).length > 0 ? '24px' : '0'}">
                     {{ item.name }}
-                    <i v-if="index !== 0" class="f-csp rt f-mr20 close-i" @click="removeEditor(index)"></i>
+                    <i class="f-csp rt f-mr20 close-i" @click="removeEditor(index)"></i>
                 </header>
                 <div class="f-all100">
                     <editor class="f-all100 each-editor" :font-size="FONT_SIZE" :value="baseHtml" @changehtml="html => hotGet(item, html)" :theme="CHOOSE_EDITOR_THEME"></editor>
@@ -20,7 +22,7 @@
                 </div>
             </section>
             <!--iframe页面部分-->
-            <section :style="{'width': `${boxControl.codeWidth[boxControl.codeList.length]}%`}">
+            <section :style="{'width': `${boxControl.codeWidth[boxControl.codeList.filter(code => code.disclose).length]}%`}">
                 <iframe class="f-all100 rewrite-iframe" :class="`ace-${CHOOSE_EDITOR_THEME.replaceAll('_', '-')}`" :src="`http://localhost:9988/code/codeOnline/index.html?findId=${editorObj.id}`"></iframe>
                 <div v-show="boxControl.moveCheck" class="f-all100 hide-window"></div>
             </section>
@@ -46,9 +48,11 @@ import Header from './components/Header';
 import MateInput from '../../../components/input/MateInput';
 import DiaBackValue from '../../../components/popUps/DiaBackValue';
 import SubmitButton from '../../../components/button/submitButton';
+import CodesControl from './components/CodesControl';
 
 export default {
     components: {
+        CodesControl,
         SubmitButton,
         DiaBackValue,
         MateInput,
@@ -158,6 +162,7 @@ export default {
                 html: ''
             }]
         });
+        const codeControl = ref(null);
         let movePoint = 0;
         let checkWidth;
         let moveLineNum = 0;
@@ -165,14 +170,14 @@ export default {
         // 计算codeWidth
         watchEffect(() => {
             boxControl.codeWidth = [];
-            Array.from({ length: boxControl.codeList.length + 1 }).forEach((item, index) => {
-                boxControl.codeWidth[index] = 100 / (boxControl.codeList.length + 1);
+            Array.from({ length: boxControl.codeList.filter((code) => code.disclose).length + 1 }).forEach((item, index) => {
+                boxControl.codeWidth[index] = 100 / (boxControl.codeList.filter((code) => code.disclose).length + 1);
             });
         });
 
         // 移出当前编辑器
         function removeEditor(index) {
-            boxControl.codeList.splice(index);
+            boxControl.codeList.filter((item) => item.disclose)[index].disclose = false;
         }
 
         // 开始移动
@@ -191,11 +196,11 @@ export default {
         // 移动操作
         function lineMove(e) {
             if (boxControl.moveCheck) {
-                if (checkWidth[moveLineNum] - (movePoint - e.clientX) * 100 / document.body.clientWidth < 10 || checkWidth[moveLineNum + 1] + (movePoint - e.clientX) * 100 / document.body.clientWidth < 10) {
+                if (checkWidth[moveLineNum] - (movePoint - e.clientX) * 100 / (document.body.clientWidth - (codeControl.value.isShow ? 200 : 20)) < 10 || checkWidth[moveLineNum + 1] + (movePoint - e.clientX) * 100 / document.body.clientWidth < 10) {
                     return;
                 }
-                boxControl.codeWidth[moveLineNum] = checkWidth[moveLineNum] - (movePoint - e.clientX) * 100 / document.body.clientWidth;
-                boxControl.codeWidth[moveLineNum + 1] = checkWidth[moveLineNum + 1] + (movePoint - e.clientX) * 100 / document.body.clientWidth;
+                boxControl.codeWidth[moveLineNum] = checkWidth[moveLineNum] - (movePoint - e.clientX) * 100 / (document.body.clientWidth - (codeControl.value.isShow ? 200 : 20));
+                boxControl.codeWidth[moveLineNum + 1] = checkWidth[moveLineNum + 1] + (movePoint - e.clientX) * 100 / (document.body.clientWidth - (codeControl.value.isShow ? 200 : 20));
             }
         }
 
@@ -229,7 +234,8 @@ export default {
                     if (check) return;
 
                     boxControl.codeList.push({
-                        name: HeadData.Addform.name
+                        name: HeadData.Addform.name,
+                        disclose: true
                     });
                 } catch (e) {
                     console.log('%c刚刚关闭新增', `color: pink`);
@@ -260,6 +266,7 @@ export default {
             hotGet,
             editorObj,
             boxControl,
+            codeControl,
             moveBegin,
             moveOver,
             removeEditor,

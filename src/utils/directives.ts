@@ -23,7 +23,7 @@ export default class Directives {
                 if (el.contains(e.target)) {
                     return false;
                 }
-                if (binding.expression) {
+                if (binding.value) {
                     binding.value(e);
                 }
             }
@@ -83,10 +83,12 @@ export default class Directives {
     private static boxDom: HTMLElement
 
     static title = {
-        beforeMount: (el: MyEl) => {
+        beforeMount: (el: MyEl, binding: any) => {
             let timeOut: number;
+
             const boxDom: HTMLElement = document.createElement('section');
             Directives.boxDom = boxDom;
+            Directives.boxDom.innerHTML = binding.value;
             boxDom.setAttribute('class', 'v-title-content');
 
             // 鼠标进入事件
