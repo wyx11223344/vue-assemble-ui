@@ -23,7 +23,7 @@
             </section>
             <!--iframe页面部分-->
             <section :style="{'width': `${boxControl.codeWidth[boxControl.codeList.filter(code => code.disclose).length]}%`}">
-                <iframe class="f-all100 rewrite-iframe" :class="`ace-${CHOOSE_EDITOR_THEME.replaceAll('_', '-')}`" :src="`http://localhost:9988/code/codeOnline/index.html?findId=${editorObj.id}`"></iframe>
+                <iframe class="f-all100 rewrite-iframe" :class="`ace-${CHOOSE_EDITOR_THEME.replace(/_/g, '-')}`" :src="`http://localhost:9988/code/codeOnline/index.html?findId=${editorObj.id}`"></iframe>
                 <div v-show="boxControl.moveCheck" class="f-all100 hide-window"></div>
             </section>
         </div>
