@@ -23,14 +23,28 @@
                 </ul>
             </section>
         </transition>
+        <dia-back-value width="300px" title="是否确定删除该代码片段" ref="diaCloseBack">
+            <section v-if="diaCloseBack">
+                <div class="foot-buttons">
+                    <jelly-button type="info" @click="diaCloseBack.DiaBackApi.close">关闭</jelly-button>
+                    <jelly-button @click="diaCloseBack.DiaBackApi.submit">确定</jelly-button>
+                </div>
+            </section>
+        </dia-back-value>
+        <message-box ref="messageDia"></message-box>
     </div>
 </template>
 
 <script>
 import { ref, reactive } from 'vue';
+import DiaBackValue from '../../../../components/popUps/DiaBackValue';
+import MessageBox from '../../../../components/popUps/MessageBox';
+import Code from '../../../../api/code';
+import JellyButton from '../../../../components/button/jellyButton';
 
 export default {
     name: 'CodesControl',
+    components: { JellyButton, MessageBox, DiaBackValue },
     props: {
         modelValue: {
             type: Array,
@@ -52,22 +66,48 @@ export default {
             showRightBox.top = e.clientY;
         }
 
+        // 改变入口选择
         function changeMainComponents() {
             showRightBox.show = false;
             if (props.modelValue[setIndex].name === 'index') {
                 console.log(123);
             } else {
                 const setObj = JSON.parse(JSON.stringify(props.modelValue));
+                setObj.forEach((item) => {
+                    item.type = 0;
+                });
                 setObj[setIndex].type = 1;
                 emit('update:modelValue', setObj);
+
+                messageDia.value.showMessage('primary', '成功设定入口组件');
             }
         }
 
-        function delectCodes() {
-            const setObj = JSON.parse(JSON.stringify(props.modelValue));
-            setObj.splice(setIndex, 1);
-            emit('update:modelValue', setObj);
-            showRightBox.show = false;
+        // 删除代码片段
+        async function delectCodes() {
+            try {
+                const setObj = JSON.parse(JSON.stringify(props.modelValue));
+                if (setObj[setIndex].type === 1) {
+                    messageDia.value.showMessage('error', '不可以删除入口文件哦');
+                    return;
+                }
+
+                await diaCloseBack.value.diaPromise();
+
+                if (setObj[setIndex].id) {
+                    await Code.delectCodeById({
+                        id: setObj[setIndex].id,
+                        componentId: setObj[setIndex].componentId
+                    });
+                }
+                setObj.splice(setIndex, 1);
+                emit('update:modelValue', setObj);
+                showRightBox.show = false;
+
+                messageDia.value.showMessage('primary', '成功删除文件');
+            } catch (e) {
+                console.log(e);
+            }
         }
 
         /** *************************************************************************************************/
@@ -79,6 +119,8 @@ export default {
             left: 0,
             top: 0
         });
+        const diaCloseBack = ref(null);
+        const messageDia = ref(null);
 
         function changeShow(index) {
             const setObj = JSON.parse(JSON.stringify(props.modelValue));
@@ -92,7 +134,10 @@ export default {
             openChoose,
             changeMainComponents,
             changeShow,
-            delectCodes
+            delectCodes,
+            // dom
+            diaCloseBack,
+            messageDia
         };
     }
 };

@@ -31,13 +31,13 @@ export default {
             method: 'triggerFn',
             methodP: 'buttonClick',
             icon: 'iconyunhang'
-        // }, {
-        //     name: '保存组件',
-        //     method: 'triggerFn',
-        //     methodP: 'setHtml',
-        //     icon: 'iconbaocun'
         }, {
-            name: '新增组件',
+            name: '保存组件',
+            method: 'triggerFn',
+            methodP: 'setHtml',
+            icon: 'iconbaocun'
+        }, {
+            name: '新增文件',
             method: 'triggerFn',
             methodP: 'addEditor',
             icon: 'iconzujian'
@@ -58,7 +58,8 @@ export default {
         //     icon: 'iconjiaru'
         }, {
             name: 'Npm仓库',
-            method: '',
+            method: 'triggerFn',
+            methodP: 'createTestNpm',
             icon: 'iconRectangleCopy'
         }];
 

@@ -42,6 +42,7 @@ export default {
 
             // 传递输入框字符
             watch(getValue, () => {
+                if (props.value === editor.getValue()) return;
                 editor.setValue(props.value);
             }, { immediate: true });
 

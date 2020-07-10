@@ -12,9 +12,18 @@ export default class Code {
 	@AxiosDec.Post('/code/CodeControl/getTemplate')
 	static getTemplate: any
 
-	@AxiosDec.Post('/code/CodeControl/saveTemplate')
+	@AxiosDec.Post('/code/CodeControl/saveHtmlTemplate')
 	static saveTemplate: any
 
 	@AxiosDec.Post('/code/CodeControl/saveCodeTemplate')
 	static saveCodeTemplate: any
+
+	@AxiosDec.Post('/code/CodeControl/delectCodeById')
+	static delectCodeById: any
+
+	@AxiosDec.Post('/code/CodeControl/getAllComponents')
+	static getAllComponents: any
+
+	@AxiosDec.Post('/package/npmPackage/createNewNpm')
+	static createNewNpm: any
 }

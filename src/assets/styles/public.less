@@ -44,6 +44,26 @@
   opacity: 1;
 }
 
+.slide-bottom-leave-active,
+.slide-bottom-enter-active{
+  transition: all 0.28s;
+}
+.slide-bottom-enter-active{
+  transform: scaleY(0);
+  transform-origin: 0 100%;
+  opacity: 0;
+}
+.slide-bottom-enter-to {
+  transform: scaleY(1);
+  transform-origin: 0 100%;
+  opacity: 1;
+}
+.slide-bottom-leave-to {
+  transform: scaleY(0);
+  transform-origin: 0 100%;
+  opacity: 0;
+}
+
 /** *************************************************************************************************/
 /** ***************************************滚动条***************************************************/
 /** *************************************************************************************************/
