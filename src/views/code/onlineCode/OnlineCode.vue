@@ -442,6 +442,9 @@ export default {
                     margin-top: 3px;
                 }
             }
+            >div{
+                padding-right: 6px;
+            }
         }
         .move-line{
             width: 6px;
