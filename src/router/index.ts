@@ -4,14 +4,16 @@
  * @Description: 基础路由
 */
 import { RouteRecordRaw, createRouter, createWebHashHistory, Router } from 'vue-router';
-import onlineCode from './code';
+import Code from './code';
+import Show from './show';
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         redirect: '/Code/index'
     },
-    onlineCode
+    Code,
+    Show
 ];
 
 const router: Router = createRouter({
