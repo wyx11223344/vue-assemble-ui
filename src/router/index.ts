@@ -10,7 +10,7 @@ import Show from './show';
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        redirect: '/Code/index'
+        redirect: '/Show/index'
     },
     Code,
     Show

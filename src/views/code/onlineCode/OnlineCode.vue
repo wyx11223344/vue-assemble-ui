@@ -49,8 +49,8 @@
         <!--消息提示-->
         <message-box ref="messageDia"></message-box>
         <!--npm测试用-->
-        <dia-back-value width="400px" title="快速构建一个Npm包（测试临时开放）" ref="npmTestDia">
-            <section v-if="npmTestDia">
+        <dia-back-value width="600px" title="快速构建一个Npm包（测试临时开放）" ref="npmTestDia">
+            <section class="npm-test-box" v-if="npmTestDia">
                 现有的组件：
                 <ul>
                     <li class="f-csp" v-for="item in npmObj.componentsList.slice(1)" :key="item.name" @click='checkedOne(item.id)'>
@@ -362,7 +362,7 @@ export default {
         const npmObj = reactive({
             componentsList: [],
             AddRules: {
-                name: { validate: [{ validateName: 'required', trigger: ['input'] }, 'HtmlTag'], trigger: ['blur'] },
+                name: { validate: [{ validateName: 'required', trigger: ['input'] }, 'NpmName'], trigger: ['blur'] },
                 version: { validate: ['required'], trigger: ['blur'] }
             },
             Addform: {
@@ -484,4 +484,5 @@ export default {
         }
     }
 }
+
 </style>

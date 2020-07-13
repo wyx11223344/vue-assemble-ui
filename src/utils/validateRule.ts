@@ -7,6 +7,11 @@ export class ValidateRule {
         const reg = /^[a-zA-Z](\w)*$/;
         return reg.test(value);
     }
+
+    static NpmName(value: any): boolean {
+        const reg = /^[a-z]*$/g;
+        return reg.test(value);
+    }
 }
 
 export class DefaultMsg {
@@ -16,6 +21,10 @@ export class DefaultMsg {
     }
     static HtmlTag = {
         false: '请填写符合标准的html标签（开头为字母后段由字母、数字、下划线组成）',
+        true: 'OK!'
+    }
+    static NpmName = {
+        false: 'npm发布包名称只能使用小写英文字母',
         true: 'OK!'
     }
 }
