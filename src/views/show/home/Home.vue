@@ -102,6 +102,7 @@ export default {
                 }
             }
             .show-message{
+                color: #f2f2f2;
                 line-height: 60px;
                 font-size: 16px;
                 font-weight: bold;
