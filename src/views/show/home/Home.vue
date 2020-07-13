@@ -1,6 +1,6 @@
 <template>
-    <div>
-        123
+    <div class="f-all100 home-box">
+
     </div>
 </template>
 
@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-
+.home-box{
+    height: 2000px;
+}
 </style>

@@ -1,5 +1,9 @@
 <template>
-    <router-view/>
+    <router-view v-slot="{ Component }">
+        <transition name="slide-left">
+            <component :is="Component" />
+        </transition>
+    </router-view>
 </template>
 <script>
 import { useStore } from 'vuex';
@@ -34,6 +38,7 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

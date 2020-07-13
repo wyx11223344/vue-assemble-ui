@@ -1,7 +1,7 @@
 <template>
     <div class="header-main" :style="{'height': buttonReactive.showMore ? '100px' : '50px'}">
         <div class="top-show">
-            <section class="left-logo">
+            <section class="left-logo f-csp" @click="buttonFuns.goToHome()">
                 <img src="../../../../assets/images/head-logo.png" />
             </section>
             <section class="right-button">
@@ -18,6 +18,7 @@
 
 <script>
 import { reactive } from 'vue';
+import router from '@/router/index';
 
 export default {
     setup(props, { emit }) {
@@ -27,6 +28,10 @@ export default {
         /** *************************************************************************************************/
         // 按钮列表（固定数据，后期考虑后端返回）
         const buttonList = [{
+            name: '首页',
+            method: 'goToHome',
+            icon: 'iconshouye'
+        }, {
             name: '代码运行',
             method: 'triggerFn',
             methodP: 'buttonClick',
@@ -75,6 +80,9 @@ export default {
             },
             triggerFn(name) {
                 emit('triggerfn', name);
+            },
+            goToHome() {
+                router.push(`/Show/index`);
             }
         };
 

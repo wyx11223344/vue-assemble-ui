@@ -20,6 +20,7 @@ export default {
         const THEME = computed(() => store.state.themes.CHOOSE_THEME);
 
         Themes.forEach((item) => {
+            if (item.url.split('.').length > 2) return;
             item.url = item.url ? require(`../../assets/images/code/${item.url}`) : '';
         });
 
