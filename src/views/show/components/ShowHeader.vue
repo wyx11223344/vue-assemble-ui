@@ -8,23 +8,31 @@
         </section>
         <section class="right">
             <ul>
-                <li>购物车</li>
+                <!--<li><input /></li>-->
+                <li @click="openCartDia">
+                    <i class="iconfont icongouwuche"></i>
+                    <span>{{cartList.length}}</span>
+                </li>
             </ul>
         </section>
     </header>
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import router from '@/router/index';
+import { useStore } from 'vuex';
 
 export default {
     name: 'ShowHeader',
     setup() {
+        const store = useStore();
 
         /** *************************************************************************************************/
         /** ***************************************左侧按钮***************************************************/
         /** *************************************************************************************************/
+        const cartList = computed(() => store.state.cart.cartList);
+
         const leftButtonObj = reactive({
             chooseIndex: 0,
             buttonList: [{
@@ -38,11 +46,27 @@ export default {
                     leftButtonObj.chooseIndex = index;
                     router.push(`/Code/index`);
                 }
+            }, {
+                name: '组件管理',
+                method() {
+                    console.log(123);
+                }
+            }, {
+                name: 'npm包管理',
+                method() {
+                    console.log(123);
+                }
             }]
         });
 
+        function openCartDia() {
+            store.commit('changeCartDiaShow');
+        }
+
         return {
-            leftButtonObj
+            leftButtonObj,
+            cartList,
+            openCartDia
         };
     }
 };
@@ -79,6 +103,32 @@ header{
             .choose{
                 font-weight: bold;
                 color: #f2f2f2;
+            }
+        }
+    }
+    .right{
+        ul{
+            li{
+                display: inline-block;
+                position: relative;
+                cursor: pointer;
+                margin-right: 30px;
+                span{
+                    position: absolute;
+                    right: -8px;
+                    top: 8px;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 10px;
+                    background-color: #ff7575;
+                    color: #f2f2f2;
+                    line-height: 22px;
+                    font-size: 12px;
+                }
+                .iconfont{
+                    color: #f2f2f2;
+                    font-size: 24px;
+                }
             }
         }
     }

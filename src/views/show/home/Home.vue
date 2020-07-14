@@ -1,5 +1,5 @@
 <template>
-    <div class="f-all100 home-box">
+    <div class="home-box">
         <section class="top-content">
             <p>个人制作的小网站，欢迎你的使用~</p>
             <span class="f-csp" :style="{opacity: selectObj.inputText.length > 0 ? 1 : 0}"><i class="iconfont iconidea_icon"></i>点我进行搜索{{ selectObj.inputText }}组件</span>
@@ -8,11 +8,10 @@
         </section>
         <main class="baseList">
             <div class="each-code-box" :class="{'swing-out-top-bck': showObj.showClose}" v-for="(item, index) in showObj.list" :key="index">
-                <div class="show-box">
-                    <!--                    <iframe class="f-all100 rewrite-iframe" :class="`ace-${CHOOSE_EDITOR_THEME.replace(/_/g, '-')}`" :src="`http://localhost:9988/code/codeOnline/index.html?findId=${a}`"></iframe>-->
-                    <img :src="item.img" alt=""/>
-                    <div class="cover-box f-csp"  @click="changeRouter(item.id)">
-                        <div class="right-all-screen" @click.stop>
+                <div class="show-box code-open-iframe">
+                    <iframe class="f-all100 rewrite-iframe" :src="`http://localhost:9988/code/codeOnline/index.html?findId=${item.htmlId}`"></iframe>
+                    <div v-show="!item.showBig" class="cover-box f-csp"  @click="changeRouter(item.id)">
+                        <div class="right-all-screen" @click.stop="showBigHtml(index)">
                             <span>
                                 <svg>
                                     <use xlink:href="#iconfull-screen" fill="#fff"/>
@@ -20,50 +19,77 @@
                             </span>
                         </div>
                     </div>
+                    <span class="close-span" v-show="item.showBig" @click="showBigHtml(index)">
+                        <svg>
+                            <use xlink:href="#iconsuoxiao" fill="#fff"/>
+                        </svg>
+                    </span>
+                    <span class="close-font" v-show="item.showBig">组件预览，点右侧进行关闭</span>
                 </div>
                 <div class="show-message">
                     <p>
                         <span class="f-csp" @click="changeRouter(item.id)">{{ item.name }}</span>
-                        <i @click="addCart(item)" class="iconfont icongouwuche1 rt f-csp" :class="{'jello-horizontal': item.cartMove, 'cart-choose': true}"></i>
+                        <i @click="addCart(item)" class="iconfont icongouwuche1 rt f-csp" :class="{'jello-horizontal': item.cartMove, 'cart-choose': cartList.findIndex(choose => item.id === choose.id) !== -1}"></i>
                     </p>
                 </div>
             </div>
         </main>
+        <message-box ref="messageDia"></message-box>
     </div>
 </template>
 
 <script>
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import router from '@/router/index';
+import MessageBox from '../../../components/popUps/MessageBox';
+import Show from '../../../api/Show';
 
 export default {
     name: 'Home',
+    components: { MessageBox },
     setup() {
-        const showObj = reactive({
-            showClose: false,
-            list: [{
-                name: 'jellyButton',
-                id: '17',
-                img: require('../../../assets/images/jellyButton.jpg')
-            }, {
-                name: 'submitButton',
-                id: '18',
-                img: require('../../../assets/images/submitButton.jpg')
-            }, {
-                name: 'baseSwitch',
-                id: '19',
-                img: require('../../../assets/images/baseSwitch.jpg')
-            }]
-        });
-
         const store = useStore();
-
-        const CHOOSE_EDITOR_THEME = computed(() => store.state.themes.CHOOSE_EDITOR_THEME);
+        const messageDia = ref(null);
 
         /** *************************************************************************************************/
         /** ***************************************代码块控制***************************************************/
         /** *************************************************************************************************/
+        const cartList = computed(() => store.state.cart.cartList);
+        const showObj = reactive({
+            showClose: false,
+            list: []
+        });
+
+        // 获取基础数据
+        Show.getAllComponentsWithHtml({
+            num: 6
+        }).then((response) => {
+            showObj.list = response;
+        });
+
+        function showBigHtml(index) {
+            const changeDom = document.getElementsByClassName('code-open-iframe')[index];
+            if (showObj.list[index].showBig) {
+                showObj.list[index].showBig = false;
+                document.getElementsByClassName('home-box')[0].style.perspective = '';
+                changeDom.style.position = '';
+                changeDom.style.left = '';
+                changeDom.style.top = '';
+                changeDom.style.width = '';
+                changeDom.style.height = '';
+                changeDom.style.zIndex = '';
+            } else {
+                showObj.list[index].showBig = true;
+                document.getElementsByClassName('home-box')[0].style.perspective = 'none';
+                changeDom.style.position = 'fixed';
+                changeDom.style.left = '0';
+                changeDom.style.top = '0';
+                changeDom.style.width = '100%';
+                changeDom.style.height = '100%';
+                changeDom.style.zIndex = '1';
+            }
+        }
 
         function changeRouter(id) {
             const openUrl = router.resolve({ path: `/Code/index`, query: { id: id }});
@@ -73,9 +99,12 @@ export default {
         function addCart(item) {
             if (!item.cartMove) {
                 item.cartMove = true;
+                store.commit('changeCartList', item);
                 setTimeout(() => {
                     item.cartMove = false;
                 }, 900);
+            } else {
+                messageDia.value.showMessage('error', '请不要频繁操作哦');
             }
         }
 
@@ -89,7 +118,9 @@ export default {
         return {
             selectObj,
             showObj,
-            CHOOSE_EDITOR_THEME,
+            messageDia,
+            cartList,
+            showBigHtml,
             changeRouter,
             addCart
         };
@@ -188,6 +219,7 @@ export default {
         justify-content: space-between;
         flex-wrap: wrap;
         padding: 0 20px;
+        margin-bottom: 60px;
         .loopBox(6);
         .loopBox(@count) when (@count >= 0) {
             .each-code-box:nth-child(@{count}) {
@@ -196,13 +228,14 @@ export default {
             .loopBox(@count - 1);
         }
         .each-code-box{
+            position: relative;
             width: 370px;
             height: 270px;
             padding: 10px;
             margin-top: 60px;
             border-radius: 10px;
             background-color: #1f2229;
-            animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) both;
+            animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) backwards;
             transition: .3s;
             &:hover{
                 box-shadow: #3a3f57 0 2px 5px 2px;
@@ -213,8 +246,14 @@ export default {
                 height: 196.9px;
                 border-radius: 10px;
                 overflow: hidden;
+                transition: .3s cubic-bezier(.7,.3,.1,1);
                 .rewrite-iframe{
-                    border: none;
+                    width: 100%;
+                    height: 100%;
+                    border: 1px solid #6974b3;
+                    border-radius: 10px;
+                    background-color: #fff;
+                    transition: 1.5s;
                     &::selection {
                         background: none;
                     }
@@ -273,8 +312,43 @@ export default {
                         opacity: 1;
                     }
                 }
+                .close-span{
+                    position: absolute;
+                    top: 20px;
+                    right: 20px;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 5px;
+                    background-color: #5a5f73;
+                    cursor: pointer;
+                    transition: 0.3s;
+                    svg{
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        margin: auto;
+                        width: 20px;
+                        height: 20px;
+                    }
+                    &:hover{
+                        transform: scale(1.2);
+                    }
+                }
+                .close-font{
+                    position: absolute;
+                    left: 20px;
+                    top: 20px;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
             }
             .show-message{
+                position: absolute;
+                width: 100%;
+                bottom: 0;
+                left: 0;
                 padding: 0 20px;
                 text-align: left;
                 color: #f2f2f2;

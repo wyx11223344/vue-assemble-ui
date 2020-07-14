@@ -4,6 +4,9 @@
         <show-header></show-header>
         <router-view class="show-box"/>
         <show-footer></show-footer>
+        <cart-dia>
+            <cart-control></cart-control>
+        </cart-dia>
     </div>
 </template>
 
@@ -12,10 +15,12 @@ import ShowHeader from './components/ShowHeader';
 import createBg from './createBg';
 import { onMounted, ref, onBeforeUnmount } from 'vue';
 import ShowFooter from './components/ShowFooter';
+import CartDia from '../../components/popUps/CartDia';
+import CartControl from './components/CartControl';
 
 export default {
     name: 'Show',
-    components: { ShowFooter, ShowHeader },
+    components: { CartControl, ShowFooter, ShowHeader, CartDia },
     setup() {
         const showMainDom = ref(null);
         let backFn;
