@@ -69,7 +69,7 @@ header{
                 display: inline-block;
                 padding: 0 20px;
                 cursor: pointer;
-                color: #4d4d4d;
+                color: #9c9c9c;
                 transition: 0.3s;
                 &:hover{
                     font-weight: bold;

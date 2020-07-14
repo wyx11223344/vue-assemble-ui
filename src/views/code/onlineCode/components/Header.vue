@@ -47,8 +47,8 @@ export default {
             methodP: 'addEditor',
             icon: 'iconzujian'
         }, {
-            name: '展开配置',
-            name1: '收回配置',
+            name: '展开功能',
+            name1: '收回功能',
             status: 'showMore',
             method: 'changeShowMore',
             icon: 'iconxiala',

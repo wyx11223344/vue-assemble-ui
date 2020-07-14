@@ -3,6 +3,7 @@
         <canvas ref="showMainDom"></canvas>
         <show-header></show-header>
         <router-view class="show-box"/>
+        <show-footer></show-footer>
     </div>
 </template>
 
@@ -10,10 +11,11 @@
 import ShowHeader from './components/ShowHeader';
 import createBg from './createBg';
 import { onMounted, ref, onBeforeUnmount } from 'vue';
+import ShowFooter from './components/ShowFooter';
 
 export default {
     name: 'Show',
-    components: { ShowHeader },
+    components: { ShowFooter, ShowHeader },
     setup() {
         const showMainDom = ref(null);
         let backFn;
