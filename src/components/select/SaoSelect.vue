@@ -159,32 +159,33 @@ export default {
     display: none;
 }
 .sao-select-box{
-    width: 30px;
-    height: 30px;
+    position: relative;
     .show-box{
         position: absolute;
         left: 0;
         top: 0;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        border-radius: 15px;
+        bottom: 0;
+        margin: auto;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 25px;
         background-color: rgba(204,204,204,.5);
         z-index: 1;
         transform: rotate(90deg);
         transition: .3s;
         .iconfont{
             color: #131417;
-            font-size: 20px;
+            font-size: 32px;
             font-weight: bold;
         }
         &:hover{
-            width: 36px;
-            height: 36px;
-            line-height: 36px;
-            border-radius: 18px;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            border-radius: 30px;
             .iconfont{
-                font-size: 24px;
+                font-size: 38px;
             }
         }
     }

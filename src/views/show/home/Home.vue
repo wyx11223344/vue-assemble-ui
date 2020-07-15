@@ -35,7 +35,9 @@
             </div>
         </main>
         <p class="button-font">什么！没有你喜欢的组件，<a href="">点我进入组件库</a>搜索！</p>
-        <sao-select class="float-select" :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="getComponentsByClassify"></sao-select>
+        <div class="left-float-box">
+            <sao-select :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="getComponentsByClassify"></sao-select>
+        </div>
         <message-box ref="messageDia"></message-box>
     </div>
 </template>
@@ -397,7 +399,7 @@ export default {
             animation: swing-out-top-bck 0.45s cubic-bezier(0.600, -0.280, 0.735, 0.045) both;
         }
     }
-    .float-select{
+    .left-float-box{
         position: absolute;
         margin-left: 1200px;
         bottom: 30vh;
