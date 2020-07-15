@@ -31,19 +31,21 @@ export default class SelectTools extends ValidaDue {
 
         this.selectObject = this.ValidaObject;
 
-        this.watchPropsValue(props);
+        this.watchPropsValue(props, emit);
     }
 
     /**
      * 添加value值和name的绑定
      * @param {SelectProps} props 传参对象
+     * @param {Function} emit 回调函数
      * @returns {void}
      */
-    watchPropsValue(props: SelectProps): void {
+    watchPropsValue(props: SelectProps, emit: Function): void {
         watchEffect(() => {
             props.options?.forEach((item: SelectOptions, index: number) => {
                 if (item.value === props.modelValue) {
                     this.changeSelect(item, index);
+                    emit('change', item.value);
                     return;
                 }
             });

@@ -7,7 +7,7 @@
             <div class="show-logo"></div>
         </section>
         <main class="baseList">
-            <div class="each-code-box" :class="{'swing-out-top-bck': showObj.showClose}" v-for="(item, index) in showObj.list" :key="index">
+            <div class="each-code-box" :class="{'swing-out-top-bck': showObj.showClose, 'swing-in-top-fwd': !showObj.showClose}" v-for="(item, index) in showObj.list" :key="index">
                 <div class="show-box code-open-iframe">
                     <iframe class="f-all100 rewrite-iframe" :src="`http://localhost:9988/code/codeOnline/index.html?findId=${item.htmlId}`"></iframe>
                     <div v-show="!item.showBig" class="cover-box f-csp"  @click="changeRouter(item.id)">
@@ -34,6 +34,8 @@
                 </div>
             </div>
         </main>
+        <p class="button-font">什么！没有你喜欢的组件，<a href="">点我进入组件库</a>搜索！</p>
+        <sao-select class="float-select" :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="getComponentsByClassify"></sao-select>
         <message-box ref="messageDia"></message-box>
     </div>
 </template>
@@ -44,10 +46,11 @@ import { useStore } from 'vuex';
 import router from '@/router/index';
 import MessageBox from '../../../components/popUps/MessageBox';
 import Show from '../../../api/Show';
+import SaoSelect from '../../../components/select/SaoSelect';
 
 export default {
     name: 'Home',
-    components: { MessageBox },
+    components: { SaoSelect, MessageBox },
     setup() {
         const store = useStore();
         const messageDia = ref(null);
@@ -62,17 +65,30 @@ export default {
         });
 
         // 获取基础数据
-        Show.getAllComponentsWithHtml({
-            num: 6
-        }).then((response) => {
-            showObj.list = response;
-        });
+        function getComponentsByClassify(classify) {
+            let dueFn = '';
+            if (classify) {
+                dueFn = 'getComponentsByClassifyWithHtml';
+            } else {
+                dueFn = 'getAllComponentsWithHtml';
+            }
+            Show[dueFn]({
+                classify: classify
+            }).then((response) => {
+                showObj.showClose = true;
+                setTimeout(() => {
+                    showObj.list = response;
+                    showObj.showClose = false;
+                }, 1200);
+            });
+        }
+
+        getComponentsByClassify();
 
         function showBigHtml(index) {
             const changeDom = document.getElementsByClassName('code-open-iframe')[index];
             if (showObj.list[index].showBig) {
                 showObj.list[index].showBig = false;
-                document.getElementsByClassName('home-box')[0].style.perspective = '';
                 changeDom.style.position = '';
                 changeDom.style.left = '';
                 changeDom.style.top = '';
@@ -81,7 +97,6 @@ export default {
                 changeDom.style.zIndex = '';
             } else {
                 showObj.list[index].showBig = true;
-                document.getElementsByClassName('home-box')[0].style.perspective = 'none';
                 changeDom.style.position = 'fixed';
                 changeDom.style.left = '0';
                 changeDom.style.top = '0';
@@ -112,7 +127,18 @@ export default {
         /** ***************************************搜索控制***************************************************/
         /** *************************************************************************************************/
         const selectObj = reactive({
-            inputText: ''
+            inputText: '',
+            classifyList: [],
+            chooseClassify: null
+        });
+
+        // 获取类别
+        Show.getAllClassify().then((response) => {
+            selectObj.classifyList = response.map((item) => ({
+                value: item.id,
+                name: item.name
+            }));
+            selectObj.classifyList.unshift({ value: null, name: '全部' });
         });
 
         return {
@@ -122,7 +148,8 @@ export default {
             cartList,
             showBigHtml,
             changeRouter,
-            addCart
+            addCart,
+            getComponentsByClassify
         };
     }
 };
@@ -130,7 +157,6 @@ export default {
 
 <style scoped lang="less">
 .home-box{
-    perspective: 1000px;
     .top-content{
         display: flex;
         justify-content: center;
@@ -218,12 +244,14 @@ export default {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
+        height: 700px;
         padding: 0 20px;
         margin-bottom: 60px;
+        perspective: 1000px;
         .loopBox(6);
         .loopBox(@count) when (@count >= 0) {
             .each-code-box:nth-child(@{count}) {
-                animation-delay:0.6s + 0.1s * @count;
+                animation-delay: 0.1s * @count;
             }
             .loopBox(@count - 1);
         }
@@ -235,7 +263,6 @@ export default {
             margin-top: 60px;
             border-radius: 10px;
             background-color: #1f2229;
-            animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) backwards;
             transition: .3s;
             &:hover{
                 box-shadow: #3a3f57 0 2px 5px 2px;
@@ -363,8 +390,25 @@ export default {
                 }
             }
         }
+        .swing-in-top-fwd {
+            animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) backwards;
+        }
         .swing-out-top-bck {
             animation: swing-out-top-bck 0.45s cubic-bezier(0.600, -0.280, 0.735, 0.045) both;
+        }
+    }
+    .float-select{
+        position: absolute;
+        margin-left: 1200px;
+        bottom: 30vh;
+    }
+    .button-font{
+        margin: 5px 0 60px 0;
+        font-size: 14px;
+        color: #fff;
+        letter-spacing: 1px;
+        a{
+            color: #ff7575;
         }
     }
 }
