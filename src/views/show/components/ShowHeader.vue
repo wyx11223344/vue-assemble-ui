@@ -83,13 +83,14 @@ header{
     .left{
         display: flex;
         img{
-            height: 40px;
+            height: 30px;
             margin: auto;
             filter: brightness(10);
         }
         ul{
             margin-left: 60px;
             li{
+                font-size: 14px;
                 display: inline-block;
                 padding: 0 20px;
                 cursor: pointer;

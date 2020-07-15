@@ -51,7 +51,7 @@ export default function createBg(dom) {
     const zc = 0.0005;
     const tc = 0.0005;
     const noiseSteps = ceil(rand(4)) + 4;
-    const backgroundColor = '#131417';
+    const backgroundColor = '#07051c';
     let runCheck = true;
 
     let canvas;

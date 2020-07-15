@@ -32,7 +32,7 @@ export default {
 <style scoped lang="less">
 footer{
     width: 100%;
-    background-color: #1f2229;
+    background-color: rgba(33, 31, 54, 0.68);
     .show-content{
         display: flex;
         justify-content: space-between;

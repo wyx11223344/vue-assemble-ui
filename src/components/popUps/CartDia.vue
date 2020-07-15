@@ -43,7 +43,7 @@ export default {
         top: 0;
         height: 100%;
         width: 300px;
-        background-color: #1f2229;
+        background-color: #fcfcfc;
         transition: 0.3s cubic-bezier(.7,.3,.1,1);
         z-index: 1000;
     }

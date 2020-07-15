@@ -262,7 +262,7 @@ export default {
             padding: 10px;
             margin-top: 60px;
             border-radius: 10px;
-            background-color: #1f2229;
+            background-color: #211f36;
             transition: .3s;
             &:hover{
                 box-shadow: #3a3f57 0 2px 5px 2px;
