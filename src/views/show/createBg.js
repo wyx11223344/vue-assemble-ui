@@ -122,9 +122,9 @@ export default function createBg(dom) {
         x2 = x + vx * speed;
         y2 = y + vy * speed;
         z2 = z + vz * speed;
-        width = 0.015 * z2 + 2;
-        speed = lerp(speed, 0.005 * z2, 0.15);
-        hue = baseHue + speed * 0.015 * rangeHue;
+        width = 0.005 * z2 + 2;
+        speed = lerp(speed, 0.015 * z2, 0.15);
+        hue = baseHue + speed * 0.15 * rangeHue;
 
         drawParticle(x, y, z, x2, y2, life, ttl, width, hue);
 
