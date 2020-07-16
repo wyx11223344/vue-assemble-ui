@@ -1,4 +1,5 @@
-import { watchEffect } from 'vue';
+import { watchEffect, computed, watch } from 'vue';
+import store from '@/store/index';
 
 interface ShowControlProps {
     value?: boolean;
@@ -62,12 +63,15 @@ export default class PopUpstools {
      * @returns {void}
      */
     private addBody(): void {
-        watchEffect(() => {
-            const check = this.type ? this.props.value : this.props.modelValue;
-            if (check) {
-                (document.getElementById('app') as Element).classList.add('show-blur');
+        const diaNum = computed(() => (store as any).state.baseCom.diaNum);
+        const watchObj = computed(() => this.type ? this.props.value : this.props.modelValue);
+        watch(watchObj, () => {
+            if (watchObj.value) {
+                store.commit('addDiaNum');
+                if (diaNum.value === 1) (document.getElementById('app') as Element).classList.add('show-blur');
             } else {
-                (document.getElementById('app') as Element).classList.remove('show-blur');
+                store.commit('lowDiaNum');
+                if (diaNum.value === 0) (document.getElementById('app') as Element).classList.remove('show-blur');
             }
         });
     }

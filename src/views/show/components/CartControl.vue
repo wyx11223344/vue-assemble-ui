@@ -38,7 +38,7 @@
                     <header>加入项目</header>
                     <main class="custom-scroll">
                         <ul>
-                            <li v-for="(item, index) in npmObject.list" :key="item.id" @click="npmObject.chooseIndex = index" :class="{'chosen': index === npmObject.chooseIndex}">
+                            <li class="f-csp" v-for="(item, index) in npmObject.list" :key="item.id" @click="npmObject.chooseIndex = index" :class="{'chosen': index === npmObject.chooseIndex}">
                                 <svg class="icon" aria-hidden="true">
                                     <use xlink:href="#iconnpm" />
                                 </svg>
