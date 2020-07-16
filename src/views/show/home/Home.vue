@@ -6,7 +6,7 @@
             <input class="top-select" v-model="selectObj.inputText" type="text" placeholder="快开始搜索你喜欢的组件吧！"/>
             <div class="show-logo"></div>
         </section>
-        <main class="baseList">
+        <main class="baseList" v-clickoutside="() => {showObj.list.forEach((item, index) => item.showBig === true && showBigHtml(index) )}">
             <div class="each-code-box" :class="{'swing-out-top-bck': showObj.showClose, 'swing-in-top-fwd': !showObj.showClose}" v-for="(item, index) in showObj.list" :key="index">
                 <div class="show-box code-open-iframe">
                     <iframe class="f-all100 rewrite-iframe" :src="`http://localhost:9988/code/codeOnline/index.html?findId=${item.htmlId}`"></iframe>
@@ -37,6 +37,21 @@
         <p class="button-font">什么！没有你喜欢的组件，<a href="">点我进入组件库</a>搜索！</p>
         <div class="left-float-box">
             <sao-select :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="getComponentsByClassify"></sao-select>
+            <transition name="slide-top">
+                <div class="right-button" v-show="scrollTop > 55">
+                    <span class="show-content f-csp" @click="openCartDia">
+                        <i class="iconfont icongouwuche"></i>
+                        <span>{{cartList.length}}</span>
+                    </span>
+                </div>
+            </transition>
+            <transition name="slide-top">
+                <div class="right-button" v-show="scrollTop > 55">
+                    <span class="show-content f-csp" @click="backToTop">
+                        <i class="iconfont icondingbu"></i>
+                    </span>
+                </div>
+            </transition>
         </div>
         <message-box ref="messageDia"></message-box>
     </div>
@@ -53,7 +68,13 @@ import SaoSelect from '../../../components/select/SaoSelect';
 export default {
     name: 'Home',
     components: { SaoSelect, MessageBox },
-    setup() {
+    props: {
+        scrollTop: {
+            type: Number,
+            default: null
+        }
+    },
+    setup(props, { emit }) {
         const store = useStore();
         const messageDia = ref(null);
 
@@ -143,6 +164,18 @@ export default {
             selectObj.classifyList.unshift({ value: null, name: '全部' });
         });
 
+        /** *************************************************************************************************/
+        /** ***************************************右侧功能***************************************************/
+        /** *************************************************************************************************/
+
+        function openCartDia() {
+            store.commit('changeCartDiaShow');
+        }
+
+        function backToTop() {
+            emit('backtop');
+        }
+
         return {
             selectObj,
             showObj,
@@ -151,7 +184,9 @@ export default {
             showBigHtml,
             changeRouter,
             addCart,
-            getComponentsByClassify
+            getComponentsByClassify,
+            openCartDia,
+            backToTop
         };
     }
 };
@@ -190,6 +225,8 @@ export default {
             font-size: 14px;
             color: #fff;
             letter-spacing: 1px;
+            animation: home-fade .6s cubic-bezier(.7,.3,.1,1) .4s;
+            animation-fill-mode: backwards;
         }
         .show-logo{
             width: 200px;
@@ -197,6 +234,8 @@ export default {
             transition: 0.3s;
             background: url("../../../assets/images/top-logo.png") no-repeat;
             background-size: 100% 100%;
+            animation: home-fade .6s cubic-bezier(.7,.3,.1,1);
+            animation-fill-mode: backwards;
         }
         .top-select{
             display: inline-block;
@@ -204,7 +243,8 @@ export default {
             text-align: center;
             width: 766px;
             margin: 40px auto 0;
-            animation: home-fade .6s ease-in-out;
+            animation: home-fade .6s cubic-bezier(.7,.3,.1,1) .2s;
+            animation-fill-mode: backwards;
             height: 50px;
             line-height: 50px;
             border: 1px solid rgba(34,43,95,.79);
@@ -229,15 +269,11 @@ export default {
         }
         @keyframes home-fade {
             0% {
+                transform: translateY(30px);
                 opacity: 0;
             }
-            20% {
-                opacity: .1;
-            }
-            70% {
-                opacity: .7;
-            }
             100% {
+                transform: translateY(0);
                 opacity: 1;
             }
         }
@@ -401,8 +437,54 @@ export default {
     }
     .left-float-box{
         position: absolute;
-        margin-left: 1200px;
-        bottom: 30vh;
+        margin-left: 1250px;
+        top: 60vh;
+        .right-button{
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin-top: 20px;
+            .show-content{
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                margin: auto;
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+                border-radius: 25px;
+                background-color: rgba(204,204,204,.5);
+                transition: .3s;
+                .iconfont{
+                    color: #131417;
+                    font-size: 32px;
+                    font-weight: bold;
+                }
+                &:hover{
+                    width: 60px;
+                    height: 60px;
+                    line-height: 60px;
+                    border-radius: 30px;
+                    .iconfont{
+                        font-size: 38px;
+                    }
+                }
+                span{
+                    position: absolute;
+                    right: -6px;
+                    top: 0;
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 13px;
+                    background-color: #ff7575;
+                    color: #f2f2f2;
+                    line-height: 26px;
+                    font-size: 14px;
+                }
+            }
+        }
     }
     .button-font{
         margin: 5px 0 60px 0;

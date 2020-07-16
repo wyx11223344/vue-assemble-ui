@@ -1,8 +1,8 @@
 <template>
-    <div class="f-all100 show-main custom-scroll">
+    <div class="f-all100 show-main custom-scroll" ref="showBox">
         <canvas ref="showMainDom"></canvas>
         <show-header></show-header>
-        <router-view class="show-box"/>
+        <router-view class="show-box" :scrollTop="scrollTop" @backtop="backtop"/>
         <show-footer></show-footer>
         <cart-dia>
             <cart-control></cart-control>
@@ -23,17 +23,44 @@ export default {
     components: { CartControl, ShowFooter, ShowHeader, CartDia },
     setup() {
         const showMainDom = ref(null);
+        const showBox = ref(null);
+        const scrollTop = ref(0);
+
+        /** *************************************************************************************************/
+        /** ***************************************背景图绘制***************************************************/
+        /** *************************************************************************************************/
         let backFn;
         onMounted(() => {
             backFn = createBg(showMainDom.value);
+            showBox.value.addEventListener('scroll', () => {
+                scrollTop.value = showBox.value.scrollTop;
+            });
         });
 
         onBeforeUnmount(() => {
             backFn();
         });
 
+        // 回到顶部
+        function backtop() {
+            let timer = null; // 定义一个定时器
+            timer = setInterval(function() {
+                // 获取滚动条的滚动高度
+                var osTop = showBox.value.scrollTop;
+                // 用于设置速度差，产生缓动的效果
+                var speed = Math.floor(-osTop / 12);
+                showBox.value.scrollTop = osTop + speed;
+                if (osTop === 0) {
+                    clearInterval(timer);
+                }
+            }, 16.7);
+        }
+
         return {
-            showMainDom
+            showMainDom,
+            showBox,
+            scrollTop,
+            backtop
         };
     }
 };

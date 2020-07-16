@@ -7,7 +7,10 @@
             <div class="code-list f-all100" v-show="isShow">
                 <header>组件列表 <i class="iconfont icontishi" v-title="'下列文件为当前组件的各个vue文件，index.vue为展示入口（不是组件入口），组件入口为后面有小星星的<br>右键组件即可设置组件入口，如不进行设置默认为第一个添加的组件<br><b>!!!请右键点击文件</b>'"></i></header>
                 <ul class="show-list">
-                    <li class="f-csp" v-for="(item, index) in modelValue" :key="item.name" @contextmenu.prevent="e => openChoose(index, e)" @click="changeShow(index)">{{ item.name }}.vue <i v-if="item.type === 1" class="iconfont iconxingxing"></i></li>
+                    <li class="f-csp" v-for="(item, index) in modelValue" :key="item.name" @contextmenu.prevent="e => openChoose(index, e)" @click="changeShow(index)">
+                        <span v-show="!item.showReName">{{ item.name }}.vue<i v-if="item.type === 1" class="iconfont iconxingxing"></i></span>
+                        <input v-show="item.showReName" v-model="inputValueSet" @blur="item.name = inputValueSet, item.showReName = false" @keyup.enter="item.name = inputValueSet, item.showReName = false" />
+                    </li>
                 </ul>
             </div>
         </transition>
@@ -19,6 +22,7 @@
                 v-clickoutside="() => {showRightBox.show = false}">
                 <ul class="click-list">
                     <li class="f-csp" @click="changeMainComponents()">设定为入口组件</li>
+                    <li class="f-csp" @click="reName()">重命名</li>
                     <li class="f-csp" @click="delectCodes()">删除</li>
                 </ul>
             </section>
@@ -83,6 +87,17 @@ export default {
             }
         }
 
+        const inputValueSet = ref('');
+
+        // 重命名
+        function reName() {
+            const setObj = JSON.parse(JSON.stringify(props.modelValue));
+            setObj[setIndex].showReName = true;
+            emit('update:modelValue', setObj);
+            inputValueSet.value = setObj[setIndex].name;
+            showRightBox.show = false;
+        }
+
         // 删除代码片段
         async function delectCodes() {
             try {
@@ -131,10 +146,12 @@ export default {
         return {
             isShow,
             showRightBox,
+            inputValueSet,
             openChoose,
             changeMainComponents,
             changeShow,
             delectCodes,
+            reName,
             // dom
             diaCloseBack,
             messageDia
@@ -189,10 +206,22 @@ export default {
         }
         .show-list{
             li{
+                position: relative;
+                height: 26px;
                 font-size: 14px;
                 padding: 5px;
                 text-align: left;
                 text-indent: 2em;
+                input{
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    text-indent: 2em;
+                    border: 1px solid;
+                    .mixin-border-color('base-border-color');
+                }
                 &:hover{
                     .mixin-background-color('onlinecode-moveline-bgc');
                 }
