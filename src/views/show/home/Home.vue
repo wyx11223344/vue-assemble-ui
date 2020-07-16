@@ -280,7 +280,7 @@ export default {
     }
     .baseList{
         display: flex;
-        justify-content: space-between;
+        /*justify-content: space-between;*/
         flex-wrap: wrap;
         height: 700px;
         padding: 0 20px;
@@ -298,7 +298,7 @@ export default {
             width: 370px;
             height: 270px;
             padding: 10px;
-            margin-top: 60px;
+            margin: 60px 8px 0 8px;
             border-radius: 10px;
             background-color: #211f36;
             transition: .3s;
@@ -484,6 +484,11 @@ export default {
                     font-size: 14px;
                 }
             }
+        }
+    }
+    @media screen and (max-width: 1425px) {
+        .left-float-box {
+            right: 20px;
         }
     }
     .button-font{

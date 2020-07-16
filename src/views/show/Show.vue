@@ -69,7 +69,7 @@ export default {
 <style scoped lang="less">
 .show-main{
     .show-box{
-        max-width: 1200px;
+        width: 1200px;
         margin: auto;
     }
 }

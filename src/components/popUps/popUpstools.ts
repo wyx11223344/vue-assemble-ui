@@ -74,6 +74,7 @@ export default class PopUpstools {
                 if (diaNum.value === 0) (document.getElementById('app') as Element).classList.remove('show-blur');
             }
         });
+        if (diaNum.value > 0) (document.getElementById('app') as Element).classList.add('show-blur');
     }
 
     /**

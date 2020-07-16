@@ -124,6 +124,10 @@ export default {
 
         // 获取全部npm包数据
         function getAllNpm() {
+            if (cartList.value.length === 0) {
+                messageDia.value.showMessage('error', '至少添加一个组件');
+                return;
+            }
             Npm.getAllNpm().then((response) => {
                 npmObject.list = response;
                 npmObject.showChooseList = true;
