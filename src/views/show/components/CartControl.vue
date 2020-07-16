@@ -152,6 +152,7 @@ export default {
                 const originalList = chooseItem.componentsIds.split(',');
                 const mergeList = [...new Set([...addList, ...originalList])];
                 console.log(mergeList);
+                messageDia.value.showMessage('primary', '组件添加成功');
             } catch (e) {
                 console.log(e);
             }
