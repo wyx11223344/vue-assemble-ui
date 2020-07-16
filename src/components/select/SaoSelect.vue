@@ -12,7 +12,7 @@
             <transition name="slide-left1">
                 <div class="select-box" v-show="isShowBox">
                     <ul @wheel="onScroll">
-                        <li class="f-csp" v-for="(item, index) in options" :style="animateObj.styleList[dealIndex(index)]" :key="item.value" @click="chooseItem(item, index)">{{ item.name }}</li>
+                        <li class="f-csp" v-for="(item, index) in options" :class="{'chosen': item.value === selectObject.value}" :style="animateObj.styleList[dealIndex(index)]" :key="item.value" @click="chooseItem(item, index)">{{ item.name }}</li>
                     </ul>
                 </div>
             </transition>
@@ -218,6 +218,9 @@ export default {
                 &:hover{
                     filter: brightness(120%);
                 }
+            }
+            .chosen{
+                border: 1px solid #ff7575;
             }
         }
     }
