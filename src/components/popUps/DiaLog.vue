@@ -72,7 +72,7 @@ export default {
     height: 100%;
     z-index: 1001;
     overflow-y: auto;
-    .mixin-background-color('base-dialog-bgc');
+    background-color: rgba(0, 0, 0, 0.1);
     .dialog-main{
         position: absolute;
         top: 15vh;
@@ -81,7 +81,7 @@ export default {
         margin: auto auto 100px auto;
         border-radius: 7px;
         overflow-x: hidden;
-        .mixin-background-color('base-backgroud-color');
+        background-color: #fff;
         header{
             height: 48px;
             padding: 0 20px;
@@ -90,8 +90,7 @@ export default {
                 justify-content: space-between;
                 align-items: center;
                 height: 48px;
-                border-bottom: 2px dashed;
-                .mixin-border-color('base-border-color');
+                border-bottom: 2px dashed #f2f2f2;
                 span{
                     display: inline-block;
                     line-height: 48px;

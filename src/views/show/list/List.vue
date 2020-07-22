@@ -341,6 +341,7 @@ export default {
             bottom: 30px;
             right: 0;
             width: 100%;
+            padding: 0 20px;
             text-align: right;
         }
     }

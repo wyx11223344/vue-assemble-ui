@@ -17,6 +17,8 @@ export default {
         // 在页面加载时读取sessionStorage里的状态信息
         if (sessionStorage.getItem('store')) {
             store.replaceState(Object.assign({}, store.state, JSON.parse(sessionStorage.getItem('store'))));
+            store.state.baseCom.diaNum = 0;
+            store.state.cart.cartDiaShow = false;
         }
 
         // 在页面刷新时将vuex里的信息保存到sessionStorage里
