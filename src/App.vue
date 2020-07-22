@@ -45,17 +45,4 @@ export default {
     text-align: center;
     transition: 0.3s;
 }
-body {
-    .mixin-font-color('base-font-color');
-    font-family: "Microsoft YaHei";
-}
-a{
-    .mixin-font-color('base-font-color');
-}
-input{
-    .mixin-font-color('base-font-color');
-}
-select{
-    .mixin-font-color('base-font-color');
-}
 </style>

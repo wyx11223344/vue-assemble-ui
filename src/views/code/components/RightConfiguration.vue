@@ -77,6 +77,9 @@ export default {
             margin-top: 20px;
             margin-bottom: 10px;
         }
+        >input{
+            .mixin-font-color('base-font-color');
+        }
     }
 }
 </style>

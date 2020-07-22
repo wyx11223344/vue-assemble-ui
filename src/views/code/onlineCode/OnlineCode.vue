@@ -361,6 +361,7 @@ export default {
 .editor-main{
     display: flex;
     flex-direction: column;
+    .mixin-font-color('base-font-color');
     .editor-page{
         flex: 1;
         display: flex;
