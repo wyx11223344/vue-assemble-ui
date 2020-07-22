@@ -16,6 +16,9 @@ export default {
         },
         changeCartDiaShow(state: any) {
             state.cartDiaShow = !state.cartDiaShow;
+        },
+        removeAllCartList(state: any) {
+            state.cartList.splice(0);
         }
     }
 };

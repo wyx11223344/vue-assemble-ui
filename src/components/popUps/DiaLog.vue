@@ -3,7 +3,7 @@
         <transition name="slide-center">
             <div class="dia-main" v-show="modelValue" @click="close()">
                 <transition name="slide-scale">
-                    <div class="dialog-main" v-show="modelValue" :style="{'width': width}" @click.stop>
+                    <div class="dialog-main" v-show="modelValue" :style="{'width': width, 'top': top}" @click.stop>
                         <header>
                             <div class="header-main">
                                 <span>{{title}}</span>
@@ -41,6 +41,10 @@ export default {
             type: String,
             default: '50%'
         },
+        top: {
+            type: String,
+            default: null
+        },
         enter: {
             type: Function,
             default: null
@@ -67,14 +71,16 @@ export default {
     width: 100%;
     height: 100%;
     z-index: 1001;
+    overflow-y: auto;
     .mixin-background-color('base-dialog-bgc');
     .dialog-main{
         position: absolute;
         top: 15vh;
         left: 0;
         right: 0;
-        margin: auto;
+        margin: auto auto 100px auto;
         border-radius: 7px;
+        overflow-x: hidden;
         .mixin-background-color('base-backgroud-color');
         header{
             height: 48px;

@@ -23,7 +23,4 @@ export default class Code {
 
 	@AxiosDec.Post('/code/CodeControl/getAllComponents')
 	static getAllComponents: any
-
-	@AxiosDec.Post('/package/npmPackage/createNewNpm')
-	static createNewNpm: any
 }

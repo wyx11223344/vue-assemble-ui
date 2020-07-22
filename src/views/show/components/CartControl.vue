@@ -155,8 +155,14 @@ export default {
                 const addList = cartList.value.map((item) => String(item.id));
                 const originalList = chooseItem.componentsIds.split(',');
                 const mergeList = [...new Set([...addList, ...originalList])];
-                console.log(mergeList);
+                store.commit('removeAllCartList');
+
+                await Npm.setNpm({
+                    id: npmObject.list[npmObject.chooseIndex].id,
+                    componentsId: mergeList.toString()
+                });
                 messageDia.value.showMessage('primary', '组件添加成功');
+                store.commit('changeCartDiaShow');
             } catch (e) {
                 console.log(e);
             }

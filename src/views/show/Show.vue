@@ -2,7 +2,13 @@
     <div class="f-all100 show-main custom-scroll" ref="showBox">
         <canvas ref="showMainDom"></canvas>
         <show-header></show-header>
-        <router-view class="show-box" :scrollTop="scrollTop" @backtop="backtop"/>
+        <div class="show-content">
+            <router-view class="show-box" :scrollTop="scrollTop" @backtop="backtop" v-slot="{ Component }">
+                <transition name="slide-center">
+                    <component :is="Component" />
+                </transition>
+            </router-view>
+        </div>
         <show-footer></show-footer>
         <cart-dia>
             <cart-control></cart-control>
@@ -68,6 +74,10 @@ export default {
 
 <style scoped lang="less">
 .show-main{
+    clear: both;
+    .show-content{
+        position: relative;
+    }
     .show-box{
         width: 1200px;
         margin: auto;

@@ -1,6 +1,6 @@
 <template>
     <div class="f-all100 editor-main">
-        <Header @triggerfn="triggerFn"></Header>
+        <Header :isDia="isDia" @triggerfn="triggerFn"></Header>
         <div class="editor-page">
             <!--组件文件管理部分-->
             <codes-control ref="codeControl" v-model="boxControl.codeList"></codes-control>
@@ -48,23 +48,6 @@
         </dia-back-value>
         <!--消息提示-->
         <message-box ref="messageDia"></message-box>
-        <!--npm测试用-->
-        <dia-back-value width="600px" title="快速构建一个Npm包（测试临时开放）" ref="npmTestDia">
-            <section class="npm-test-box" v-if="npmTestDia">
-                现有的组件：
-                <ul>
-                    <li class="f-csp" v-for="item in npmObj.componentsList.slice(1)" :key="item.name" @click='checkedOne(item.id)'>
-                        <input type='checkbox' :checked="npmObj.checked.indexOf(item.id) >= 0" name='checkboxinput' class='input-checkbox' /> {{ item.name }}
-                    </li>
-                </ul>
-                <mate-input :rules="npmObj.AddRules.name" v-model="npmObj.Addform.name" label="npm包名称"></mate-input>
-                <mate-input :rules="npmObj.AddRules.version" v-model="npmObj.Addform.version" label="请输入版本号"></mate-input>
-                <div class="foot-buttons f-mt15">
-                    <submit-button type="info" @click="npmTestDia.DiaBackApi.close">关闭</submit-button>
-                    <submit-button @click="npmTestDia.DiaBackApi.submit">确定</submit-button>
-                </div>
-            </section>
-        </dia-back-value>
     </div>
 </template>
 
@@ -92,7 +75,17 @@ export default {
         Header,
         Editor
     },
-    setup() {
+    props: {
+        isDia: {
+            type: Boolean,
+            default: false
+        },
+        sendId: {
+            type: Number,
+            default: null
+        }
+    },
+    setup(props, { emit }) {
         const store = useStore();
 
         /** *************************************************************************************************/
@@ -126,7 +119,7 @@ export default {
 
         onMounted(async() => {
             baseHtml.value = (await Code.getTemplate())[0].html;
-            await createCode(router.currentRoute.value.query.id);
+            await createCode(props.isDia ? props.sendId : router.currentRoute.value.query.id);
             setTimeout(() => {
                 buttonClick();
             });
@@ -324,8 +317,12 @@ export default {
 
                     if (response) {
                         messageDia.value.showMessage('primary', '保存组件成功');
-                        router.push(`/Code/index?id=${response}`);
-                        await createCode(response);
+                        if (props.isDia) {
+                            emit('getlist');
+                        } else {
+                            router.push(`/Code/index?id=${response}`);
+                            await createCode(response);
+                        }
                     } else {
                         messageDia.value.showMessage('error', '保存失败，请重试');
                     }
@@ -333,59 +330,8 @@ export default {
                     console.log('%c刚刚关闭新增', `color: pink`);
                 }
             },
-            async createTestNpm() {
-                try {
-                    await npmTestDia.value.diaPromise();
-
-                    const response = Code.createNewNpm({
-                        componentsId: npmObj.checked.join(','),
-                        name: npmObj.Addform.name,
-                        version: npmObj.Addform.version
-                    });
-
-                    if (response) {
-                        messageDia.value.showMessage('primary', '添加后台任务成功，请稍等后登录npm查看包');
-                    } else {
-                        messageDia.value.showMessage('error', '添加失败，请查看参数是否正常，和后台服务是否正常');
-                    }
-                } catch (e) {
-                    console.log(e);
-                }
-            },
             buttonClick
         };
-
-        /** *************************************************************************************************/
-        /** ***************************************npmTest***************************************************/
-        /** *************************************************************************************************/
-        const npmTestDia = ref(null);
-        const npmObj = reactive({
-            componentsList: [],
-            AddRules: {
-                name: { validate: [{ validateName: 'required', trigger: ['input'] }, 'NpmName'], trigger: ['blur'] },
-                version: { validate: ['required'], trigger: ['blur'] }
-            },
-            Addform: {
-                name: '',
-                version: ''
-            },
-            checked: []
-        });
-
-        function checkedOne(fruitId) {
-            const idIndex = npmObj.checked.indexOf(fruitId);
-            if (idIndex >= 0) {
-                // 如果已经包含了该id, 则去除(单选按钮由选中变为非选中状态)
-                npmObj.checked.splice(idIndex, 1);
-            } else {
-                // 选中该checkbox
-                npmObj.checked.push(fruitId);
-            }
-        }
-
-        Code.getAllComponents().then((response) => {
-            npmObj.componentsList = response;
-        });
 
         /** *************************************************************************************************/
         /** ***************************************返回对象***************************************************/
@@ -405,10 +351,7 @@ export default {
             diaBack,
             checkCloseBack,
             messageDia,
-            triggerFn,
-            npmTestDia,
-            npmObj,
-            checkedOne
+            triggerFn
         };
     }
 };

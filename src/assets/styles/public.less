@@ -20,12 +20,15 @@
 }
 .slide-scale-leave-to {
   transform: scale(0.8);
+  opacity: 0;
 }
 .slide-scale-enter-active {
   transform: scale(0.8);
+  opacity: 0;
 }
 .slide-scale-enter-to {
   transform: scale(1);
+  opacity: 1;
 }
 .swing-top-leave-active{
   transition: all .5s;
@@ -36,11 +39,13 @@
 }
 .swing-top-enter-active {
   transition: all .5s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  transform-origin: 100% 0;
   transform: rotateX(-100deg);
   opacity: 0;
 }
 .swing-top-enter-to {
   transform: rotateX(0deg);
+  transform-origin: 100% 0;
   opacity: 1;
 }
 
@@ -120,7 +125,75 @@
   transform: translateY(50px);
   opacity: 0;
 }
-
+/** *************************************************************************************************/
+/** ***************************************日常过度动画***************************************************/
+/** *************************************************************************************************/
+@keyframes home-fade {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.jello-horizontal {
+  animation: jello-horizontal 0.9s both;
+}
+@keyframes jello-horizontal {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+.swing-in-top-fwd {
+  animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) backwards;
+}
+.swing-out-top-bck {
+  animation: swing-out-top-bck 0.45s cubic-bezier(0.600, -0.280, 0.735, 0.045) both;
+}
+@keyframes swing-in-top-fwd {
+  0% {
+    transform: rotateX(-100deg);
+    transform-origin: top;
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    transform-origin: top;
+    opacity: 1;
+  }
+}
+@keyframes swing-out-top-bck {
+  0% {
+    transform: rotateX(0deg);
+    transform-origin: top;
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(-100deg);
+    transform-origin: top;
+    opacity: 0;
+  }
+}
 /** *************************************************************************************************/
 /** ***************************************滚动条***************************************************/
 /** *************************************************************************************************/

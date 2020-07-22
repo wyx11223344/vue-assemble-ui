@@ -21,6 +21,12 @@ import { reactive } from 'vue';
 import router from '@/router/index';
 
 export default {
+    props: {
+        isDia: {
+            type: Boolean,
+            default: false
+        }
+    },
     setup(props, { emit }) {
 
         /** *************************************************************************************************/
@@ -61,12 +67,16 @@ export default {
         //     name: '注册',
         //     method: '',
         //     icon: 'iconjiaru'
-        }, {
-            name: 'Npm仓库',
-            method: 'triggerFn',
-            methodP: 'createTestNpm',
-            icon: 'iconRectangleCopy'
+        // }, {
+        //     name: 'Npm仓库',
+        //     method: 'triggerFn',
+        //     methodP: 'createTestNpm',
+        //     icon: 'iconRectangleCopy'
         }];
+
+        if (props.isDia) {
+            buttonList.splice(0, 1);
+        }
 
         // 按钮需要相应数据
         const buttonReactive = reactive({

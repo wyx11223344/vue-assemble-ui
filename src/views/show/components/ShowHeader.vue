@@ -3,7 +3,7 @@
         <section class="left">
             <img src="../../../assets/images/head-logo.png" />
             <ul>
-                <li v-for="(item, index) in leftButtonObj.buttonList" :key="item.name" :class="{'choose': leftButtonObj.chooseIndex === index}" @click="item.method(index)">{{ item.name }}</li>
+                <li v-for="(item, index) in leftButtonObj.buttonList" :key="item.name" :class="{'choose': leftButtonObj.chooseIndex === index}" @click="leftButtonObj.chooseIndex = index, item.method(index)">{{ item.name }}</li>
             </ul>
         </section>
         <section class="right">
@@ -34,27 +34,30 @@ export default {
         const cartList = computed(() => store.state.cart.cartList);
 
         const leftButtonObj = reactive({
-            chooseIndex: 0,
+            chooseIndex: computed(() => leftButtonObj.buttonList.findIndex((item) => item.url === router.currentRoute.value.path)),
             buttonList: [{
                 name: '首页',
+                url: '/Show/index',
                 method() {
                     router.push(`/Show/index`);
                 }
             }, {
                 name: '新组件',
-                method(index) {
-                    leftButtonObj.chooseIndex = index;
+                url: '/Code/index',
+                method() {
                     router.push(`/Code/index`);
                 }
             }, {
                 name: '组件管理',
+                url: '/Show/index',
                 method() {
                     console.log(123);
                 }
             }, {
-                name: 'npm包管理',
+                name: '组件库',
+                url: '/Show/list',
                 method() {
-                    console.log(123);
+                    router.push(`/Show/list`);
                 }
             }]
         });

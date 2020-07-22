@@ -13,6 +13,10 @@ const Show: RouteRecordRaw = {
         path: 'index',
         name: 'Home',
         component: () => import('../views/show/home/Home.vue')
+    }, {
+        path: 'list',
+        name: 'List',
+        component: () => import('../views/show/list/List.vue')
     }]
 };
 

@@ -2,8 +2,8 @@
     <div class="home-box">
         <section class="top-content">
             <p>个人制作的小网站，欢迎你的使用~</p>
-            <span class="f-csp" :style="{opacity: selectObj.inputText.length > 0 ? 1 : 0}"><i class="iconfont iconidea_icon"></i>点我进行搜索{{ selectObj.inputText }}组件</span>
-            <input class="top-select" v-model="selectObj.inputText" type="text" placeholder="快开始搜索你喜欢的组件吧！"/>
+            <span class="f-csp" :style="{opacity: selectObj.inputText.length > 0 ? 1 : 0}" @click="gotoSearch({name:selectObj.inputText})"><i class="iconfont iconidea_icon"></i>点我进行搜索{{ selectObj.inputText }}组件</span>
+            <input class="top-select" v-model="selectObj.inputText" @keyup.enter="gotoSearch({name:selectObj.inputText})" type="text" placeholder="快开始搜索你喜欢的组件吧！"/>
             <div class="show-logo"></div>
         </section>
         <main class="baseList" v-clickoutside="() => {showObj.list.forEach((item, index) => item.showBig === true && showBigHtml(index) )}">
@@ -34,9 +34,9 @@
                 </div>
             </div>
         </main>
-        <p class="button-font">什么！没有你喜欢的组件，<a href="">点我进入组件库</a>搜索！</p>
+        <p class="button-font">什么！没有你喜欢的组件，<a href="javascript:" @click="gotoSearch">点我进入组件库</a>搜索！</p>
         <div class="left-float-box">
-            <sao-select :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="getComponentsByClassify"></sao-select>
+            <sao-select :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="getAllComponentsWithHtml"></sao-select>
             <transition name="slide-top">
                 <div class="right-button" v-show="scrollTop > 55">
                     <span class="show-content f-csp" @click="openCartDia">
@@ -88,25 +88,18 @@ export default {
         });
 
         // 获取基础数据
-        function getComponentsByClassify(classify) {
-            let dueFn = '';
-            if (classify) {
-                dueFn = 'getComponentsByClassifyWithHtml';
-            } else {
-                dueFn = 'getAllComponentsWithHtml';
-            }
-            Show[dueFn]({
-                classify: classify
+        function getAllComponentsWithHtml(classify) {
+            Show.getAllComponentsWithHtml({
+                classify: classify,
+                pageSize: 6
             }).then((response) => {
                 showObj.showClose = true;
                 setTimeout(() => {
-                    showObj.list = response;
+                    showObj.list = response.list;
                     showObj.showClose = false;
                 }, 1200);
             });
         }
-
-        getComponentsByClassify();
 
         function showBigHtml(index) {
             const changeDom = document.getElementsByClassName('code-open-iframe')[index];
@@ -176,6 +169,11 @@ export default {
             emit('backtop');
         }
 
+        function gotoSearch(params) {
+            emit('backtop');
+            router.push({ path: '/Show/list', query: params });
+        }
+
         return {
             selectObj,
             showObj,
@@ -184,9 +182,10 @@ export default {
             showBigHtml,
             changeRouter,
             addCart,
-            getComponentsByClassify,
+            getAllComponentsWithHtml,
             openCartDia,
-            backToTop
+            backToTop,
+            gotoSearch
         };
     }
 };
@@ -265,16 +264,6 @@ export default {
             }
             &:hover{
                 border-color: #6974b3;
-            }
-        }
-        @keyframes home-fade {
-            0% {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
             }
         }
     }
@@ -428,15 +417,9 @@ export default {
                 }
             }
         }
-        .swing-in-top-fwd {
-            animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) backwards;
-        }
-        .swing-out-top-bck {
-            animation: swing-out-top-bck 0.45s cubic-bezier(0.600, -0.280, 0.735, 0.045) both;
-        }
     }
     .left-float-box{
-        position: absolute;
+        position: fixed;
         margin-left: 1250px;
         top: 60vh;
         .right-button{
@@ -499,56 +482,6 @@ export default {
         a{
             color: #ff7575;
         }
-    }
-}
-.jello-horizontal {
-    animation: jello-horizontal 0.9s both;
-}
-@keyframes jello-horizontal {
-    0% {
-        transform: scale3d(1, 1, 1);
-    }
-    30% {
-        transform: scale3d(1.25, 0.75, 1);
-    }
-    40% {
-        transform: scale3d(0.75, 1.25, 1);
-    }
-    50% {
-        transform: scale3d(1.15, 0.85, 1);
-    }
-    65% {
-        transform: scale3d(0.95, 1.05, 1);
-    }
-    75% {
-        transform: scale3d(1.05, 0.95, 1);
-    }
-    100% {
-        transform: scale3d(1, 1, 1);
-    }
-}
-@keyframes swing-in-top-fwd {
-    0% {
-        transform: rotateX(-100deg);
-        transform-origin: top;
-        opacity: 0;
-    }
-    100% {
-        transform: rotateX(0deg);
-        transform-origin: top;
-        opacity: 1;
-    }
-}
-@keyframes swing-out-top-bck {
-    0% {
-        transform: rotateX(0deg);
-        transform-origin: top;
-        opacity: 1;
-    }
-    100% {
-        transform: rotateX(-100deg);
-        transform-origin: top;
-        opacity: 0;
     }
 }
 </style>

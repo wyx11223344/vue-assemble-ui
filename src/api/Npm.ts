@@ -10,4 +10,7 @@ export default class Npm {
     @AxiosDec.Post('/package/npmPackage/getAllNpm')
     static getAllNpm: any
 
+    @AxiosDec.Post('/package/npmPackage/setNpm')
+    static setNpm: any
+
 }
