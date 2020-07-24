@@ -5,6 +5,7 @@ import { watchEffect } from 'vue';
 interface SelectObj extends BindingObj{
     name?: string;
     index?: number;
+    firstCheck?: boolean;
 }
 
 interface SelectOptions {
@@ -45,6 +46,10 @@ export default class SelectTools extends ValidaDue {
             props.options?.forEach((item: SelectOptions, index: number) => {
                 if (item.value === props.modelValue) {
                     this.changeSelect(item, index);
+                    if (!this.selectObject.firstCheck) {
+                        this.selectObject.firstCheck = true;
+                        return;
+                    }
                     emit('change', item.value);
                     return;
                 }

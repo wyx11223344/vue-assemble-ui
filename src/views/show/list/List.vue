@@ -9,6 +9,12 @@
             <header>{{searchName ? `"${searchName}"` : ''}} <span class="num">{{ showObj.total }}</span> <span class="symbol">Components</span></header>
             <section>
                 <base-select class="type-choose" :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="getAllComponentsWithHtml"></base-select>
+                <div class="find-box">
+                    <label>
+                        <input v-model="searchName" />
+                    </label>
+                    <i class="iconfont iconsousuo"></i>
+                </div>
             </section>
             <main>
                 <div class="each-code-box" :class="{'swing-out-top-bck': showObj.showClose, 'swing-in-top-fwd': !showObj.showClose}" v-for="(item, index) in showObj.list" :key="index">
@@ -59,7 +65,7 @@
 </template>
 
 <script>
-import { reactive, computed, ref } from 'vue';
+import { reactive, computed, ref, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import router from '@/router/index';
 import Show from '../../../api/Show';
@@ -86,7 +92,19 @@ export default {
         /** *************************************************************************************************/
         /** ***************************************显示判断***************************************************/
         /** *************************************************************************************************/
-        const searchName = computed(() => router.currentRoute.value.query.name);
+        let timeout = null;
+        const searchName = ref(router.currentRoute.value.query.name);
+
+        watch(searchName, () => {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+            timeout = setTimeout(() => {
+                timeout = null;
+                router.push({ path: '/Show/list', query: { name: searchName.value }});
+                getAllComponentsWithHtml();
+            }, 500);
+        });
 
         /** *************************************************************************************************/
         /** ***************************************列表功能***************************************************/
@@ -111,7 +129,6 @@ export default {
 
         // 弹窗管理代码（重要！）
         function showDiaEditor(item) {
-            console.log(diaEditorRef);
             diaEditorRef.value.openDia(item.id);
         }
 
@@ -122,7 +139,8 @@ export default {
             list: [],
             page: 1,
             pageSize: 12,
-            total: 0
+            total: 0,
+            showClose: null
         });
 
         // 获取基础数据
@@ -141,6 +159,8 @@ export default {
                 }, 1200);
             });
         }
+
+        onMounted(getAllComponentsWithHtml);
 
         /** *************************************************************************************************/
         /** ***************************************搜索控制***************************************************/
@@ -215,11 +235,40 @@ export default {
     >section{
         display: flex;
         align-items: center;
+        justify-content: space-between;
         padding: 0 20px;
         height: 80px;
         animation: home-fade .6s cubic-bezier(.7,.3,.1,1) 0.1s backwards;
         .type-choose{
 
+        }
+        .find-box{
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: red;
+            overflow: hidden;
+            transition: .3s;
+            .iconfont{
+                position: absolute;
+                right: 12px;
+                color: white;
+                font-size: 24px;
+                line-height: 50px;
+                cursor: pointer;
+            }
+            &:hover{
+                width: 200px;
+            }
+            input{
+                position: absolute;
+                right: 50px;
+                top: 5px;
+                width: 130px;
+                height: 40px;
+                color: white;
+            }
         }
     }
     main{

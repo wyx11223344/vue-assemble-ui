@@ -8,8 +8,8 @@
         </section>
         <section class="right">
             <ul>
-                <!--<li><input /></li>-->
-                <li @click="openCartDia">
+                <li @click="newComponent" v-title="'创建新的组件'"><i class="iconfont iconxinjian"></i></li>
+                <li @click="openCartDia" v-title="'购物车管理'">
                     <i class="iconfont icongouwuche"></i>
                     <span>{{cartList.length}}</span>
                 </li>
@@ -41,23 +41,23 @@ export default {
                 method() {
                     router.push(`/Show/index`);
                 }
-            }, {
-                name: '新组件',
-                url: '/Code/index',
-                method() {
-                    router.push(`/Code/index`);
-                }
-            }, {
-                name: '组件管理',
-                url: '/Show/index',
-                method() {
-                    console.log(123);
-                }
+            // }, {
+            //     name: '新组件',
+            //     url: '/Code/index',
+            //     method() {
+            //         router.push(`/Code/index`);
+            //     }
             }, {
                 name: '组件库',
                 url: '/Show/list',
                 method() {
                     router.push(`/Show/list`);
+                }
+            }, {
+                name: 'npm管理',
+                url: '/Show/npm',
+                method() {
+                    router.push(`/Show/npm`);
                 }
             }]
         });
@@ -66,10 +66,16 @@ export default {
             store.commit('changeCartDiaShow');
         }
 
+        function newComponent() {
+            const openUrl = router.resolve({ path: `/Code/index` });
+            window.open(openUrl.href, '_blank');
+        }
+
         return {
             leftButtonObj,
             cartList,
-            openCartDia
+            openCartDia,
+            newComponent
         };
     }
 };

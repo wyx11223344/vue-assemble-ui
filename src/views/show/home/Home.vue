@@ -101,6 +101,8 @@ export default {
             });
         }
 
+        getAllComponentsWithHtml();
+
         function showBigHtml(index) {
             const changeDom = document.getElementsByClassName('code-open-iframe')[index];
             if (showObj.list[index].showBig) {

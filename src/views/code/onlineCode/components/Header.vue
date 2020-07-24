@@ -92,6 +92,7 @@ export default {
                 emit('triggerfn', name);
             },
             goToHome() {
+                if (props.isDia) return;
                 router.push(`/Show/index`);
             }
         };

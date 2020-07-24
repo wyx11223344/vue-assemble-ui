@@ -13,4 +13,10 @@ export default class Npm {
     @AxiosDec.Post('/package/npmPackage/setNpm')
     static setNpm: any
 
+    @AxiosDec.Post('/package/npmPackage/delectNpmById')
+    static delectNpmById: any
+
+    @AxiosDec.Post('/package/npmPackage/addNpmPublish')
+    static addNpmPublish: any
+
 }

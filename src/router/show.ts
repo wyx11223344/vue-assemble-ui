@@ -17,6 +17,10 @@ const Show: RouteRecordRaw = {
         path: 'list',
         name: 'List',
         component: () => import('../views/show/list/List.vue')
+    }, {
+        path: 'npm',
+        name: 'Npm',
+        component: () => import('../views/show/npm/Npm.vue')
     }]
 };
 
