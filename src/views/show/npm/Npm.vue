@@ -196,12 +196,16 @@ export default {
             try {
                 await addPublishNpmRef.value.diaPromise();
 
-                await Npm.addNpmPublish({
+                const response = await Npm.addNpmPublish({
                     id: npmObject.list[npmObject.chooseIndex].id,
                     version: npmObj.Addform.version
                 });
 
-                messageDia.value.showMessage('primary', 'npm包已在发布中，请稍后查看');
+                if (response.codes === 200) {
+                    messageDia.value.showMessage('primary', 'npm包已在发布中，请稍后查看');
+                } else {
+                    messageDia.value.showMessage('error', '发布失败，请检查发布版本信息是否大于当前');
+                }
             } catch (e) {
                 console.log(e);
             }
