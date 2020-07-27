@@ -396,8 +396,12 @@ export default {
                     position: absolute;
                     left: 20px;
                     top: 20px;
-                    font-size: 18px;
+                    font-size: 14px;
                     font-weight: bold;
+                    padding: 6px 10px;
+                    border-radius: 5px;
+                    color: #fff;
+                    background-color: #5a5f73;
                 }
             }
             .show-message{
