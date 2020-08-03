@@ -8,7 +8,7 @@
         <div class="list-box">
             <header>{{searchName ? `"${searchName}"` : ''}} <span class="num">{{ showObj.total }}</span> <span class="symbol">Components</span></header>
             <section>
-                <base-select class="type-choose" :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="getAllComponentsWithHtml"></base-select>
+                <base-select class="type-choose" :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="showObj.page = 1, getAllComponentsWithHtml"></base-select>
                 <div class="find-box">
                     <label>
                         <input v-model="searchName" />
@@ -101,6 +101,7 @@ export default {
             }
             timeout = setTimeout(() => {
                 timeout = null;
+                showObj.page = 1;
                 router.push({ path: '/Show/list', query: { name: searchName.value }});
                 getAllComponentsWithHtml();
             }, 500);

@@ -133,6 +133,7 @@ export default {
     transform-origin: top;
     transition-duration:  0.5s;
     transition-property: opacity,background-color;
+    .mixin-font-color('base-font-color');
     .mixin-background-color('theme-change-dia-bgc');
 }
 .choose-main{

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <slot></slot>
         <label class="switch-box green f-csp" :class="{'checked': modelValue}" @click="changeValue">
             <input @click.stop type="checkbox" class="check-box"/>
         </label>

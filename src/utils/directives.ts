@@ -8,6 +8,7 @@ interface MyEl extends HTMLElement{
     _vueTitleIn_?: Function;
     _vueTitleOut_?: Function;
     _vueTitleMove_?: Function;
+    boxDom?: Element;
 }
 
 export default class Directives {
@@ -80,15 +81,13 @@ export default class Directives {
         }
     }
 
-    private static boxDom: HTMLElement
-
     static title = {
         beforeMount: (el: MyEl, binding: any) => {
             let timeOut: number;
 
             const boxDom: HTMLElement = document.createElement('section');
-            Directives.boxDom = boxDom;
-            Directives.boxDom.innerHTML = binding.value;
+            el.boxDom = boxDom;
+            el.boxDom.innerHTML = binding.value;
             boxDom.setAttribute('class', 'v-title-content');
 
             // 鼠标进入事件
@@ -122,7 +121,7 @@ export default class Directives {
             el.addEventListener('mouseenter', mouseIn);
         },
         updated: function(el: MyEl, binding: any) {
-            Directives.boxDom.innerHTML = binding.value;
+            el.boxDom && (el.boxDom.innerHTML = binding.value);
         },
         unbind: function(el: any) {
             el.removeEventListener('mouseenter', el._vueTitleIn_);

@@ -27,7 +27,7 @@ export default {
     cursor: pointer;
     transition: 0.3s;
     &:hover{
-        filter: brightness(120%);
+        filter: brightness(110%);
     }
 }
 .primary {

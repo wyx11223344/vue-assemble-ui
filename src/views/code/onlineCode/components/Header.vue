@@ -1,8 +1,8 @@
 <template>
-    <div class="header-main" :style="{'height': buttonReactive.showMore ? '100px' : '50px'}">
+    <div class="header-main f-oh" :style="{'height': buttonReactive.showMore ? '100px' : '50px'}">
         <div class="top-show">
             <section class="left-logo f-csp" @click="buttonFuns.goToHome()">
-                <img src="../../../../assets/images/head-logo.png" />
+                <img src="../../../../assets/images/head-logo.png"  alt=""/>
             </section>
             <section class="right-button">
                 <div class="each-button f-csp" v-for="item in buttonList" :key="item.name" @click="buttonFuns[item.method](item.methodP)">
@@ -13,14 +13,28 @@
                 </div>
             </section>
         </div>
+        <div class="header-more-config">
+            <base-switch class="switch-center" v-model="expandObj.viCode">
+                <span>开启可视化编辑</span>
+            </base-switch>
+            <section>
+                <jelly-button @click="controlThreePack">管理三方包</jelly-button>
+                <jelly-button>添加代码模板</jelly-button>
+            </section>
+        </div>
+        <three-pack-control ref="ThreePackControl"></three-pack-control>
     </div>
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import router from '@/router/index';
+import JellyButton from '@/components/button/jellyButton';
+import BaseSwitch from '@/components/switch/BaseSwitch';
+import ThreePackControl from '@/views/code/onlineCode/components/ThreePackControl';
 
 export default {
+    components: { ThreePackControl, BaseSwitch, JellyButton },
     props: {
         isDia: {
             type: Boolean,
@@ -97,10 +111,27 @@ export default {
             }
         };
 
+        /** *************************************************************************************************/
+        /** ***************************************拓展功能***************************************************/
+        /** *************************************************************************************************/
+        const ThreePackControl = ref(null);
+        const expandObj = reactive({
+            viCode: false
+        });
+
+        // 控制三方包
+        function controlThreePack() {
+            ThreePackControl.value.changeShow();
+            console.log(123);
+        }
+
         return {
             buttonList,
             buttonFuns,
-            buttonReactive
+            buttonReactive,
+            expandObj,
+            ThreePackControl,
+            controlThreePack
         };
     }
 };
@@ -161,6 +192,27 @@ export default {
                 .change-tans{
                     transform: rotate(180deg);
                 }
+            }
+        }
+    }
+    .header-more-config{
+		display: flex;
+        justify-content: space-between;
+        padding: 0 20px;
+		height: 50px;
+        line-height: 50px;
+        button{
+            height: 34px;
+            margin-top: 6px;
+        }
+        .switch-center{
+            display: flex;
+            align-items: center;
+            span{
+                font-size: 14px;
+                padding-right: 5px;
+                font-weight: bold;
+                .mixin-font-color('onlinecode-head-color');
             }
         }
     }

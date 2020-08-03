@@ -80,6 +80,12 @@ export default {
             emit('change');
         });
 
+        watch(props, () => {
+            if (getPage.value !== props.pageNum) {
+                getPage.value = props.pageNum;
+            }
+        });
+
         return {
             page,
             indexs,

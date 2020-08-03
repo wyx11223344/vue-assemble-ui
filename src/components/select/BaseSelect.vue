@@ -78,6 +78,7 @@ export default {
         border-radius: 20px;
         display: inline-block;
         vertical-align: middle;
+        text-align: center;
         .iconfont{
             display: inline-block;
             font-size: 14px;
