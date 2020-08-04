@@ -1,6 +1,6 @@
 <template>
     <div class="f-all100 editor-main">
-        <Header :isDia="isDia" @triggerfn="triggerFn"></Header>
+        <Header :isDia="isDia" @triggerfn="triggerFn" v-model="editorObj.component.threePacks"></Header>
         <div class="editor-page">
             <!--组件文件管理部分-->
             <codes-control ref="codeControl" v-model="boxControl.codeList"></codes-control>
@@ -64,6 +64,7 @@ import DiaBackValue from '../../../components/popUps/DiaBackValue';
 import SubmitButton from '../../../components/button/submitButton';
 import CodesControl from './components/CodesControl';
 import MessageBox from '../../../components/popUps/MessageBox';
+import Show from '@/api/Show';
 
 export default {
     components: {
@@ -170,7 +171,14 @@ export default {
         // 编辑器操作对象
         const editorObj = reactive({
             sendHtml: '',
-            id: ''
+            id: '',
+            component: {}
+        });
+
+        Show.getComponentsByIds({
+            ids: props.isDia ? props.sendId : router.currentRoute.value.query.id
+        }).then((response) => {
+            editorObj.component = response[0];
         });
 
         // 提交代码运行
@@ -178,7 +186,10 @@ export default {
             const sendId = RandomWord.getSign();
             await Code.setHtml({
                 findId: sendId,
-                sendHtml: JSON.stringify(boxControl.codeList)
+                sendHtml: JSON.stringify({
+                    codes: boxControl.codeList,
+                    threePacks: editorObj.component.threePacks
+                })
             });
             editorObj.id = sendId;
         }
@@ -312,7 +323,8 @@ export default {
                     const response = await Code.saveTemplate({
                         id: nowComponentsId.value,
                         name: nowComponentsId.value ? undefined : HeadData.Addform.name,
-                        sendHtml: JSON.stringify(boxControl.codeList)
+                        sendHtml: JSON.stringify(boxControl.codeList),
+                        threePacks: editorObj.component.threePacks
                     });
 
                     if (response) {

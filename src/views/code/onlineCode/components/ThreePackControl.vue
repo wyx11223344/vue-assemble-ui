@@ -3,13 +3,15 @@
         <dia-log v-model="DiaShow" title="管理三方包" width="600px">
             <section class="dia-box-main" @click.stop>
                 <section>
-                    <label>新增三方包</label>
-                    <div class="add-new-pack">
-                        <mate-input v-model="baseObj.text" label="npm包名称"></mate-input>
-                        <mate-input v-model="baseObj.text" label="在线地址"></mate-input>
-                        <mate-input v-model="baseObj.text" label="注册代码"></mate-input>
-                        <jelly-button>新增</jelly-button>
-                    </div>
+                    <label class="f-csp" @click="isShowAdd = !isShowAdd">新增三方包(点我展开)<i :class="{'icon-open': isShowAdd}" class="iconfont iconyoujiantou"></i></label>
+                    <transition name="swing-top">
+                        <div class="add-new-pack" v-show="isShowAdd">
+                            <mate-input v-model="baseObj.text" label="npm包名称"></mate-input>
+                            <mate-input v-model="baseObj.text" label="在线地址"></mate-input>
+                            <mate-input v-model="baseObj.text" label="注册代码"></mate-input>
+                            <jelly-button>新增</jelly-button>
+                        </div>
+                    </transition>
                 </section>
                 <section>
                     <label>选择已有三方包添加</label>
@@ -17,11 +19,16 @@
                         <section>
                             <i class="iconfont iconsousuo"></i>
                             <input v-model="baseObj.searchInput" placeholder="请输入名称搜索三方包" />
-                            <div class="search-list f-csp">
-                                <ul>
-                                    <li v-for="(item, index) in 5" :key="index" @click="changeChoose">vueCountUp</li>
-                                </ul>
-                            </div>
+                            <transition name="slide-bottom">
+                                <div class="search-list f-csp" v-show="baseObj.searchInput">
+                                    <ul>
+                                        <li v-for="item in baseObj.searchList.filter((each) => baseObj.nowPacks.findIndex((chosen) => chosen.id === each.id) === -1)" :key="item.id" @click="changeChoose(item)">{{ item.name }}</li>
+                                    </ul>
+                                    <ul v-show="baseObj.searchList.filter((each) => baseObj.nowPacks.findIndex((chosen) => chosen.id === each.id) === -1).length === 0">
+                                        <li class="no-data">没有搜索到组件哦，请尝试手动添加</li>
+                                    </ul>
+                                </div>
+                            </transition>
                         </section>
                     </div>
                 </section>
@@ -29,11 +36,12 @@
                     <label>正在使用的包</label>
                     <div class="using-pack">
                         <ul>
-                            <li class="f-csp" v-for="(item, index) in 5" :key="index">
-                                vueCountUp
-                                <i class="close close-i"></i>
+                            <li class="f-csp" v-for="(item, index) in baseObj.nowPacks" :key="item.id">
+                                {{ item.name }}
+                                <i class="close close-i" @click="baseObj.nowPacks.splice(index, 1)"></i>
                             </li>
                         </ul>
+                        <span v-show="baseObj.nowPacks.length === 0">啊，一个三方包都没有</span>
                     </div>
                 </section>
             </section>
@@ -43,34 +51,76 @@
 
 <script>
 import DiaLog from '@/components/popUps/DiaLog';
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import MateInput from '@/components/input/MateInput';
 import JellyButton from '@/components/button/jellyButton';
+import ThreePacksApi from '@/api/threePacks';
 
 export default {
     name: 'ThreePackControl',
     components: { JellyButton, MateInput, DiaLog },
-    setup() {
-        const DiaShow = ref(false);
-        const baseObj = reactive({
-            searchInput: '',
-            nowPacks: [{
-                name: 'vueCount',
-                value: 1
-            }],
-            choosePack: ''
+    props: {
+        threePacks: {
+            type: String,
+            default: null
+        }
+    },
+    setup(props) {
+
+        /** *************************************************************************************************/
+        /** ***************************************初始化控制***************************************************/
+        /** *************************************************************************************************/
+        watch(props, () => {
+            if (baseObj.nowPacks.length === 0) {
+                ThreePacksApi.getPacksByIds({
+                    ids: props.threePacks
+                }).then((response) => {
+                    baseObj.nowPacks = response;
+                });
+            }
         });
 
+        /** *************************************************************************************************/
+        /** ***************************************搜索控制***************************************************/
+        /** *************************************************************************************************/
+        const searchName = ref('');
+        const baseObj = reactive({
+            searchInput: searchName,
+            searchList: [],
+            nowPacks: []
+        });
+
+        let timeout;
+        watch(searchName, () => {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+            timeout = setTimeout(() => {
+                timeout = null;
+                ThreePacksApi.getPacks({
+                    name: searchName.value
+                }).then((response) => {
+                    baseObj.searchList = response;
+                });
+            }, 500);
+        });
+
+        function changeChoose(item) {
+            baseObj.nowPacks.push(item);
+        }
+
+        /** *************************************************************************************************/
+        /** ***************************************显示控制***************************************************/
+        /** *************************************************************************************************/
+        const DiaShow = ref(false);
+        const isShowAdd = ref(false);
         function changeShow() {
             DiaShow.value = !DiaShow.value;
         }
 
-        function changeChoose() {
-            console.log(baseObj.choosePack);
-        }
-
         return {
             DiaShow,
+            isShowAdd,
             baseObj,
             changeShow,
             changeChoose
@@ -94,6 +144,7 @@ export default {
         >label{
             display: flex;
             align-items: center;
+			justify-content: space-between;
             flex-shrink: 0;
             width: 100%;
             border-bottom: 1px solid #f2f2f2;
@@ -102,7 +153,19 @@ export default {
             font-weight: bold;
             font-size: 18px;
             font-family: 仿宋;
+			padding: 0 20px;
+			.iconfont{
+				display: inline-block;
+				transform: rotate(-90deg);
+				transition: .3s;
+			}
+			.icon-open{
+				transform: rotate(90deg);
+			}
         }
+		>div{
+			padding: 6px 15px;
+		}
         .add-new-pack{
             display: flex;
             flex-direction: column;
@@ -133,6 +196,7 @@ export default {
                     left: 0;
                     top: 36px;
                     width: 100%;
+					padding: 20px 0;
                     border-radius: 0 0 5px 5px;
                     background-color: #fff;
                     border: 1px solid #f2f2f2;
@@ -147,6 +211,12 @@ export default {
                             background-color: #f6f6f6;
                         }
                     }
+					.no-data{
+						cursor: not-allowed;
+						&:hover{
+							background-color: #fff;
+						}
+					}
                 }
             }
         }

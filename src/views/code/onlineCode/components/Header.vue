@@ -13,32 +13,36 @@
                 </div>
             </section>
         </div>
-        <div class="header-more-config">
-            <base-switch class="switch-center" v-model="expandObj.viCode">
-                <span>开启可视化编辑</span>
-            </base-switch>
-            <section>
-                <jelly-button @click="controlThreePack">管理三方包</jelly-button>
-                <jelly-button>添加代码模板</jelly-button>
-            </section>
-        </div>
-        <three-pack-control ref="ThreePackControl"></three-pack-control>
+        <!--        <div class="header-more-config">-->
+        <!--            <base-switch class="switch-center" v-model="expandObj.viCode">-->
+        <!--                <span>开启可视化编辑</span>-->
+        <!--            </base-switch>-->
+        <!--            <section>-->
+        <!--                <jelly-button @click="controlThreePack">管理三方包</jelly-button>-->
+        <!--                <jelly-button>添加代码模板</jelly-button>-->
+        <!--            </section>-->
+        <!--        </div>-->
+        <!--        <three-pack-control ref="ThreePackControl" :threePacks="modelValue"></three-pack-control>-->
     </div>
 </template>
 
 <script>
 import { reactive, ref } from 'vue';
 import router from '@/router/index';
-import JellyButton from '@/components/button/jellyButton';
-import BaseSwitch from '@/components/switch/BaseSwitch';
-import ThreePackControl from '@/views/code/onlineCode/components/ThreePackControl';
+// import JellyButton from '@/components/button/jellyButton';
+// import BaseSwitch from '@/components/switch/BaseSwitch';
+// import ThreePackControl from '@/views/code/onlineCode/components/ThreePackControl';
 
 export default {
-    components: { ThreePackControl, BaseSwitch, JellyButton },
+    // components: { ThreePackControl, BaseSwitch, JellyButton },
     props: {
         isDia: {
             type: Boolean,
             default: false
+        },
+        modelValue: {
+            type: String,
+            default: null
         }
     },
     setup(props, { emit }) {
@@ -122,7 +126,6 @@ export default {
         // 控制三方包
         function controlThreePack() {
             ThreePackControl.value.changeShow();
-            console.log(123);
         }
 
         return {

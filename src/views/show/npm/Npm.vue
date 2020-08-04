@@ -77,7 +77,7 @@
         <dia-editor ref="diaEditorRef" @getlist="getNpmAllComponents"></dia-editor>
         <message-box ref="messageDia"></message-box>
         <!--发布npm包-->
-        <dia-back-value width="400px" title="请输入组件信息" ref="addPublishNpmRef">
+        <dia-back-value width="400px" title="发布npm包" ref="addPublishNpmRef">
             <section v-if="addPublishNpmRef">
                 <mate-input :rules="npmObj.AddRules.version" v-model="npmObj.Addform.version" label="发布版本"></mate-input>
                 <div class="foot-buttons f-mt15">
@@ -87,7 +87,7 @@
             </section>
         </dia-back-value>
         <!--新增npm包-->
-        <dia-back-value width="400px" title="请输入组件信息" ref="createNewNpmRef">
+        <dia-back-value width="400px" title="新增npm包" ref="createNewNpmRef">
             <section v-if="createNewNpmRef">
                 <mate-input :rules="npmObj.AddRules.name" v-model="npmObj.Addform.name" label="npm包名称"></mate-input>
                 <div class="foot-buttons f-mt15">

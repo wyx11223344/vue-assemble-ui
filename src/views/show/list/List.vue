@@ -8,7 +8,7 @@
         <div class="list-box">
             <header>{{searchName ? `"${searchName}"` : ''}} <span class="num">{{ showObj.total }}</span> <span class="symbol">Components</span></header>
             <section>
-                <base-select class="type-choose" :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="showObj.page = 1, getAllComponentsWithHtml"></base-select>
+                <base-select class="type-choose" :options="selectObj.classifyList" v-model="selectObj.chooseClassify" @change="() => {if ( showObj.page === 1 ) {getAllComponentsWithHtml()} else {showObj.page = 1}}"></base-select>
                 <div class="find-box">
                     <label>
                         <input v-model="searchName" />
