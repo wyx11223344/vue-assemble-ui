@@ -228,9 +228,8 @@
   position: relative;
   text-align: center;
   color: white;
-  border: 1px solid;
-  .mixin-border-color('base-out-buttonborder-color');
-  .mixin-bgibutton-color('base-out-button', 'base-backgroud-color');
+  border: 1px solid #cdcdcd;
+  background-image: radial-gradient(#fd5d5d 45%, #fff);
   &:after, &:before {
     position: absolute;
     content: "";
@@ -239,7 +238,7 @@
     transform: translate(-50%,-50%) rotate(45deg);
     transition: 0.3s;
     opacity: 0;
-    .mixin-background-color('base-out-button-color');
+    background-color: #fff;
   }
   &:before {
     width: 50%;

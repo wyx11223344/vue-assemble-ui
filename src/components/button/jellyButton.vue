@@ -31,12 +31,12 @@ export default {
     }
 }
 .primary {
-    .mixin-font-color('base-backgroud-color');
-    .mixin-background-color('base-symbol-color');
+    color: #fff;
+	background-color: #1890ff;
 }
 .info {
-    .mixin-font-color('base-backgroud-color');
-    .mixin-background-color('base-button-info-color');
+    color: #fff;
+	background-color: #b4b4b4;;
 }
 .btn-jelly {
     &:hover {

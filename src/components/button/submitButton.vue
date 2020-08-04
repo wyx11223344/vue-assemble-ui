@@ -46,31 +46,31 @@ export default {
     }
 }
 .primary {
-    .mixin-background-color('base-backgroud-color');
+	background-color: #fff;
     &:hover{
         .show-button{
-            .mixin-font-color('base-backgroud-color');
+			color: #fff;
         }
     }
     .show-button{
-        .mixin-font-color('base-symbol-color');
+        color: #1890ff;
     }
     .hover-submit-button{
-        .mixin-background-color('base-symbol-color');
+		background-color: #1890ff;
     }
 }
 .info {
-    .mixin-background-color('base-backgroud-color');
+	background-color: #fff;
     &:hover{
         .show-button{
-            .mixin-font-color('base-backgroud-color');
+            color: #fff;
         }
     }
     .show-button{
-        .mixin-font-color('base-button-info-color');
+        color: #b4b4b4;
     }
     .hover-submit-button{
-        .mixin-background-color('base-button-info-color');
+		background-color: #b4b4b4;
     }
 }
 </style>

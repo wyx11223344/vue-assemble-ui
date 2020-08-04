@@ -51,8 +51,7 @@ export default {
 .mate-box{
     position: relative;
     margin: 1rem;
-    border-bottom: 2px solid;
-    .mixin-border-color('base-border-color');
+    border-bottom: 2px solid #f2f2f2;
     &:before{
         position: absolute;
         content: "";
@@ -63,7 +62,7 @@ export default {
         transform: scaleX(0);
         transform-origin: left;
         transition: .3s;
-        .mixin-background-color('base-symbol-color');
+		background-color: #1890ff;
     }
     &:focus-within:before{
         transform: scaleX(1);
@@ -78,7 +77,7 @@ export default {
         transform: scaleX(0);
         transform-origin: left;
         transition: .3s;
-        .mixin-background-color('base-out-button');
+		background-color: #fd5d5d;
     }
     .mate-input{
         width: 100%;
@@ -105,7 +104,7 @@ export default {
         bottom: -1rem;
         width: 100%;
         font-size: 12px;
-        .mixin-font-color('base-out-button');
+        color: #fd5d5d;
     }
 }
 .mate-box-error{
