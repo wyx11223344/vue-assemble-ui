@@ -13,4 +13,7 @@ export default class ThreePacksApi {
 	@AxiosDec.Post('/packs/threePacks/getPacksByIds')
 	static getPacksByIds: any
 
+	@AxiosDec.Post('/packs/threePacks/savePacks')
+	static savePacks: any
+
 }

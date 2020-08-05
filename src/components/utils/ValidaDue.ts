@@ -44,7 +44,7 @@ export default class ValidaDue {
 
         this.ValidaObject.validation = ValidaDue.validation(this.ValidaObject);
 
-        if (this.ValidaObject.validation) this.ValidaObject.resetStatus = ValidaDue.resetStatus(this.ValidaObject);
+        this.ValidaObject.resetStatus = ValidaDue.resetStatus(this.ValidaObject);
 
         onMounted(() => {
             if (this.ValidaObject.validation) ValidaDue.registerTrigger(dom.value, this.ValidaObject);

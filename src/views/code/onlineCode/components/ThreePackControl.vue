@@ -1,15 +1,17 @@
 <template>
     <section>
-        <dia-log v-model="DiaShow" title="管理三方包" width="600px">
+        <dia-log v-model="DiaShow" title="管理三方包" width="600px" @close="reDealForm">
             <section class="dia-box-main" @click.stop>
                 <section>
                     <label class="f-csp" @click="isShowAdd = !isShowAdd">新增三方包(点我展开)<i :class="{'icon-open': isShowAdd}" class="iconfont iconyoujiantou"></i></label>
                     <transition name="swing-top">
                         <div class="add-new-pack" v-show="isShowAdd">
-                            <mate-input v-model="baseObj.text" label="npm包名称"></mate-input>
-                            <mate-input v-model="baseObj.text" label="在线地址"></mate-input>
-                            <mate-input v-model="baseObj.text" label="注册代码"></mate-input>
-                            <jelly-button>新增</jelly-button>
+                            <new-type-form ref="typeForm">
+                                <mate-input v-model="newPackObj.Addform.name" :rules="newPackObj.AddRules.name" label="npm包名称"></mate-input>
+                                <mate-input v-model="newPackObj.Addform.url" :rules="newPackObj.AddRules.url" label="cdn引入标签"></mate-input>
+                                <mate-input v-model="newPackObj.Addform.code" label="注册代码"></mate-input>
+                            </new-type-form>
+                            <jelly-button @click="addNewPack">新增</jelly-button>
                         </div>
                     </transition>
                 </section>
@@ -46,6 +48,8 @@
                 </section>
             </section>
         </dia-log>
+        <!--消息提示-->
+        <message-box ref="messageDia"></message-box>
     </section>
 </template>
 
@@ -55,30 +59,79 @@ import { ref, reactive, watch } from 'vue';
 import MateInput from '@/components/input/MateInput';
 import JellyButton from '@/components/button/jellyButton';
 import ThreePacksApi from '@/api/threePacks';
+import NewTypeForm from '@/components/form/newTypeForm';
+import MessageBox from '@/components/popUps/MessageBox';
 
 export default {
     name: 'ThreePackControl',
-    components: { JellyButton, MateInput, DiaLog },
+    components: { MessageBox, NewTypeForm, JellyButton, MateInput, DiaLog },
     props: {
         threePacks: {
             type: String,
             default: null
         }
     },
-    setup(props) {
+    setup(props, { emit }) {
+
+        const messageDia = ref(null);
 
         /** *************************************************************************************************/
         /** ***************************************初始化控制***************************************************/
         /** *************************************************************************************************/
+        let checkPropsChange = false;
         watch(props, () => {
-            if (baseObj.nowPacks.length === 0) {
+            if (baseObj.nowPacks.reduce((all, item) => all ? `${all},${item.id}` : `${item.id}`, '') !== props.threePacks) {
                 ThreePacksApi.getPacksByIds({
                     ids: props.threePacks
                 }).then((response) => {
-                    baseObj.nowPacks = response;
+                    baseObj.nowPacks.splice(0);
+                    baseObj.nowPacks.push(...response);
+                    checkPropsChange = true;
                 });
             }
         });
+
+        /** *************************************************************************************************/
+        /** ***************************************新增三方***************************************************/
+        /** *************************************************************************************************/
+        const typeForm = ref(null);
+        const newPackObj = reactive({
+            Addform: {
+                name: '',
+                url: '',
+                code: ''
+            },
+            AddRules: {
+                name: { validate: ['required'], trigger: ['blur'] },
+                url: { validate: ['required'], trigger: ['blur'] }
+            }
+        });
+
+        async function addNewPack() {
+            const backList = await typeForm.value.TypeFormApi.validate();
+            if (backList.length > 0) {
+                messageDia.value.showMessage('error', '请检查填写信息有误');
+                return;
+            }
+
+            const response = await ThreePacksApi.savePacks({
+                id: '',
+                name: newPackObj.Addform.name,
+                version: '',
+                url: newPackObj.Addform.url,
+                code: newPackObj.Addform.code
+            });
+
+            if (response) {
+                messageDia.value.showMessage('primary', '第三方包保存成功');
+            } else {
+                messageDia.value.showMessage('error', '第三方包失败，请重试');
+            }
+        }
+
+        function reDealForm() {
+            typeForm.value.TypeFormApi.resetForm();
+        }
 
         /** *************************************************************************************************/
         /** ***************************************搜索控制***************************************************/
@@ -97,6 +150,7 @@ export default {
             }
             timeout = setTimeout(() => {
                 timeout = null;
+                if (!searchName.value) return;
                 ThreePacksApi.getPacks({
                     name: searchName.value
                 }).then((response) => {
@@ -109,6 +163,14 @@ export default {
             baseObj.nowPacks.push(item);
         }
 
+        watch(baseObj.nowPacks, () => {
+            if (checkPropsChange) {
+                checkPropsChange = !checkPropsChange;
+                return;
+            }
+            emit('valuechange', baseObj.nowPacks.reduce((all, item) => all ? `${all},${item.id}` : `${item.id}`, ''));
+        });
+
         /** *************************************************************************************************/
         /** ***************************************显示控制***************************************************/
         /** *************************************************************************************************/
@@ -119,8 +181,13 @@ export default {
         }
 
         return {
+            messageDia,
             DiaShow,
             isShowAdd,
+            newPackObj,
+            typeForm,
+            reDealForm,
+            addNewPack,
             baseObj,
             changeShow,
             changeChoose

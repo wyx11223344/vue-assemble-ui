@@ -129,7 +129,7 @@ export default class ValidateDec {
             function resetThat() {
                 that.value = setValue;
                 that.check = true;
-                that.validation.checkList.forEach((item: Validated) => {
+                that.validation && that.validation.checkList.forEach((item: Validated) => {
                     item.check = true;
                 });
             }

@@ -13,28 +13,31 @@
                 </div>
             </section>
         </div>
-        <!--        <div class="header-more-config">-->
-        <!--            <base-switch class="switch-center" v-model="expandObj.viCode">-->
-        <!--                <span>开启可视化编辑</span>-->
-        <!--            </base-switch>-->
-        <!--            <section>-->
-        <!--                <jelly-button @click="controlThreePack">管理三方包</jelly-button>-->
-        <!--                <jelly-button>添加代码模板</jelly-button>-->
-        <!--            </section>-->
-        <!--        </div>-->
-        <!--        <three-pack-control ref="ThreePackControl" :threePacks="modelValue"></three-pack-control>-->
+        <div class="header-more-config">
+            <!--            <base-switch class="switch-center" v-model="expandObj.viCode">-->
+            <!--                <span>开启可视化编辑</span>-->
+            <!--            </base-switch>-->
+            <section>
+
+            </section>
+            <section>
+                <jelly-button @click="controlThreePack">管理三方包</jelly-button>
+                <!--                <jelly-button>添加代码模板</jelly-button>-->
+            </section>
+        </div>
+        <three-pack-control ref="ThreePackControl" :threePacks="modelValue" @valuechange="threeChangeCallback"></three-pack-control>
     </div>
 </template>
 
 <script>
 import { reactive, ref } from 'vue';
 import router from '@/router/index';
-// import JellyButton from '@/components/button/jellyButton';
+import JellyButton from '@/components/button/jellyButton';
 // import BaseSwitch from '@/components/switch/BaseSwitch';
-// import ThreePackControl from '@/views/code/onlineCode/components/ThreePackControl';
+import ThreePackControl from '@/views/code/onlineCode/components/ThreePackControl';
 
 export default {
-    // components: { ThreePackControl, BaseSwitch, JellyButton },
+    components: { ThreePackControl, JellyButton },
     props: {
         isDia: {
             type: Boolean,
@@ -128,13 +131,19 @@ export default {
             ThreePackControl.value.changeShow();
         }
 
+        function threeChangeCallback(value) {
+            emit('update:modelValue', value);
+            emit('threepackschange');
+        }
+
         return {
             buttonList,
             buttonFuns,
             buttonReactive,
             expandObj,
             ThreePackControl,
-            controlThreePack
+            controlThreePack,
+            threeChangeCallback
         };
     }
 };
