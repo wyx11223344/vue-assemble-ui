@@ -11,7 +11,10 @@
                     <i class="f-csp rt f-mr20 close-i" @click="removeEditor(index)"></i>
                 </header>
                 <div class="f-all100">
-                    <editor class="f-all100 each-editor" :font-size="FONT_SIZE" :value="item.html ? item.html : baseHtml" @changehtml="html => hotGet(item, html)" :theme="CHOOSE_EDITOR_THEME"></editor>
+                    <section class="f-all100 each-editor">
+                        <editor class="f-all100" :font-size="FONT_SIZE" :value="item.html ? item.html : baseHtml" @changehtml="html => hotGet(item, html)" :theme="CHOOSE_EDITOR_THEME"></editor>
+                        <visualization :show-code="item" @changecode="html => hotGet(item, html)"></visualization>
+                    </section>
                     <section class="move-box" @mousedown="e => moveBegin(e, index)" @mouseup="moveOver">
                         <div class="f-all100 move-line">
                             <svg class="icon" aria-hidden="true">
@@ -65,9 +68,12 @@ import SubmitButton from '../../../components/button/submitButton';
 import CodesControl from './components/CodesControl';
 import MessageBox from '../../../components/popUps/MessageBox';
 import Show from '@/api/Show';
+import Template from '@/api/template';
+import Visualization from '@/views/code/onlineCode/components/Visualization';
 
 export default {
     components: {
+        Visualization,
         MessageBox,
         CodesControl,
         SubmitButton,
@@ -119,7 +125,7 @@ export default {
         const nowComponentsId = ref(null);
 
         onMounted(async() => {
-            baseHtml.value = (await Code.getTemplate())[0].html;
+            baseHtml.value = (await Template.getTemplateById({ ids: 1 }))[0].html;
             await createCode(props.isDia ? props.sendId : router.currentRoute.value.query.id);
             setTimeout(() => {
                 buttonClick();
