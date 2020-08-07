@@ -5,7 +5,7 @@
             <!--组件文件管理部分-->
             <codes-control ref="codeControl" v-model="boxControl.codeList"></codes-control>
             <!--编辑器部分-->
-            <section class="code-section" v-for="(item, index) in boxControl.codeList.filter(code => code.disclose)" :key="index" :style="{'width': `${boxControl.codeWidth[index]}%`}">
+            <section class="code-section" v-for="(item, index) in boxControl.codeList.filter(code => code.disclose)" :key="item.name" :style="{'width': `${boxControl.codeWidth[index]}%`}">
                 <header :style="{'height': boxControl.codeList.filter(code => code.disclose).length > 0 ? '24px' : '0'}">
                     {{ item.name }}
                     <i class="f-csp rt f-mr20 close-i" @click="removeEditor(index)"></i>
