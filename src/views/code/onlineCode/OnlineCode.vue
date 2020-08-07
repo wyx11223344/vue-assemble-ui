@@ -1,6 +1,6 @@
 <template>
     <div class="f-all100 editor-main">
-        <Header :isDia="isDia" @triggerfn="triggerFn" v-model="editorObj.component.threePacks" @threepackschange="buttonClick"></Header>
+        <Header :isDia="isDia" @triggerfn="triggerFn" v-model="editorObj.component.threePacks" @threepackschange="buttonClick" @addtemplate="addtemplate"></Header>
         <div class="editor-page">
             <!--组件文件管理部分-->
             <codes-control ref="codeControl" v-model="boxControl.codeList"></codes-control>
@@ -119,7 +119,7 @@ export default {
         }
 
         /** *************************************************************************************************/
-        /** ***************************************初始模板***************************************************/
+        /** ***************************************模板管理***************************************************/
         /** *************************************************************************************************/
         const baseHtml = ref('');
         const nowComponentsId = ref(null);
@@ -148,6 +148,16 @@ export default {
 
                 nowComponentsId.value = id;
             }
+        }
+
+        async function addtemplate(id) {
+            const templateObj = (await Template.getTemplateById({ ids: id }))[0];
+
+            boxControl.codeList.push({
+                name: templateObj.name,
+                disclose: true,
+                html: templateObj.html
+            });
         }
 
         /** *************************************************************************************************/
@@ -366,6 +376,7 @@ export default {
             codeControl,
             moveBegin,
             moveOver,
+            addtemplate,
             buttonClick,
             removeEditor,
             HeadData,

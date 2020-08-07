@@ -15,6 +15,7 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
+    name: 'CartDia',
     setup(props, { emit }) {
         const store = useStore();
 

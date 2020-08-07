@@ -10,4 +10,7 @@ export default class Template {
 	@AxiosDec.Post('/template/templateControl/getTemplateById')
 	static getTemplateById: any
 
+	@AxiosDec.Post('/template/templateControl/getTemplateName')
+	static getTemplateName: any
+
 }

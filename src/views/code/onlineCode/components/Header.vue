@@ -14,29 +14,27 @@
             </section>
         </div>
         <div class="header-more-config">
-            <!--            <base-switch class="switch-center" v-model="expandObj.viCode">-->
-            <!--                <span>开启可视化编辑</span>-->
-            <!--            </base-switch>-->
             <section>
 
             </section>
             <section>
                 <button @click="controlThreePack">管理三方包</button>
-                <button>添加代码模板</button>
+                <button @click="addCodeTemplate">添加代码模板</button>
             </section>
         </div>
         <three-pack-control ref="ThreePackControl" :threePacks="modelValue" @valuechange="threeChangeCallback"></three-pack-control>
+        <code-template ref="CodeTemplate"></code-template>
     </div>
 </template>
 
 <script>
 import { reactive, ref } from 'vue';
 import router from '@/router/index';
-// import BaseSwitch from '@/components/switch/BaseSwitch';
 import ThreePackControl from '@/views/code/onlineCode/components/ThreePackControl';
+import CodeTemplate from '@/views/code/onlineCode/components/CodeTemplate';
 
 export default {
-    components: { ThreePackControl },
+    components: { CodeTemplate, ThreePackControl },
     props: {
         isDia: {
             type: Boolean,
@@ -121,13 +119,23 @@ export default {
         /** ***************************************拓展功能***************************************************/
         /** *************************************************************************************************/
         const ThreePackControl = ref(null);
+        const CodeTemplate = ref(null);
         const expandObj = reactive({
             viCode: false
         });
 
         // 控制三方包
-        function controlThreePack() {
+        async function controlThreePack() {
             ThreePackControl.value.changeShow();
+        }
+
+        async function addCodeTemplate() {
+            try {
+                const templateId = await CodeTemplate.value.openCodeTemplate();
+                emit('addtemplate', templateId);
+            } catch (e) {
+                console.log('关闭了弹窗');
+            }
         }
 
         function threeChangeCallback(value) {
@@ -140,8 +148,10 @@ export default {
             buttonFuns,
             buttonReactive,
             expandObj,
+            CodeTemplate,
             ThreePackControl,
             controlThreePack,
+            addCodeTemplate,
             threeChangeCallback
         };
     }
