@@ -12,6 +12,11 @@ export class ValidateRule {
         const reg = /^[a-z]*$/g;
         return reg.test(value);
     }
+
+    static Number(value: any): boolean {
+        const reg = /^[0-9]*$/;
+        return reg.test(value);
+    }
 }
 
 export class DefaultMsg {
@@ -25,6 +30,10 @@ export class DefaultMsg {
     }
     static NpmName = {
         false: 'npm发布包名称只能使用小写英文字母',
+        true: 'OK!'
+    }
+    static Number = {
+        false: '请填写数字',
         true: 'OK!'
     }
 }

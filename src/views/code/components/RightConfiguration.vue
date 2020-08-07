@@ -8,8 +8,9 @@
             <dia-select-e-theme></dia-select-e-theme>
             <span>请选择页面主题：</span>
             <dia-select-theme></dia-select-theme>
-            <span>编辑器字号：</span>
-            <input v-model="FONT_SIZE" />
+            <!-- <span>编辑器字号：</span> -->
+            <!-- <input v-model="FONT_SIZE" /> -->
+            <num-input></num-input>
             <span>是否开启热更新：</span>
             <base-switch v-model="HOT_HTML"></base-switch>
         </main>
@@ -22,10 +23,11 @@ import { computed } from 'vue';
 import diaSelectETheme from '../../../components/editorThemeControl/diaSelectETheme';
 import DiaSelectTheme from '../../../components/themeControl/diaSelectTheme';
 import BaseSwitch from '../../../components/switch/BaseSwitch';
+import numInput from '../../../components/input/NumInput';
 
 export default {
     name: 'RightConfiguration',
-    components: { BaseSwitch, DiaSelectTheme, diaSelectETheme },
+    components: { BaseSwitch, DiaSelectTheme, diaSelectETheme, numInput },
     setup() {
 
         /** *************************************************************************************************/
