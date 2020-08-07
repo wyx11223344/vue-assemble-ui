@@ -3,6 +3,7 @@
  * @date 2020/5/26
  * @Description: 全局指令(类型判断全是any，vue类型不完整)
 */
+
 interface MyEl extends HTMLElement{
     _vueClickOutside_?: Function;
     _vueTitleIn_?: Function;
@@ -110,8 +111,10 @@ export default class Directives {
 
             // 鼠标移动事件
             function mouseMove(e: MouseEvent) {
+                const bodyHeight: number = (document.getElementById('app') as HTMLElement).clientHeight;
+                const getHeight: number = boxDom.clientHeight > 41 ? boxDom.clientHeight : 41;
                 boxDom.style.left = `${e.clientX + 10}px`;
-                boxDom.style.top = `${e.clientY + 10}px`;
+                boxDom.style.top = `${(e.clientY + 8) > bodyHeight - getHeight - 2 ? bodyHeight - getHeight - 2 : e.clientY + 8}px`;
             }
 
             el._vueTitleIn_ = mouseIn;

@@ -109,6 +109,7 @@ export default {
 
         async function addNewPack() {
             const backList = await typeForm.value.TypeFormApi.validate();
+
             if (backList.length > 0) {
                 messageDia.value.showMessage('error', '请检查填写信息有误');
                 return;

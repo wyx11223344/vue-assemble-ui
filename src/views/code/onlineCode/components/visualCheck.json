@@ -1,0 +1,26 @@
+{
+  "paddingTB": {
+    "label": "上下边距"
+  },
+  "paddingLR": {
+    "label": "左右边距"
+  },
+  "borderW": {
+    "label": "边框宽度"
+  },
+  "borderS": {
+    "label": "边框样式"
+  },
+  "borderC": {
+    "label": "边框颜色"
+  },
+  "borderR": {
+    "label": "边框弧度"
+  },
+  "colorC": {
+    "label": "字体颜色"
+  },
+  "backGC": {
+    "label": "背景颜色"
+  }
+}

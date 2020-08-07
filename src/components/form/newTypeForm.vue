@@ -34,7 +34,7 @@ export default {
             async validate() {
                 const backList = [];
                 for (let i = 0; i < form.length; i++) {
-                    await form[i].validation && form[i].validation('', true);
+                    form[i].validation && await form[i].validation('', true);
                     if (!form[i].check) backList.push(form[i]);
                 }
                 return backList;

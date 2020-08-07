@@ -21,8 +21,8 @@
 
             </section>
             <section>
-                <jelly-button @click="controlThreePack">管理三方包</jelly-button>
-                <!--                <jelly-button>添加代码模板</jelly-button>-->
+                <button @click="controlThreePack">管理三方包</button>
+                <button>添加代码模板</button>
             </section>
         </div>
         <three-pack-control ref="ThreePackControl" :threePacks="modelValue" @valuechange="threeChangeCallback"></three-pack-control>
@@ -32,12 +32,11 @@
 <script>
 import { reactive, ref } from 'vue';
 import router from '@/router/index';
-import JellyButton from '@/components/button/jellyButton';
 // import BaseSwitch from '@/components/switch/BaseSwitch';
 import ThreePackControl from '@/views/code/onlineCode/components/ThreePackControl';
 
 export default {
-    components: { ThreePackControl, JellyButton },
+    components: { ThreePackControl },
     props: {
         isDia: {
             type: Boolean,
@@ -215,7 +214,17 @@ export default {
         line-height: 50px;
         button{
             height: 34px;
-            margin-top: 6px;
+            padding: 5px 12px;
+			border-radius: 5px;
+			cursor: pointer;
+			outline: none;
+			margin-right: 5px;
+			transition: .3s;
+			.mixin-background-color('base-symbol-color');
+			.mixin-font-color('base-backgroud-color');
+			&:hover{
+				filter: brightness(110%);
+			}
         }
         .switch-center{
             display: flex;
