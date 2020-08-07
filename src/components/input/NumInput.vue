@@ -1,12 +1,12 @@
 <template>
     <div class="f-num-with-add-sub">
-        <span class="f-num-icon f-num-sub" @click="sub">
+        <span class="f-num-icon f-num-sub" @click="sub()">
             -
         </span>
-        <div>
-            <mate-input :rules="NumInput.AddRules.name" modelValue="FONT_SIZE" label="请输入字号"></mate-input>
+        <div class="input">
+            <input :rules="NumInput.AddRules.name" v-model="FONT_SIZE" label="请输入字号" />
         </div>
-        <span class="f-num-icon f-num-add" @click="add">
+        <span class="f-num-icon f-num-add" @click="sub(true)">
             +
         </span>
     </div>
@@ -15,13 +15,9 @@
 <script>
 import { useStore } from 'vuex';
 import { computed, reactive } from 'vue';
-import MateInput from '../input/MateInput';
 export default {
     name: 'NumInput',
-    components: {
-        MateInput
-    },
-    setUp() {
+    setup() {
         const store = useStore();
 
         const NumInput = reactive({
@@ -33,8 +29,6 @@ export default {
             }
         });
 
-        console.log(NumInput);
-
         const FONT_SIZE = computed({
             get: () => store.state.themes.FONT_SIZE,
             set: (value) => {
@@ -42,18 +36,13 @@ export default {
             }
         });
 
-        function add() {
-            console.log('+1');
-        }
-
-        function sub() {
-            console.log('-1');
+        function sub(bool) {
+            bool ? FONT_SIZE.value++ : FONT_SIZE.value--;
         }
 
         return {
             FONT_SIZE,
             NumInput,
-            add,
             sub
         };
     }
@@ -65,11 +54,21 @@ export default {
     position: relative;
     display: inline-block;
     width: 200px;
-    line-height: 38px;
+    line-height: 24px;
+    // margin-bottom:20px;
+    border: 1px solid #cdcdcd;
+    padding:5px 0;
+    border-radius: 5px;
+    .input input{
+        box-sizing: border-box;
+        text-align: center;
+        padding: 0 45px;
+        width:100%;
+    }
     .f-num-icon{
         position: absolute;
         z-index: 1;
-        top: 19px;
+        top: 0;
         width: 40px;
         height: auto;
         text-align: center;
@@ -77,24 +76,18 @@ export default {
         color: #606266;
         cursor: pointer;
         font-size: 20px;
-        border-radius: 0 4px 4px 0;
-        border-left: 1px solid #dcdfe6;
+        height: 100%;
+        line-height:32px;
     }
-    .f-num-with-sub{
+    .f-num-sub{
         left: 1px;
+        border-right: 1px solid #cdcdcd;
+        border-radius: 5px 0 0 5px;
     }
     .f-num-add{
         right: 1px;
-    }
-    /deep/ .mate-box {
-        .mate-input{
-            box-sizing: border-box;
-            text-align: center;
-        }
-        label {
-            top: 4px;
-            left: 34px;
-        }
+        border-left: 1px solid #cdcdcd;
+        border-radius: 0 5px 5px 0;
     }
 }
 </style>

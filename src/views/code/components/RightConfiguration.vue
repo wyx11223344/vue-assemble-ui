@@ -8,7 +8,7 @@
             <dia-select-e-theme></dia-select-e-theme>
             <span>请选择页面主题：</span>
             <dia-select-theme></dia-select-theme>
-            <!-- <span>编辑器字号：</span> -->
+            <span>编辑器字号：</span>
             <!-- <input v-model="FONT_SIZE" /> -->
             <num-input></num-input>
             <span>是否开启热更新：</span>
@@ -45,16 +45,16 @@ export default {
         /** *************************************************************************************************/
         /** ***************************************字号调整***************************************************/
         /** *************************************************************************************************/
-        const FONT_SIZE = computed({
-            get: () => store.state.themes.FONT_SIZE,
-            set: (value) => {
-                store.commit('CHANGE_FONT_SIZE', Number(value));
-            }
-        });
+        // const FONT_SIZE = computed({
+        //     get: () => store.state.themes.FONT_SIZE,
+        //     set: (value) => {
+        //         store.commit('CHANGE_FONT_SIZE', Number(value));
+        //     }
+        // });
 
         return {
-            HOT_HTML,
-            FONT_SIZE
+            HOT_HTML
+            // FONT_SIZE
         };
     }
 };
