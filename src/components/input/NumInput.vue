@@ -1,10 +1,12 @@
 <template>
-    <div class="f-num-with-add-sub">
+    <div class="f-num-with-add-sub" :class="{'num-box-error': !inputObject.check}">
         <span class="f-num-icon f-num-sub" @click="sub()">
             -
         </span>
         <div class="input">
-            <input :rules="NumInput.AddRules.name" v-model="FONT_SIZE" label="请输入字号" />
+            <!-- <input :rules="NumInput.AddRules.name" v-model="FONT_SIZE" label="请输入字号" /> -->
+            <input ref="input" class="mate-input" :type="type" placeholder=" " v-model="inputObject.value" @change="handlerChange"/>
+            <span class="error-message f-otw" v-title="inputObject.errorMsg" v-show="!inputObject.check">{{ inputObject.errorMsg }}</span>
         </div>
         <span class="f-num-icon f-num-add" @click="sub(true)">
             +
@@ -13,36 +15,46 @@
 </template>
 
 <script>
-import { useStore } from 'vuex';
-import { computed, reactive } from 'vue';
+import { ref } from 'vue';
+import InputTools from './inputTools';
 export default {
     name: 'NumInput',
-    setup() {
-        const store = useStore();
+    props: {
+        type: {
+            type: String,
+            default: 'text'
+        },
+        rules: {
+            type: Object,
+            default: null
+        },
+        modelValue: {
+            type: [String, Number],
+            default: ''
+        }
+    },
+    setup(props, { emit }) {
+        const input = ref(null);
 
-        const NumInput = reactive({
-            Addform: { name: '' },
-            // AddRules: { name: { validate: [{ validateName: 'required', trigger: ['input'] }, 'Number'], trigger: ['blur'] }}
-            AddRules: {
-                name: { validate: [{ validateName: 'required', trigger: ['input'] }, 'Number'], trigger: ['blur'] },
-                version: { validate: ['required'], trigger: ['blur'] }
-            }
-        });
+        /** *************************************************************************************************/
+        /** ***************************************对象绑定***************************************************/
+        /** *************************************************************************************************/
+        const { inputObject } = new InputTools(props, emit, input);
 
-        const FONT_SIZE = computed({
-            get: () => store.state.themes.FONT_SIZE,
-            set: (value) => {
-                store.commit('CHANGE_FONT_SIZE', Number(value));
-            }
-        });
-
-        function sub(bool) {
-            bool ? FONT_SIZE.value++ : FONT_SIZE.value--;
+        function handlerChange() {
+            emit('change');
         }
 
+        function sub(bool) {
+            bool ? inputObject.value++ : inputObject.value--;
+            // 点击加减滑块时 需要触发一下失焦事件
+            input.value.focus();
+            input.value.blur();
+        }
         return {
-            FONT_SIZE,
-            NumInput,
+            inputObject,
+            input,
+            handlerChange,
             sub
         };
     }
@@ -64,6 +76,14 @@ export default {
         text-align: center;
         padding: 0 45px;
         width:100%;
+    }
+    .error-message{
+        position: absolute;
+        left: 0;
+        bottom: -1.2rem;
+        width: 100%;
+        font-size: 12px;
+        color: #fd5d5d;
     }
     .f-num-icon{
         position: absolute;
@@ -89,5 +109,8 @@ export default {
         border-left: 1px solid #cdcdcd;
         border-radius: 0 5px 5px 0;
     }
+}
+.num-box-error {
+    border: 1px solid #fd5d5d;
 }
 </style>

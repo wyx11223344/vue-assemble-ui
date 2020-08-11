@@ -13,8 +13,9 @@ export class ValidateRule {
         return reg.test(value);
     }
 
-    static Number(value: any): boolean {
-        const reg = /^[0-9]*$/;
+    static FontSizeNumber(value: any): boolean {
+        // const reg = /^[0-9]*$/;
+        const reg = /^(1[2-9]|2\d|30)$/;
         return reg.test(value);
     }
 }
@@ -32,8 +33,8 @@ export class DefaultMsg {
         false: 'npm发布包名称只能使用小写英文字母',
         true: 'OK!'
     }
-    static Number = {
-        false: '请填写数字',
+    static FontSizeNumber = {
+        false: '请填写12-30之间的数字',
         true: 'OK!'
     }
 }

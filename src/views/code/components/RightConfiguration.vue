@@ -10,7 +10,7 @@
             <dia-select-theme></dia-select-theme>
             <span>编辑器字号：</span>
             <!-- <input v-model="FONT_SIZE" /> -->
-            <num-input></num-input>
+            <num-input :rules="NumInput.AddRules.name" v-model="FONT_SIZE"></num-input>
             <span>是否开启热更新：</span>
             <base-switch v-model="HOT_HTML"></base-switch>
         </main>
@@ -19,7 +19,7 @@
 
 <script>
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, reactive } from 'vue';
 import diaSelectETheme from '../../../components/editorThemeControl/diaSelectETheme';
 import DiaSelectTheme from '../../../components/themeControl/diaSelectTheme';
 import BaseSwitch from '../../../components/switch/BaseSwitch';
@@ -42,19 +42,27 @@ export default {
             }
         });
 
+        const NumInput = reactive({
+            AddRules: {
+                name: { validate: [{ validateName: 'required', trigger: ['input'] }, 'FontSizeNumber'], trigger: ['blur', 'change'] },
+                version: { validate: ['required'], trigger: ['blur'] }
+            }
+        });
+
         /** *************************************************************************************************/
         /** ***************************************字号调整***************************************************/
         /** *************************************************************************************************/
-        // const FONT_SIZE = computed({
-        //     get: () => store.state.themes.FONT_SIZE,
-        //     set: (value) => {
-        //         store.commit('CHANGE_FONT_SIZE', Number(value));
-        //     }
-        // });
+        const FONT_SIZE = computed({
+            get: () => store.state.themes.FONT_SIZE,
+            set: (value) => {
+                store.commit('CHANGE_FONT_SIZE', Number(value));
+            }
+        });
 
         return {
-            HOT_HTML
-            // FONT_SIZE
+            HOT_HTML,
+            FONT_SIZE,
+            NumInput
         };
     }
 };
