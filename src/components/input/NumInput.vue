@@ -42,7 +42,10 @@ export default {
         const { inputObject } = new InputTools(props, emit, input);
 
         function handlerChange() {
-            emit('change', inputObject.value);
+            // 只有数字介于12到30之间才会触发改值得操作
+            if (inputObject.value > 11 && inputObject.value < 31) {
+                emit('change', inputObject.value);
+            }
         }
 
         function sub(bool) {
