@@ -42,11 +42,12 @@ export default {
         const { inputObject } = new InputTools(props, emit, input);
 
         function handlerChange() {
-            emit('change');
+            emit('change', inputObject.value);
         }
 
         function sub(bool) {
             bool ? inputObject.value++ : inputObject.value--;
+            handlerChange();
             // 点击加减滑块时 需要触发一下失焦事件
             input.value.focus();
             input.value.blur();

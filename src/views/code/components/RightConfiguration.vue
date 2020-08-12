@@ -10,7 +10,7 @@
             <dia-select-theme></dia-select-theme>
             <span>编辑器字号：</span>
             <!-- <input v-model="FONT_SIZE" /> -->
-            <num-input :rules="NumInput.AddRules.name" v-model="FONT_SIZE"></num-input>
+            <num-input :rules="NumInput.AddRules.name" v-model="FONT_SIZE"  @change="handleChange"></num-input>
             <span>是否开启热更新：</span>
             <base-switch v-model="HOT_HTML"></base-switch>
         </main>
@@ -49,6 +49,10 @@ export default {
             }
         });
 
+        function handleChange(value) {
+            FONT_SIZE.value = value;
+        }
+
         /** *************************************************************************************************/
         /** ***************************************字号调整***************************************************/
         /** *************************************************************************************************/
@@ -62,7 +66,8 @@ export default {
         return {
             HOT_HTML,
             FONT_SIZE,
-            NumInput
+            NumInput,
+            handleChange
         };
     }
 };
