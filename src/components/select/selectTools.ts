@@ -1,6 +1,6 @@
 import { BindingObj } from '@/types/validation';
 import ValidaDue, { RefDom, ValidaPorops } from '@/components/utils/ValidaDue';
-import { watchEffect } from 'vue';
+import { watch } from 'vue';
 
 interface SelectObj extends BindingObj{
     name?: string;
@@ -42,7 +42,7 @@ export default class SelectTools extends ValidaDue {
      * @returns {void}
      */
     watchPropsValue(props: SelectProps, emit: Function): void {
-        watchEffect(() => {
+        watch(props, () => {
             props.options?.forEach((item: SelectOptions, index: number) => {
                 if (item.value === props.modelValue) {
                     this.changeSelect(item, index);
