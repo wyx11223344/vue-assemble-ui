@@ -54,7 +54,7 @@ export default class SelectTools extends ValidaDue {
                     return;
                 }
             });
-        });
+        }, { immediate: true });
     }
 
     /**
