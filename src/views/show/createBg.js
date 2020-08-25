@@ -37,7 +37,7 @@ export default function createBg(dom) {
         return r;
     };
 
-    const particleCount = 1;
+    const particleCount = 1000;
     const particlePropCount = 9;
     const particlePropsLength = particleCount * particlePropCount;
     const rangeY = 100;
