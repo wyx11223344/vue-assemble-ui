@@ -201,7 +201,7 @@ export default {
                     version: npmObj.Addform.version
                 });
 
-                if (response.codes === 200) {
+                if (response === 200) {
                     messageDia.value.showMessage('primary', 'npm包已在发布中，请稍后查看');
                 } else {
                     messageDia.value.showMessage('error', '发布失败，请检查发布版本信息是否大于当前');
