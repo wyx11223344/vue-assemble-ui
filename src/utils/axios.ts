@@ -103,7 +103,7 @@ class Request {
     public async post(url: string, data: any = {}, config: object = {}) {
         try {
             const result = await this.service.post(url, data, config);
-            return result.datas;
+            return result.datas ? result.datas : result;
         } catch (error) {
             console.error(error);
         }
