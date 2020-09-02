@@ -59,24 +59,23 @@
                 </div>
             </transition>
         </div>
-        <message-box ref="messageDia"></message-box>
         <dia-editor ref="diaEditorRef" @getlist="getAllComponentsWithHtml"></dia-editor>
     </section>
 </template>
 
 <script>
 import { reactive, computed, ref, onMounted, watch } from 'vue';
+import $message from '@/components/popUps/messageBox/index';
 import { useStore } from 'vuex';
 import router from '@/router/index';
 import Show from '../../../api/Show';
 import BaseSelect from '../../../components/select/BaseSelect';
-import MessageBox from '../../../components/popUps/MessageBox';
 import BasePagination from '../../../components/pagination/BasePagination';
 import DiaEditor from './DiaEditor';
 
 export default {
     name: 'List',
-    components: { DiaEditor, BasePagination, MessageBox, BaseSelect },
+    components: { DiaEditor, BasePagination, BaseSelect },
     props: {
         scrollTop: {
             type: Number,
@@ -86,7 +85,6 @@ export default {
     setup(props, { emit }) {
         const store = useStore();
         const cartList = computed(() => store.state.cart.cartList);
-        const messageDia = ref(null);
         const diaEditorRef = ref(null);
 
         /** *************************************************************************************************/
@@ -124,7 +122,7 @@ export default {
                     item.cartMove = false;
                 }, 900);
             } else {
-                messageDia.value.showMessage('error', '请不要频繁操作哦');
+                $message.showMessage('error', '请不要频繁操作哦');
             }
         }
 
@@ -194,7 +192,6 @@ export default {
         }
 
         return {
-            messageDia,
             diaEditorRef,
             showObj,
             cartList,

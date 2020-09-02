@@ -53,21 +53,20 @@
                 </div>
             </transition>
         </div>
-        <message-box ref="messageDia"></message-box>
     </div>
 </template>
 
 <script>
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive } from 'vue';
+import $message from '@/components/popUps/messageBox/index';
 import { useStore } from 'vuex';
 import router from '@/router/index';
-import MessageBox from '../../../components/popUps/MessageBox';
 import Show from '../../../api/Show';
 import SaoSelect from '../../../components/select/SaoSelect';
 
 export default {
     name: 'Home',
-    components: { SaoSelect, MessageBox },
+    components: { SaoSelect },
     props: {
         scrollTop: {
             type: Number,
@@ -76,7 +75,6 @@ export default {
     },
     setup(props, { emit }) {
         const store = useStore();
-        const messageDia = ref(null);
 
         /** *************************************************************************************************/
         /** ***************************************代码块控制***************************************************/
@@ -137,7 +135,7 @@ export default {
                     item.cartMove = false;
                 }, 900);
             } else {
-                messageDia.value.showMessage('error', '请不要频繁操作哦');
+                $message.showMessage('error', '请不要频繁操作哦');
             }
         }
 
@@ -179,7 +177,6 @@ export default {
         return {
             selectObj,
             showObj,
-            messageDia,
             cartList,
             showBigHtml,
             changeRouter,

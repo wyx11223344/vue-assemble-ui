@@ -65,25 +65,23 @@
                 </div>
             </section>
         </dia-back-value>
-        <message-box ref="messageDia"></message-box>
     </div>
 </template>
 
 <script>
 import { computed, ref, reactive } from 'vue';
+import $message from '@/components/popUps/messageBox/index';
 import { useStore } from 'vuex';
 import router from '@/router/index';
 import Npm from '../../../api/Npm';
-import MessageBox from '../../../components/popUps/MessageBox';
 import JellyButton from '../../../components/button/jellyButton';
 import DiaBackValue from '../../../components/popUps/DiaBackValue';
 
 export default {
     name: 'CartControl',
-    components: { DiaBackValue, JellyButton, MessageBox },
+    components: { DiaBackValue, JellyButton },
     setup() {
         const store = useStore();
-        const messageDia = ref(null);
 
         /** *************************************************************************************************/
         /** ***************************************组件数据控制***************************************************/
@@ -125,7 +123,7 @@ export default {
         // 获取全部npm包数据
         function getAllNpm() {
             if (cartList.value.length === 0) {
-                messageDia.value.showMessage('error', '至少添加一个组件');
+                $message.showMessage('error', '至少添加一个组件');
                 return;
             }
             Npm.getAllNpm().then((response) => {
@@ -138,7 +136,7 @@ export default {
         // 添加组件至npm包
         async function addComponentsToNpm() {
             if (npmObject.chooseIndex === -1) {
-                messageDia.value.showMessage('error', '请选择添加至哪个npm包');
+                $message.showMessage('error', '请选择添加至哪个npm包');
                 return;
             }
             const chooseItem = npmObject.list[npmObject.chooseIndex];
@@ -161,7 +159,7 @@ export default {
                     id: npmObject.list[npmObject.chooseIndex].id,
                     componentsId: mergeList.toString()
                 });
-                messageDia.value.showMessage('primary', '组件添加成功');
+                $message.showMessage('primary', '组件添加成功');
                 store.commit('changeCartDiaShow');
             } catch (e) {
                 console.log(e);
@@ -169,7 +167,6 @@ export default {
         }
 
         return {
-            messageDia,
             checkRepeatBack,
             cartList,
             store,

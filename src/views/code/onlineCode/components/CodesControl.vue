@@ -35,20 +35,19 @@
                 </div>
             </section>
         </dia-back-value>
-        <message-box ref="messageDia"></message-box>
     </div>
 </template>
 
 <script>
 import { ref, reactive } from 'vue';
+import $message from '@/components/popUps/messageBox/index';
 import DiaBackValue from '../../../../components/popUps/DiaBackValue';
-import MessageBox from '../../../../components/popUps/MessageBox';
 import Code from '../../../../api/code';
 import JellyButton from '../../../../components/button/jellyButton';
 
 export default {
     name: 'CodesControl',
-    components: { JellyButton, MessageBox, DiaBackValue },
+    components: { JellyButton, DiaBackValue },
     props: {
         modelValue: {
             type: Array,
@@ -83,7 +82,7 @@ export default {
                 setObj[setIndex].type = 1;
                 emit('update:modelValue', setObj);
 
-                messageDia.value.showMessage('primary', '成功设定入口组件');
+                $message.showMessage('primary', '成功设定入口组件');
             }
         }
 
@@ -103,7 +102,7 @@ export default {
             try {
                 const setObj = JSON.parse(JSON.stringify(props.modelValue));
                 if (setObj[setIndex].type === 1) {
-                    messageDia.value.showMessage('error', '不可以删除入口文件哦');
+                    $message.showMessage('error', '不可以删除入口文件哦');
                     return;
                 }
 
@@ -119,7 +118,7 @@ export default {
                 emit('update:modelValue', setObj);
                 showRightBox.show = false;
 
-                messageDia.value.showMessage('primary', '成功删除文件');
+                $message.showMessage('primary', '成功删除文件');
             } catch (e) {
                 console.log(e);
             }
@@ -135,7 +134,6 @@ export default {
             top: 0
         });
         const diaCloseBack = ref(null);
-        const messageDia = ref(null);
 
         function changeShow(index) {
             const setObj = JSON.parse(JSON.stringify(props.modelValue));
@@ -153,8 +151,7 @@ export default {
             delectCodes,
             reName,
             // dom
-            diaCloseBack,
-            messageDia
+            diaCloseBack
         };
     }
 };

@@ -48,23 +48,21 @@
                 </section>
             </section>
         </dia-log>
-        <!--消息提示-->
-        <message-box ref="messageDia"></message-box>
     </section>
 </template>
 
 <script>
 import DiaLog from '@/components/popUps/DiaLog';
 import { ref, reactive, watch } from 'vue';
+import $message from '@/components/popUps/messageBox/index';
 import MateInput from '@/components/input/MateInput';
 import JellyButton from '@/components/button/jellyButton';
 import ThreePacksApi from '@/api/threePacks';
 import NewTypeForm from '@/components/form/newTypeForm';
-import MessageBox from '@/components/popUps/MessageBox';
 
 export default {
     name: 'ThreePackControl',
-    components: { MessageBox, NewTypeForm, JellyButton, MateInput, DiaLog },
+    components: { NewTypeForm, JellyButton, MateInput, DiaLog },
     props: {
         threePacks: {
             type: String,
@@ -72,8 +70,6 @@ export default {
         }
     },
     setup(props, { emit }) {
-
-        const messageDia = ref(null);
 
         /** *************************************************************************************************/
         /** ***************************************初始化控制***************************************************/
@@ -111,7 +107,7 @@ export default {
             const backList = await typeForm.value.TypeFormApi.validate();
 
             if (backList.length > 0) {
-                messageDia.value.showMessage('error', '请检查填写信息有误');
+                $message.showMessage('error', '请检查填写信息有误');
                 return;
             }
 
@@ -124,9 +120,9 @@ export default {
             });
 
             if (response) {
-                messageDia.value.showMessage('primary', '第三方包保存成功');
+                $message.showMessage('primary', '第三方包保存成功');
             } else {
-                messageDia.value.showMessage('error', '第三方包失败，请重试');
+                $message.showMessage('error', '第三方包失败，请重试');
             }
         }
 
@@ -182,7 +178,6 @@ export default {
         }
 
         return {
-            messageDia,
             DiaShow,
             isShowAdd,
             newPackObj,

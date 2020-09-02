@@ -75,7 +75,6 @@
             <!--            <div class="right-bg"></div>-->
         </div>
         <dia-editor ref="diaEditorRef" @getlist="getNpmAllComponents"></dia-editor>
-        <message-box ref="messageDia"></message-box>
         <!--发布npm包-->
         <dia-back-value width="400px" title="发布npm包" ref="addPublishNpmRef">
             <section v-if="addPublishNpmRef">
@@ -111,21 +110,20 @@
 <script>
 import Npm from '../../../api/Npm';
 import { reactive, ref, computed } from 'vue';
+import $message from '@/components/popUps/messageBox/index';
 import DiaEditor from '../list/DiaEditor';
 import router from '@/router/index';
 import Show from '../../../api/Show';
 import { useStore } from 'vuex';
-import MessageBox from '../../../components/popUps/MessageBox';
 import DiaBackValue from '../../../components/popUps/DiaBackValue';
 import SubmitButton from '../../../components/button/submitButton';
 import MateInput from '../../../components/input/MateInput';
 
 export default {
     name: 'Npm',
-    components: { MateInput, SubmitButton, DiaBackValue, MessageBox, DiaEditor },
+    components: { MateInput, SubmitButton, DiaBackValue, DiaEditor },
     setup() {
         const diaEditorRef = ref(null);
-        const messageDia = ref(null);
         const checkCloseBack = ref(null);
         const createNewNpmRef = ref(null);
         const addPublishNpmRef = ref(null);
@@ -161,7 +159,7 @@ export default {
                     name: npmObj.Addform.name
                 });
 
-                messageDia.value.showMessage('primary', '新建npm包成功');
+                $message.showMessage('primary', '新建npm包成功');
 
                 getNpm();
             } catch (e) {
@@ -179,8 +177,8 @@ export default {
                 }).then((response) => {
                     if (response) {
                         getNpm();
-                        messageDia.value.showMessage('primary', 'npm包删除成功');
-                    } else messageDia.value.showMessage('error', '删除失败请重试');
+                        $message.showMessage('primary', 'npm包删除成功');
+                    } else $message.showMessage('error', '删除失败请重试');
                 });
             } catch (e) {
                 console.log(e);
@@ -189,7 +187,7 @@ export default {
 
         async function releaseNpm() {
             if (showObj.list.length === 0) {
-                messageDia.value.showMessage('error', '请先添加一个组件');
+                $message.showMessage('error', '请先添加一个组件');
                 return;
             }
 
@@ -203,9 +201,9 @@ export default {
 
                 if (response.codes === 200) {
                     getNpm();
-                    messageDia.value.showMessage('primary', 'npm包已在发布中，请稍后查看');
+                    $message.showMessage('primary', 'npm包已在发布中，请稍后查看');
                 } else {
-                    messageDia.value.showMessage('error', '发布失败，请检查发布版本信息是否大于当前');
+                    $message.showMessage('error', '发布失败，请检查发布版本信息是否大于当前');
                 }
             } catch (e) {
                 console.log(e);
@@ -252,7 +250,7 @@ export default {
                     item.cartMove = false;
                 }, 900);
             } else {
-                messageDia.value.showMessage('error', '请不要频繁操作哦');
+                $message.showMessage('error', '请不要频繁操作哦');
             }
         }
 
@@ -307,7 +305,7 @@ export default {
 
                 getNpm();
 
-                messageDia.value.showMessage('primary', '组件删除成功');
+                $message.showMessage('primary', '组件删除成功');
             } catch (e) {
                 console.log(e);
             }
@@ -316,7 +314,6 @@ export default {
         return {
             showDiaEditor,
             diaEditorRef,
-            messageDia,
             createNewNpmRef,
             addPublishNpmRef,
             createNewNpm,

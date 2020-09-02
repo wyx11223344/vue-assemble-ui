@@ -20,7 +20,7 @@
 
 <script>
 import { ref } from 'vue';
-import PopUpstools from './popUpstools';
+import PopUpstools from '../popUpstools';
 
 export default {
     name: 'MessageBox',

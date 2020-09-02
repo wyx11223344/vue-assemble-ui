@@ -50,7 +50,6 @@
             </section>
         </dia-back-value>
         <!--消息提示-->
-        <message-box ref="messageDia"></message-box>
     </div>
 </template>
 
@@ -58,6 +57,7 @@
 import { useStore } from 'vuex';
 import router from '@/router/index';
 import { ref, reactive, onMounted, watchEffect, onBeforeUnmount, computed } from 'vue';
+import $message from '@/components/popUps/messageBox/index';
 import RandomWord from '../../../utils/randomWord';
 import Code from '../../../api/code';
 import Editor from '@/components/Editor.vue';
@@ -66,7 +66,6 @@ import MateInput from '../../../components/input/MateInput';
 import DiaBackValue from '../../../components/popUps/DiaBackValue';
 import SubmitButton from '../../../components/button/submitButton';
 import CodesControl from './components/CodesControl';
-import MessageBox from '../../../components/popUps/MessageBox';
 import Show from '@/api/Show';
 import Template from '@/api/template';
 import Visualization from '@/views/code/onlineCode/components/Visualization';
@@ -74,7 +73,6 @@ import Visualization from '@/views/code/onlineCode/components/Visualization';
 export default {
     components: {
         Visualization,
-        MessageBox,
         CodesControl,
         SubmitButton,
         DiaBackValue,
@@ -291,7 +289,6 @@ export default {
         });
         const diaBack = ref(null);
         const checkCloseBack = ref(null);
-        const messageDia = ref(null);
 
         // 触发方法
         function triggerFn(name) {
@@ -313,7 +310,7 @@ export default {
                         }
                     });
                     if (check) {
-                        messageDia.value.showMessage('error', '已有相同名字的组件了');
+                        $message.showMessage('error', '已有相同名字的组件了');
                         return;
                     }
 
@@ -346,7 +343,7 @@ export default {
                     });
 
                     if (response) {
-                        messageDia.value.showMessage('primary', '保存组件成功');
+                        $message.showMessage('primary', '保存组件成功');
                         if (props.isDia) {
                             emit('getlist');
                         } else {
@@ -354,7 +351,7 @@ export default {
                             await createCode(response);
                         }
                     } else {
-                        messageDia.value.showMessage('error', '保存失败，请重试');
+                        $message.showMessage('error', '保存失败，请重试');
                     }
                 } catch (e) {
                     console.log('%c刚刚关闭新增', `color: pink`);
@@ -382,7 +379,6 @@ export default {
             HeadData,
             diaBack,
             checkCloseBack,
-            messageDia,
             triggerFn
         };
     }
