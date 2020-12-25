@@ -16,11 +16,11 @@
     "qs": "^6.9.4",
     "sha1": "^1.1.1",
     "simplex-noise": "^2.4.0",
-    "vue": "^3.0.0-beta.20",
-    "vue-class-component": "^8.0.0-alpha.6",
-    "vue-property-decorator": "^8.4.1",
-    "vue-router": "^4.0.0-beta.2",
-    "vuex": "^4.0.0-beta.4"
+    "vue": "3.0.0-beta.20",
+    "vue-class-component": "8.0.0-alpha.6",
+    "vue-property-decorator": "8.4.1",
+    "vue-router": "4.0.0-beta.2",
+    "vuex": "4.0.0-beta.4"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
