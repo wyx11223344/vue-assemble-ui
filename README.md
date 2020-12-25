@@ -43,7 +43,7 @@ Vue.use(onlinebutton);
 > 本项目由 [Beon](https://juejin.cn/user/1662117312988695) 全程开发
 
 ## 贡献
-> 可自主提交issue和进行mr请求
+> 可自主提交issue和进行mr请求，也可以直接联系作者
 
 ## 版本
 
